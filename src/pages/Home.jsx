@@ -10,7 +10,7 @@ const Home = () =>{
             <Navbar/>
             <div id="mainContent">
                 <div className='leftPart'>
-                    <h1 id="catchPhrase">Something to listen</h1>
+                    <h1 id="catchPhrase">Something to listen<span id='caret'>|</span></h1>
                 </div>
                 <div className='rightPart'>
                     <img src={prototype} id="proto"></img>

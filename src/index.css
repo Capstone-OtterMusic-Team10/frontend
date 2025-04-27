@@ -39,8 +39,19 @@
   font-family: 'Courier New', Courier, monospace;
   animation: typing 2s steps(21)
 }
-
-
+#caret{
+  font-size: 60px;
+  font-family: 'Times New Roman', Times, serif;
+  animation: caret 1s infinite;
+}
+@keyframes caret {
+  0%, 50%{
+    opacity: 1;
+  }
+  50.01%, 100% {
+    opacity: 0;
+  }
+}
 @media only screen and (max-width: 1024px) {
 
   #catchPhrase{

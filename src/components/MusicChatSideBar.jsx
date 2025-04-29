@@ -2,7 +2,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import { Plus } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-
+import { ArrowLeft } from 'lucide-react';
 const MusicChatSideBar = () =>{
     const [folders, setFolders] = useState([
         {folder: "Rock", chats: [{name:"ACDC-ish", id:123}, {name: "Metallica-ish", id: 124}]}, 
@@ -14,6 +14,7 @@ const MusicChatSideBar = () =>{
     return (
         <>
             <div className="sideBar">
+                <Link to="/"><ArrowLeft/></Link>
                     <div className="inLineDiv">
                     <p className="Subheading">Add a folder</p>
                     <button className="plusButton"><Plus/></button>

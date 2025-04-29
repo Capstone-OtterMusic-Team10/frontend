@@ -132,3 +132,88 @@
 #separateText{
   margin-right: 15px;
 }
+
+
+
+/* =======================MUSIC CHAT============================= */
+
+
+.customInput {
+  width: 100%;
+  max-width: 800px;
+  min-height: 150px;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #9fa4b1;
+  border-radius: 0.75rem;
+  resize: none;
+  outline: none;
+  box-shadow: 0 5px 5px rgba(22, 23, 23, 0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: white;
+  margin-bottom: 100px;
+}
+
+.customInput:focus {
+  outline: none;
+  border: 1px solid #9ba2ac;
+  box-shadow: 0px 3px 15px #909cab;
+}
+
+.musicChatComponents{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+.sideBar{
+  resize: horizontal;
+  overflow: auto;
+  width: 20%;
+  min-width: 200px;
+  padding: 20px;
+  border-right: 1px solid rgb(223, 223, 223);
+}
+.plusButton{
+  display: flex;
+  width: 32px;   
+  height: 32px;  
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 3px;
+  border: 2px solid rgb(133, 133, 133);
+}
+.inLineDiv{
+  display: flex;
+  justify-content: space-between;
+}
+.Subheading{
+  font-size: 1.6vmax;
+  color: rgb(99, 99, 108);
+}
+#myChat{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: last baseline;
+}
+
+#otterForButton{
+  max-width: 60px;
+}
+#otterButton{
+  position: absolute;
+  bottom: 120px;
+  right: 20px;
+  background-color: black;
+  border-radius: 50%;
+  border: none;
+  width: 70px;
+  height: 70px;
+}
+#chatBox{
+  width: 100%;
+  max-width: 800px;
+  min-height: 150px;
+  position: relative;
+}

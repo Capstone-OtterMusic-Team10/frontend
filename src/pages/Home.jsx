@@ -1,8 +1,11 @@
 import prototype from '../assets/prototype.png';
 import Navbar from '../components/Navbar';
 import { Sparkles } from 'lucide-react';
-
+import { useNavigate } from 'react-router';
 const Home = () =>{
+
+    let navigate = useNavigate()
+
     return(
         <>
         
@@ -17,7 +20,7 @@ const Home = () =>{
                 </div>
             </div>
             <div id="content">
-                <button id='tryOutButton'><span className="buttonContent"><span id="separateText">Try it out</span><Sparkles/></span></button>
+                <button id='tryOutButton' onClick={()=>navigate("/chat")}><span className="buttonContent"><span id="separateText">Try it out</span><Sparkles/></span></button>
             </div>
         </div>
         </>

@@ -1,4 +1,4 @@
-import otter from '../assets/logobrn.png'
+import otter from '../assets/logo.png'
 import { Link } from 'react-router'
 const Navbar = () =>{
     return (

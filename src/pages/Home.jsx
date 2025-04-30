@@ -18,7 +18,7 @@ const Home = () =>{
                     <h1 id="catchPhrase">Something to listen</h1>
                     <div id="content">
                         <button className='tryOutButton' onClick={()=>navigate("/chat")}><span className="buttonContent"><span id="separateText">Text To Music</span><Sparkles/></span></button>
-                        <button className='tryOutButton' id="spot" onClick={()=>navigate("/chat")}><span className="buttonContent"><span id="separateText">Text To Playlist</span><img style={{width: 30}} src={spotify}></img></span></button>
+                        <button className='tryOutButton' id="spot" onClick={()=>navigate("/create-playlist")}><span className="buttonContent"><span id="separateText">Text To Playlist</span><img style={{width: 30}} src={spotify}></img></span></button>
                     </div>
                 </div>
                 <div className='rightPart'>

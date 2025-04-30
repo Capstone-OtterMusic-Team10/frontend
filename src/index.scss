@@ -1,8 +1,25 @@
 $base-purple: rgba(32, 5, 32, 0.438);
+
+// mixins to reduce code repeatability
 @mixin zero-out{
   margin: 0;
   padding: 0;
 }
+@mixin flex-column ($col: false, $center: false, $justify_center: false){
+  display: flex;
+  flex-direction: row;
+  @if $col{
+    flex-direction: column;
+  }
+  @if $center{
+    align-items: center;
+  }
+  @if $justify_center {
+    justify-content: center;
+  }
+
+}
+
 
 * {
   @include zero-out;
@@ -12,6 +29,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
   @include zero-out;
   height: 100%;
   width: 100%;
+  overflow: auto;
  }
 .home{
   background-image: url('assets/image.png');
@@ -25,18 +43,12 @@ $base-purple: rgba(32, 5, 32, 0.438);
   width: 20vmax;
 }
 #mainContent{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  @include flex-column(false, true, true);
   height: 100;
 }
 .rightPart, .leftPart{
-  display: flex;
-  flex-direction: column;
+  @include flex-column(true, true, true);
   width: 50vw;
-  justify-content: center;
-  align-items: center;
 }
 #catchPhrase{
   font-size: 2vw;
@@ -44,9 +56,8 @@ $base-purple: rgba(32, 5, 32, 0.438);
   color: $base-purple;
   white-space: nowrap;overflow: hidden;
   border-right: 2px solid $base-purple;
-
   font-family: 'Courier New', Courier, monospace;
-  animation: typing 2s steps(21), caret 1s step-end infinite;
+  animation: typing 1.5s steps(21), caret 1s step-end infinite;
 }
 @keyframes typing{
   from { width: 0 }
@@ -62,20 +73,18 @@ $base-purple: rgba(32, 5, 32, 0.438);
   font-size: 3vw;
   }
   #mainContent{
-    display: flex;
-    flex-direction: column;
+    @include flex-column(true);
   }
 }
 
 #navbar{
   width: 100%;
-  display: flex;
+  @include flex-column(false, true);
+  justify-content: space-between;
   height: 6vh;
   box-sizing: border-box;
   background-color: $base-purple;
   padding-inline: 20px;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 5%;
 }
 .navLogo{
@@ -87,9 +96,8 @@ $base-purple: rgba(32, 5, 32, 0.438);
 
 #rightNav {
   flex: 1;
-  display: flex;
+  @include flex-column(false, true);
   justify-content: flex-end;
-  align-items: center;
   box-sizing: border-box;
   padding-inline: 10px;
 }
@@ -127,10 +135,9 @@ $base-purple: rgba(32, 5, 32, 0.438);
   box-shadow: 20px 16px rgb(10, 116, 72);
 }
 #content{
+  @include flex-column(true);
   margin-top: 10%;
   padding-inline: 300px;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   align-items:flex-start;
 }
@@ -140,11 +147,9 @@ $base-purple: rgba(32, 5, 32, 0.438);
 }
 @media only screen and (max-width: 1124px) {
   #content{
+    @include flex-column(true, true);
     margin-top: 10%;
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    align-items: center;
   }
   .tryOutButton{
     font-family: 'Courier New', Courier, monospace;
@@ -190,7 +195,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
 }
 
 .musicChatComponents{
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
 }
@@ -212,9 +217,8 @@ $base-purple: rgba(32, 5, 32, 0.438);
   border: 2px solid rgb(133, 133, 133);
 }
 .inLineDiv{
-  display: flex;
+  @include flex-column(false, true);
   justify-content: space-between;
-  align-items: center;
 }
 .Subheading{
   font-size: 1.6vmax;
@@ -223,8 +227,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
 #myChat{
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
+  @include flex-column(false, true, true);
   align-items: last baseline;
 }
 

@@ -5,15 +5,15 @@
 }
  body, html{
   padding: 0px;
-  margin: 0px;
+  margin: 0;
   height: 100%;
   width: 100%;
  }
 .home{
   background-image: url('assets/mainbg.png');
   background-repeat: no-repeat;
-  background-attachment: fixed; 
-  background-size:  100% 100%;
+  background-attachment: fixed;
+  background-size: cover;  
   height: 100vh;
 }
 
@@ -29,8 +29,10 @@
 }
 .rightPart, .leftPart{
   display: flex;
+  flex-direction: column;
   width: 50vw;
   justify-content: center;
+  align-items: center;
 }
 #catchPhrase{
   font-size: 2vw;
@@ -101,28 +103,35 @@
   cursor: pointer;
 }
 
-#tryOutButton{
+.tryOutButton{
   font-family: 'Courier New', Courier, monospace;
   font-size: 30px;
   padding: 10px;
+  margin-bottom: 5%;
   border: 2px solid black;
   border-radius: 30px;
   transition: all 0.8s ease;
   background: transparent;
 }
-#tryOutButton:hover{
+.tryOutButton:hover{
   cursor: pointer;
   border-radius: 30px;
   border: 2px solid white;
   color: white;
 }
+.tryOutButton#spot:hover{
+  cursor: pointer;
+  border-radius: 30px;
+  border: 2px solid rgb(36, 148, 45);
+  color: rgb(36, 148, 45);
+}
 #content{
   margin-top: 10%;
   padding-inline: 300px;
   display: flex;
+  flex-direction: column;
   width: 100%;
-  align-items: center;
-  justify-content: space-evenly;
+  align-items:flex-start;
 }
 .buttonContent{
   display: flex;
@@ -136,7 +145,7 @@
     width: 100%;
     align-items: center;
   }
-  #tryOutButton{
+  .tryOutButton{
     font-family: 'Courier New', Courier, monospace;
     font-size: 30px;
     padding: 10px;
@@ -230,6 +239,10 @@
   border: none;
   width: 70px;
   height: 70px;
+  transition: all .5s ease;
+}
+#otterButton:hover{
+  transform: scale(1.08);
 }
 #chatBox{
   width: 100%;

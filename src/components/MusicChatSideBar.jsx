@@ -1,6 +1,6 @@
 import Accordion from 'react-bootstrap/Accordion';
 import { Plus } from 'lucide-react';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 const MusicChatSideBar = () =>{

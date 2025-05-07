@@ -1,15 +1,18 @@
 import Accordion from 'react-bootstrap/Accordion';
 import { Plus } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 const MusicChatSideBar = () =>{
-    const [folders, setFolders] = useState([
-        {folder: "Rock", chats: [{name:"ACDC-ish", id:123}, {name: "Metallica-ish", id: 124}]}, 
-        {folder: "LoFi", chats: [{name: "Japanese Lofi", id: 125}, {name: "Coding Lofi", id: 126}]}, 
-        {folder: "Studying", chats: [{name: "Dark Academia music", id: 127}, {name: "Light Academia Music", id: 128}]}
-    ])
+    const [folders, setFolders] = useState()
 
+    useEffect(()=>{
+        setFolders([
+            {folder: "Rock", chats: [{name:"ACDC-ish", id:123}, {name: "Metallica-ish", id: 124}]}, 
+            {folder: "LoFi", chats: [{name: "Japanese Lofi", id: 125}, {name: "Coding Lofi", id: 126}]}, 
+            {folder: "Studying", chats: [{name: "Dark Academia music", id: 127}, {name: "Light Academia Music", id: 128}]}
+        ])
+    }, [])
 
     return (
         <>

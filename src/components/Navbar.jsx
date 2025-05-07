@@ -7,7 +7,7 @@ const Navbar = () =>{
                 <Link to="/"><img className="navLogo" src={otter}/></Link>
             </div>
             <div id="rightNav">
-                <Link className="navButtons" id="about" to="/">About</Link>
+                <Link className="navButtons" id="about" to="/about">About</Link>
                 <button className="navButtons">Login</button>
                 <button className="navButtons">Signup</button>
             </div>

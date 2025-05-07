@@ -54,6 +54,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
   font-size: 2vw;
   letter-spacing: .15em;
   color: $base-purple;
+  margin-bottom: 100px;
   white-space: nowrap;overflow: hidden;
   border-right: 2px solid $base-purple;
   font-family: 'Courier New', Courier, monospace;
@@ -129,10 +130,10 @@ $base-purple: rgba(32, 5, 32, 0.438);
 .tryOutButton:hover{
   cursor: pointer;
   margin-left: -10px;
-  box-shadow: 20px 16px rgb(84, 40, 95);
+  box-shadow: 20px 16px rgba(84, 40, 95, 0.6);
 }
 .tryOutButton#spot:hover{
-  box-shadow: 20px 16px rgb(10, 116, 72);
+  box-shadow: 20px 16px rgb(10, 116, 72, 0.6);
 }
 #content{
   @include flex-column(true);

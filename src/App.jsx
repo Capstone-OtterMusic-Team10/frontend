@@ -1,5 +1,6 @@
 import './App.css'
 import Home from './pages/Home'
+import About from './pages/About';
 import MusicChat from './pages/MusicChat';
 import MusicSubChat from './pages/MusicSubChat';
 import SpotifyPage from './pages/SpotifyPage';
@@ -12,6 +13,7 @@ function App() {
     <Router>
       <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="/chat" element={<MusicChat />}>
         <Route path=":chatId" element={<MusicSubChat/>}/>
       </Route>

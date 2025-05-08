@@ -28,13 +28,13 @@ jobs:
           def find_files(source):
             if source[:-4] == ".css":
               try:
-                  with open(source, "r") as read_contents:
-                    for line in read_contents:
-                      match = re.search(pattern, line)
-                      if match: 
-                        my_files.remove(match.group())
-                except Exception:
-                  continue
+                with open(source, "r") as read_contents:
+                  for line in read_contents:
+                    match = re.search(pattern, line)
+                    if match: 
+                      my_files.remove(match.group())
+              except Exception:
+                continue
             for root, _, files in os.walk(source):
               for file in files:
                 file_path = os.path.join(root, file)

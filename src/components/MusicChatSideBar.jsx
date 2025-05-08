@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 const MusicChatSideBar = () =>{
-    const [folders, setFolders] = useState()
+    const [folders, setFolders] = useState([])
 
     useEffect(()=>{
         setFolders([

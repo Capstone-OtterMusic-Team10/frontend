@@ -34,7 +34,7 @@ jobs:
                     if match: 
                       my_files.remove(match.group())
               except Exception:
-                continue
+                pass
             for root, _, files in os.walk(source):
               for file in files:
                 file_path = os.path.join(root, file)

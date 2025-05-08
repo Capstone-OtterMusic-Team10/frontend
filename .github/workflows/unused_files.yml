@@ -49,7 +49,7 @@ jobs:
           
           find_files("src/pages")
           find_files("src/components")
-          find_files("src/index.css")
+          find_files("src/index.scss")
           if len(my_files) == 0:
             print("✅ All images are used.")
             sys.exit(0)

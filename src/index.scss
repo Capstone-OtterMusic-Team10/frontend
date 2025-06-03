@@ -1,0 +1,386 @@
+$base-purple: rgba(32, 5, 32, 0.438);
+
+// mixins to reduce code repeatability
+@mixin zero-out{
+  margin: 0;
+  padding: 0;
+}
+@mixin flex-column ($col: false, $center: false, $justify_center: false){
+  display: flex;
+  flex-direction: row;
+  @if $col{
+    flex-direction: column;
+  }
+  @if $center{
+    align-items: center;
+  }
+  @if $justify_center {
+    justify-content: center;
+  }
+
+}
+
+@mixin set_background($url){
+  background-image: url($url);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;  
+  height: 100vh;
+}
+
+
+* {
+  @include zero-out;
+  box-sizing: border-box;
+}
+ body, html{
+  @include zero-out;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+#SpotifyPage{
+  @include set_background('assets/spot.png');
+}
+.home{
+  @include set_background('assets/image.png');
+}
+
+#proto{
+  width: 20vmax;
+}
+
+#mainContent{
+  @include flex-column(false, true, true);
+  height: 100;
+}
+
+.rightPart, .leftPart{
+  @include flex-column(true, true, true);
+  width: 50vw;
+}
+
+#catchPhrase{
+  font-size: 2vw;
+  letter-spacing: .15em;
+  color: $base-purple;
+  margin-bottom: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid $base-purple;
+  font-family: 'Courier New', Courier, monospace;
+  animation: typing 1.7s steps(25), caret 1s step-end infinite;
+}
+
+@keyframes typing{
+  from { width: 0 }
+  to { width: 25ch }
+}
+
+@keyframes caret {
+  from, to { border-color: transparent }
+  50% { border-color: $base-purple; }
+}
+
+
+
+#navbar{
+  width: 100%;
+  @include flex-column(false, true);
+  justify-content: space-between;
+  height: 6vh;
+  box-sizing: border-box;
+  background-color: $base-purple;
+  padding-inline: 20px;
+  margin-bottom: 5%;
+}
+
+.navLogo{
+  height: 80px;
+}
+
+#leftNav {
+  width: 20vw;
+}
+
+#rightNav {
+  flex: 1;
+  @include flex-column(false, true);
+  justify-content: flex-end;
+  box-sizing: border-box;
+  padding-inline: 10px;
+}
+
+.navButtons{
+  font-family: 'Courier New', Courier, monospace;
+  background-color: transparent;
+  border: none;
+  padding-inline: 10px;
+  font-size: 1.5em;
+  color: #f8f8f8;
+}
+
+#about{
+  margin-right: 15%;
+}
+
+.navButtons:hover{
+  cursor: pointer;
+}
+
+.tryOutButton{
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 30px;
+  padding: 10px;
+  min-width: 300px;
+  margin-bottom: 5%;
+  border: 2px solid black;
+  border-radius: 30px;
+  transition: all 0.8s ease;
+  background: transparent;
+}
+
+.tryOutButton:hover{
+  cursor: pointer;
+  margin-left: -10px;
+  box-shadow: 20px 16px rgba(84, 40, 95, 0.6);
+}
+
+.tryOutButton#spot:hover{
+  box-shadow: 20px 16px rgb(10, 116, 72, 0.6);
+}
+
+#content{
+  @include flex-column(true);
+  margin-top: 10%;
+  padding-inline: 300px;
+  width: 100%;
+  align-items:flex-start;
+}
+
+.buttonContent{
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1725px) {
+  #catchPhrase{
+    font-size: 2.5vw;
+  }
+
+  #content{
+    @include flex-column(true, true, true);
+    margin-top: 10%;
+    width: 100%;
+  }
+  .tryOutButton{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+    min-width: 200px;
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 50px;
+    border: 2px solid black;
+    border-radius: 30px;
+    transition: all 0.8s ease;
+    background: transparent;
+  }
+
+  #mainContent{
+    @include flex-column(true, true, true);
+  }
+}
+
+@media only screen and (max-width: 1124px) {
+  #rightNav, #leftNav{
+    transform: scale(0.6)
+  }
+
+  #catchPhrase{
+    font-size: 4vw;
+  }
+
+  #content{
+    @include flex-column(true, true, true);
+    margin-top: 10%;
+    width: 100%;
+  }
+  .tryOutButton{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+    min-width: 200px;
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 50px;
+    border: 2px solid black;
+    border-radius: 30px;
+    transition: all 0.8s ease;
+    background: transparent;
+  }
+}
+
+#separateText{
+  margin-right: 15px;
+}
+
+/* =======================MUSIC CHAT============================= */
+
+.customInput {
+  width: 100%;
+  max-width: 800px;
+  min-height: 150px;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #9fa4b1;
+  border-radius: 0.75rem;
+  resize: none;
+  outline: none;
+  box-shadow: 0 5px 5px rgba(22, 23, 23, 0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: white;
+  margin-bottom: 100px;
+}
+
+.customInput:focus {
+  outline: none;
+  border: 1px solid #9ba2ac;
+  box-shadow: 0px 3px 15px #909cab;
+}
+
+.musicChatComponents{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+.sideBar{
+  resize: horizontal;
+  overflow: auto;
+  width: 20%;
+  min-width: 200px;
+  padding: 20px;
+  border-right: 1px solid rgb(223, 223, 223);
+}
+.plusButton{
+  display: flex;
+  width: 32px;   
+  height: 32px;  
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 3px;
+  border: 2px solid rgb(133, 133, 133);
+}
+.inLineDiv{
+  @include flex-column(false, true);
+  justify-content: space-between;
+}
+.Subheading{
+  font-size: 1.6vmax;
+  color: rgb(99, 99, 108);
+}
+#myChat{
+  width: 100vw;
+  height: 100vh;
+  @include flex-column(false, true, true);
+  align-items: last baseline;
+}
+
+#otterForButton{
+  max-width: 60px;
+}
+#otterButton{
+  position: absolute;
+  bottom: 120px;
+  right: 20px;
+  background-color: black;
+  border-radius: 50%;
+  border: none;
+  width: 70px;
+  height: 70px;
+  transition: all .5s ease;
+}
+#otterButton:hover{
+  transform: scale(1.08);
+}
+#chatBox{
+  width: 100%;
+  max-width: 800px;
+  min-height: 150px;
+  position: relative;
+}
+
+
+/* =======================Spotify============================= */
+
+#SpotifyPage{
+    background-color: #21252b;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;  
+    height: 100vh;
+}
+
+#SpotifyPage{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 40px;
+  justify-content: center;
+}
+.playListBox{
+  color: rgb(177, 179, 185);
+  background-color: #000000b2;
+  width: 15vw;
+  margin: 20px;
+  border-radius: 10px;
+  height: fit-content;
+  @include flex-column(true, true, false);
+  transition: all .5s ease;
+}
+.playListBox:hover{
+  transform: scale(1.1);
+}
+.playlistName{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
+.playlistImage{
+  aspect-ratio: 1;
+  width: 15vw;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.playlistButton{
+  font-family: 'Courier New', Courier, monospace;
+  background-color: transparent;
+  border: 2px solid #05810f;
+  border-radius: 10px;
+  padding-inline: 10px;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #05810f;
+}
+.playlistButton:hover{
+  background-color: #05810f98;
+  color: rgb(177, 179, 185);
+}
+
+
+// ========== About ==========
+
+#aboutPage{
+  @include flex-column(true, true, false);
+  padding-inline: 7%;
+  padding: 5%;
+  background-color: #0000008c;
+  color: white;
+  margin-inline: 10%;
+  border-radius: 20px;
+
+}
+#aboutPage > p{
+  font-size: 1.5em;
+  margin-top: 5%;
+}

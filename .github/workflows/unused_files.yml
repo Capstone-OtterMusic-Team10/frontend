@@ -1,0 +1,64 @@
+name: Checking Unused Files
+
+on: 
+  workflow_run:
+    workflows: ["ESLint Code Quality"]
+    types:
+      - completed
+
+jobs:
+  unused-assets:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v4
+      - name: Python Set Up
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Run Script
+        run: |
+          python3 -c '
+          import os
+          import sys
+          import re
+          
+          my_files = []
+
+          for root, _, files in os.walk("src/assets"):
+            for file in files:
+              my_files.append(file)
+          
+          pattern = r"[a-zA-Z0-9_-]+\.(png|jpeg|jpg)"
+          def find_files(source):
+            if source[-5:] == ".scss":
+              try:
+                with open(source, "r") as read_contents:
+                  for line in read_contents:
+                    match = re.search(pattern, line)
+                    if match: 
+                      my_files.remove(match.group())
+              except Exception:
+                pass
+            for root, _, files in os.walk(source):
+              for file in files:
+                file_path = os.path.join(root, file)
+                try:
+                  with open(file_path, "r") as read_contents:
+                    for line in read_contents:
+                      match = re.search(pattern, line)
+                      if match: 
+                        my_files.remove(match.group())
+                except Exception:
+                  continue
+          
+          find_files("src/pages")
+          find_files("src/components")
+          find_files("src/index.scss")
+          if len(my_files) == 0:
+            print("✅ All images are used.")
+            sys.exit(0)
+          else:
+            print("❌ Unused images found:", my_files)         
+            sys.exit(1)
+          '

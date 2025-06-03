@@ -1,14 +1,9 @@
 name: Checking Unused Files
 
-on: 
-  workflow_run:
-    workflows: ["ESLint Code Quality"]
-    types:
-      - completed
+on: workflow_call
 
 jobs:
   unused-assets:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4

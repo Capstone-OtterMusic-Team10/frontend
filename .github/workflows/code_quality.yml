@@ -1,0 +1,10 @@
+name: Code Quality and Repo Size
+
+on: [push, pull_request]
+
+jobs:
+  eslint: 
+    uses: ./.github/workflows/lint.yml
+  unused-assets:
+    needs: eslint
+    uses: ./.github/workflows/unused_files.yml

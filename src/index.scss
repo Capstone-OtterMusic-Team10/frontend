@@ -327,13 +327,12 @@ $base-purple: rgba(32, 5, 32, 0.438);
   justify-content: center;
 }
 .playListBox{
-
   color: rgb(177, 179, 185);
   background-color: #000000b2;
   width: 15vw;
   margin: 20px;
   border-radius: 10px;
-  max-height: 450px;
+  height: fit-content;
   @include flex-column(true, true, false);
   transition: all .5s ease;
 }
@@ -348,6 +347,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
   text-align: center;
 }
 .playlistImage{
+  aspect-ratio: 1;
   width: 15vw;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
@@ -358,10 +358,29 @@ $base-purple: rgba(32, 5, 32, 0.438);
   border: 2px solid #05810f;
   border-radius: 10px;
   padding-inline: 10px;
+  margin-bottom: 20px;
   font-size: 1.5em;
   color: #05810f;
 }
 .playlistButton:hover{
   background-color: #05810f98;
   color: rgb(177, 179, 185);
+}
+
+
+// ========== About ==========
+
+#aboutPage{
+  @include flex-column(true, true, false);
+  padding-inline: 7%;
+  padding: 5%;
+  background-color: #0000008c;
+  color: white;
+  margin-inline: 10%;
+  border-radius: 20px;
+
+}
+#aboutPage > p{
+  font-size: 1.5em;
+  margin-top: 5%;
 }

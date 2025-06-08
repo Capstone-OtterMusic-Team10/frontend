@@ -25,9 +25,21 @@ $base-purple: rgba(32, 5, 32, 0.438);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;  
-  height: 100vh;
+  min-height: 100vh;
 }
 
+#logIn:hover, .navButtons:hover, .footer-button:hover{
+  color: #ac9191e1;
+}
+
+#signUp{
+  border: 2px solid #f8f8f8;
+  border-radius: 20px;
+}
+#signUp:hover{
+  color: #c2a6a6;
+  border: 2px solid #c2a6a6;
+}
 
 * {
   @include zero-out;
@@ -83,7 +95,6 @@ $base-purple: rgba(32, 5, 32, 0.438);
 }
 
 
-
 #navbar{
   width: 100%;
   @include flex-column(false, true);
@@ -111,17 +122,50 @@ $base-purple: rgba(32, 5, 32, 0.438);
   padding-inline: 10px;
 }
 
-.navButtons{
+.navBar {
+  display: flex;
+  justify-content: center; 
+  flex-wrap: wrap;
+  overflow-x: hidden; 
+}
+
+.navButtons, .footer-button {
   font-family: 'Courier New', Courier, monospace;
   background-color: transparent;
   border: none;
-  padding-inline: 10px;
   font-size: 1.5em;
   color: #f8f8f8;
+  margin: 0 20px; 
+}
+
+
+.site-footer {
+  background-color: #00000051;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+}
+
+.footer-button:hover {
+  background: #444;
+  border-radius: 30px;
+  background: transparent;
 }
 
 #about{
-  margin-right: 15%;
+  margin-right: 75px;
+}
+
+.aboutFooter {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  color: #f8f8f8;
+  margin: 0 20px; 
 }
 
 .navButtons:hover{
@@ -153,7 +197,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
 #content{
   @include flex-column(true);
   margin-top: 10%;
-  padding-inline: 300px;
+  padding-inline: 100px;
   width: 100%;
   align-items:flex-start;
 }
@@ -161,62 +205,6 @@ $base-purple: rgba(32, 5, 32, 0.438);
 .buttonContent{
   display: flex;
   align-items: center;
-}
-
-@media only screen and (max-width: 1725px) {
-  #catchPhrase{
-    font-size: 2.5vw;
-  }
-
-  #content{
-    @include flex-column(true, true, true);
-    margin-top: 10%;
-    width: 100%;
-  }
-  .tryOutButton{
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 30px;
-    min-width: 200px;
-    padding: 10px;
-    font-size: 20px;
-    margin-bottom: 50px;
-    border: 2px solid black;
-    border-radius: 30px;
-    transition: all 0.8s ease;
-    background: transparent;
-  }
-
-  #mainContent{
-    @include flex-column(true, true, true);
-  }
-}
-
-@media only screen and (max-width: 1124px) {
-  #rightNav, #leftNav{
-    transform: scale(0.6)
-  }
-
-  #catchPhrase{
-    font-size: 4vw;
-  }
-
-  #content{
-    @include flex-column(true, true, true);
-    margin-top: 10%;
-    width: 100%;
-  }
-  .tryOutButton{
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 30px;
-    min-width: 200px;
-    padding: 10px;
-    font-size: 20px;
-    margin-bottom: 50px;
-    border: 2px solid black;
-    border-radius: 30px;
-    transition: all 0.8s ease;
-    background: transparent;
-  }
 }
 
 #separateText{
@@ -383,4 +371,60 @@ $base-purple: rgba(32, 5, 32, 0.438);
 #aboutPage > p{
   font-size: 1.5em;
   margin-top: 5%;
+}
+
+@media only screen and (max-width: 1500px) {
+  #catchPhrase{
+    font-size: 2.5vw;
+  }
+
+  #content{
+    @include flex-column(true, true, true);
+    margin-top: 10%;
+    width: 100%;
+  }
+  .tryOutButton{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+    min-width: 200px;
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 50px;
+    border: 2px solid black;
+    border-radius: 30px;
+    transition: all 0.8s ease;
+    background: transparent;
+  }
+
+  #mainContent{
+    @include flex-column(true, true, true);
+  }
+}
+
+@media only screen and (max-width: 1124px) {
+  #rightNav, #leftNav{
+    transform: scale(0.6)
+  }
+
+  #catchPhrase{
+    font-size: 4vw;
+  }
+
+  #content{
+    @include flex-column(true, true, true);
+    margin-top: 10%;
+    width: 100%;
+  }
+  .tryOutButton{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+    min-width: 200px;
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 50px;
+    border: 2px solid black;
+    border-radius: 30px;
+    transition: all 0.8s ease;
+    background: transparent;
+  }
 }

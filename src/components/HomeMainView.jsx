@@ -20,7 +20,6 @@ const HomeMainView = () =>{
                         <button className='tryOutButton' id="spot" onClick={()=>navigate("/create-playlist")}><span className="buttonContent"><span id="separateText">Text To Playlist</span><img style={{width: 30}} src={spotify}></img></span></button>
                     </div>
                 </div>
-                
             </div>
             <Footer />
             </>

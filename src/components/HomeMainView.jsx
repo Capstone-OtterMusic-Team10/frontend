@@ -2,10 +2,15 @@ import prototype from '../assets/prototype.png';
 import spotify from '../assets/spotify.png';
 import { Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import Footer from './Footer';
 const HomeMainView = () =>{
     let navigate = useNavigate()
     return (
+        <>
             <div id="mainContent">
+                <div className='rightPart'>
+                    <img src={prototype} id="proto"></img>
+                </div>
                 <div className='leftPart'>
                     {/* gotta keep it a one liner */}
                     <div id="content">
@@ -15,10 +20,10 @@ const HomeMainView = () =>{
                         <button className='tryOutButton' id="spot" onClick={()=>navigate("/create-playlist")}><span className="buttonContent"><span id="separateText">Text To Playlist</span><img style={{width: 30}} src={spotify}></img></span></button>
                     </div>
                 </div>
-                <div className='rightPart'>
-                    <img src={prototype} id="proto"></img>
-                </div>
+                
             </div>
+            <Footer />
+            </>
     )
 }
 

@@ -1,5 +1,7 @@
 import otter from '../assets/logo.png'
 import { Link } from 'react-router'
+
+
 const Navbar = () =>{
     return (
         <div id="navbar">
@@ -7,12 +9,12 @@ const Navbar = () =>{
                 <Link to="/"><img className="navLogo" src={otter}/></Link>
             </div>
             <div id="rightNav">
-                <Link className="navButtons" id="about" to="/about">About</Link>
-                <button className="navButtons">Login</button>
-                <button className="navButtons">Signup</button>
+                <button className="navButtons" id="logIn">Login</button>
+                <button className="navButtons" id="signUp">Signup</button>
             </div>
         </div>
     )
+    
 }
 
 export default Navbar

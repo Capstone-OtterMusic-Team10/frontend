@@ -7,7 +7,7 @@ const About = () => {
     return(
         <>
             <div id="aboutPage">
-                <h1>About OtterMusic</h1>
+                <h1>About OtterMusic 🦦</h1>
                 <p>
                 OtterMusic is a user-friendly application that offers every user, 
                 regardless of their music skills, a creative freedom for music generation 

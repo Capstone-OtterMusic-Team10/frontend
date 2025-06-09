@@ -395,6 +395,7 @@ audio {
   width: 50%;
 }
 .chat{
+  filter: blur(2px);
   margin-top: 10%;
   @include flex-column(true, true, false);
   padding: 15px;
@@ -404,9 +405,10 @@ audio {
   font-size: 18px;
   width: fit-content;
   max-width: 350px;
-  
+  transition: all 0.4s ease;
   animation: float 1.5s ease-in-out forwards;
 }
+
 .chat.ai{
   animation-delay: 0.5s;
   box-shadow: -10px 10px #4d3a49;
@@ -416,12 +418,21 @@ audio {
   align-self: flex-end;
   box-shadow: 10px 10px #4d3a49;
 }
+.chat.ai:hover{
+  box-shadow: -10px 10px 5px #4d3a49;
+}
+.chat.user:hover{
+  box-shadow: 10px 10px 5px #4d3a49;
+}
+
 
 @keyframes float{
   from{
+    
     transform: translate(0px);
   }
   to{
+    filter: blur(0px);
     transform: translateY(-50px);
   }
 }

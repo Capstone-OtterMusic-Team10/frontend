@@ -7,6 +7,7 @@ const HomeMainView = () =>{
     let navigate = useNavigate()
     return (
         <>
+        <div id='about'>
             <div id="mainContent">
                 <div className='rightPart'>
                     <img src={prototype} id="proto"></img>
@@ -21,8 +22,9 @@ const HomeMainView = () =>{
                     </div>
                 </div>
             </div>
+        </div>
             <Footer />
-            </>
+        </>
     )
 }
 

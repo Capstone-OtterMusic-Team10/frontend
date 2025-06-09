@@ -1,6 +1,9 @@
+import testtest from '../assets/testtest.mp3'
+import Footer from '../components/Footer'
 
 
 const About = () => {
+
     return(
         <>
             <div id="aboutPage">
@@ -16,7 +19,21 @@ const About = () => {
                 generative integrations to convince the user to use the application 
                 more out of their own curiosities.
                 </p>
+                <div id="about-chat">
+                    <div className="chat user">Can you make LoFi beats for studying and concentration?</div>
+                    <div className="chat ai"><audio controls>
+                        <source src={testtest} type="audio/mp3" />
+                        Your browser does not support the audio element.
+                    </audio></div>
+                </div>
+                
+ 
             </div>
+            <Footer/>
+
+
+            
+
         </>
     )
 }

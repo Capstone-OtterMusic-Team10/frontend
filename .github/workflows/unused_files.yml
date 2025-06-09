@@ -26,7 +26,7 @@ jobs:
           
           pattern = r"[a-zA-Z0-9_-]+\.(png|jpeg|jpg|mp3)"
           def find_files(source):
-            if source[-5:] == ".scss":
+            if source[-5:] == ".scss" or source[-5:] == ".html":
               try:
                 with open(source, "r") as read_contents:
                   for line in read_contents:

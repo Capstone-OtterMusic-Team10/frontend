@@ -236,7 +236,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   background-repeat: no-repeat;
 
   form {
-    background: white;
+    background: rgba(255, 255, 255, 0.885);
     padding: 2rem 2.5rem;
     border-radius: $radius;
     box-shadow: $shadow;
@@ -253,7 +253,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
       width: 100%;
       padding: 0.75rem 1rem;
       margin-bottom: 1rem;
-      border: 1px solid #ccc;
+      border: 1px solid #ccccccdb;
       border-radius: $radius;
       font-size: 1rem;
 

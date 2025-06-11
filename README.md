@@ -1,12 +1,17 @@
-# React + Vite
+# OtterMusic Frontend 🦦🪩
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+To run locally:  
+clone the repo,  
+`cd frontend`  
+`npm i`  
+`npm run build`  
+`npm run dev`  
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Designs
+are subject to change. Keeping responsiveness in mind is also very important.
+| Desktop  | Mobile |
+| ------------- | ------------- |
+| ![image](https://github.com/user-attachments/assets/6cab999f-3753-4d48-b206-b3872489e843)  | ![image](https://github.com/user-attachments/assets/e0f86591-4098-49c7-a86c-06ad6de813da)  |
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

@@ -5,25 +5,33 @@ import MusicChat from './pages/MusicChat';
 import MusicSubChat from './pages/MusicSubChat';
 import SpotifyPage from './pages/SpotifyPage';
 import HomeMainView from './components/HomeMainView';
-import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
+import Login from './pages/Login';
+import LoginView from './components/LoginView';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
 
+function App() {
   return (
     <Router>
       <Routes>
-      <Route path="/" element={<Home />}>
-        <Route index element={<HomeMainView/>}/>
-        <Route path="/about" element={<About />} />
-      </Route>
-      <Route path="/chat" element={<MusicChat />}>
-        <Route path=":chatId" element={<MusicSubChat/>}/>
-      </Route>
-      <Route path="/create-playlist" element={<SpotifyPage />} />
+        <Route path="/" element={<Home />}>
+          <Route index element={<HomeMainView />} />
+          <Route path="about" element={<About />} />
+        </Route>
+
+        <Route path="/chat" element={<MusicChat />}>
+          <Route path=":chatId" element={<MusicSubChat />} />
+        </Route>
+
+        <Route path="/create-playlist" element={<SpotifyPage />} />
+
+        <Route path="/login" element={<Login />}>
+        <Route index element={<LoginView />} />
+        </Route>
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

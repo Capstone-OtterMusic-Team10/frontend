@@ -1,3 +1,4 @@
+@use "sass:color";
 $base-purple: rgba(32, 5, 32, 0.438);
 
 // mixins to reduce code repeatability
@@ -216,6 +217,96 @@ $base-purple: rgba(32, 5, 32, 0.438);
 #separateText{
   margin-right: 15px;
 }
+/* =======================LOGIN PAGE============================= */
+
+$primary-color: #3498db;
+$accent-color: #10b981;
+$bg-color: #f4f4f8;
+$text-color: #4a4a4a;
+$radius: 12px;
+$shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+$font-stack: 'Segoe UI', Roboto, sans-serif;
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $bg-color;
+  font-family: $font-stack;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('./assets/ethereal-gradient.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  form {
+    background: rgba(255, 255, 255, 0.885);
+    padding: 2rem 2.5rem;
+    border-radius: $radius;
+    box-shadow: $shadow;
+    width: 100%;
+    max-width: 400px;
+
+    h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: $primary-color;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccccccdb;
+      border-radius: $radius;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+      }
+    }
+
+    button {
+      width: 100%;
+      background-color: $primary-color;
+      color: white;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: $radius;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    
+    p {
+      color: red;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+
+}
+.signup-prompt {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: white;
+
+  a {
+    color: white; 
+    text-decoration: underline;
+
+    &:hover {
+      color: #ddd; 
+    }
+  }
+}
+}
+
 
 /* =======================MUSIC CHAT============================= */
 

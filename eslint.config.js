@@ -6,6 +6,12 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 export default [
   { ignores: ['dist', 'cypress/', '**/*.cy.js'] },
   {
+    files: ['cypress.config.js'],
+    rules: {
+      'no-unused-vars': 'off',
+    },
+  },
+  {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,

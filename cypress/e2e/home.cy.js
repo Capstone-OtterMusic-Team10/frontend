@@ -9,8 +9,12 @@ describe('Home Page', () => {
   });
 
   it('contains all the required components and links (logged out)', () => {
-    cy.contains('Login')
+    cy.visit('http://localhost:5173'); 
+    cy.contains('About')
     cy.get('.footer-button').click() 
     cy.url().should('include', '/about')
+    cy.contains("Login")
+    cy.get('#logIn').click()
+    cy.url().should('contain', 'login')
   });
 });

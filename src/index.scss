@@ -366,8 +366,9 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   width: 100vw;
   height: 100vh;
   @include flex-column(false, true, true);
-  align-items: last baseline;
+  position: relative;
 }
+
 
 #otterForButton{
   max-width: 60px;
@@ -391,9 +392,31 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   max-width: 800px;
   min-height: 150px;
   position: relative;
+  position: fixed;
+  bottom: 0;
+}
+#subchat{
+  @include flex-column(true, true, true);
+  width: 100%;
+}
+.chatMessages{
+  @include flex-column(true, true, true);
+  max-width: 800px;
+  width: 100%;
 }
 
-
+.chat-bot, .chat-user{
+  padding: 15px;
+  border-radius: 30px;
+}
+.chat-user{
+  background-color: #d4d6db;
+  align-self: flex-end;
+}
+.chat-bot{
+  background-color: #8c8d8f;
+  align-self: flex-start;
+}
 /* =======================Spotify============================= */
 
 #SpotifyPage{

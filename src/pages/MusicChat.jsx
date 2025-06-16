@@ -1,21 +1,58 @@
 import MusicChatSideBar from "../components/MusicChatSideBar"
-import { Outlet } from "react-router"
+import { Outlet, useParams } from "react-router"
 import otter from '../assets/logo.png'
+import { useState, useEffect } from "react"
+import { api } from "../utils"
+
 
 const MusicChat = () =>{
-    const currentPathname = window.location.href;
-    console.log(currentPathname)
+    const [prompt, setPrompt] = useState("")
+    const [chat, setChat] = useState([])
+
+    const {chatId} = useParams()
+
+    const handleKey = (e) =>{
+        if (e.key == "Enter"){
+            sendMessage()
+        }
+    }
+    const sendMessage = async()=>{
+        if (chatId){
+            const _ = await api.post("chats", {content: prompt})
+        }
+        
+        setPrompt("")
+    }
+    const getChat = async() =>{
+        const response = await api.get("chat")
+        setChat(response.data.conversation)
+        console.log(response)
+    }
+    useEffect(()=>{
+        getChat()
+    }, [prompt])
     return (
         <>
             <div className="musicChatComponents">
                 <MusicChatSideBar/>
                 
-                {currentPathname==="http://localhost:5173/chat"?
+                {!chatId?
                     (
                         <div id="myChat">
+                            <div id='subchat'>
+                                {
+                                
+                                chat&& chat.map((message, id)=>(
+                                    < div className="chatMessages" key={id}>
+                                        <p className="chat-user">{message.user}</p>
+                                        <p className="chat-bot">{message.bot}</p>
+                                    </div >
+                                ))
+                                }
+                            </div>
                             <div id="chatBox">
-                                <textarea className="customInput" placeholder="Type your message..."></textarea> 
-                                <button id="otterButton"><img id="otterForButton" src={otter}></img></button>    
+                                <textarea value={prompt} onKeyDown = {e=>handleKey(e)} onChange={e=>setPrompt(e.target.value)} className="customInput" placeholder="Type your message..."></textarea> 
+                                <button id="otterButton" onClick={sendMessage}><img id="otterForButton" src={otter}></img></button>    
                             </div>  
                         </div>
                     )

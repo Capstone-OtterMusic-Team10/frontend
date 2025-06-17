@@ -417,6 +417,22 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   background-color: #8c8d8f;
   align-self: flex-start;
 }
+
+.chatLinks {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  padding: 10px;
+  text-decoration: none;
+  color:#21252b;
+}
+.chatLinks:hover{
+  background-color: #bccadd;
+  border-radius: 10px;
+}
 /* =======================Spotify============================= */
 
 #SpotifyPage{
@@ -538,6 +554,7 @@ audio {
 .chat.user:hover{
   box-shadow: 10px 10px 5px #4d3a49;
 }
+
 
 
 @keyframes float{

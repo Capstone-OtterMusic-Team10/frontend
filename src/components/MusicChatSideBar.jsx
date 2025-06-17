@@ -1,13 +1,31 @@
-import Accordion from 'react-bootstrap/Accordion';
 import { Plus } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
+import { api } from '../utils';
+import { FolderPen, Trash } from 'lucide-react';
+
 const MusicChatSideBar = () =>{
     const [chats, setChats] = useState([])
+    const getChat = async() =>{
+        const response = await api.get("chat")
+        setChats(response.data)
+        console.log(response)
+    }
+    const editChatName = async() =>{
 
+    }
+    const deleteChat = async(id) =>{
+        try{
+            const _ = await api.delete(`chat/${id}`)
+            getChat()
+        }catch (error){
+            console.error("An error occurred:", error.message);
+        }
+        
+    }
     useEffect(()=>{
-        setChats([{name:"ACDC-ish", id:123}, {name: "Metallica-ish", id: 124}, {name: "Japanese Lofi", id: 125}, {name: "Coding Lofi", id: 126}, {name: "Dark Academia music", id: 127}, {name: "Light Academia Music", id: 128}])
+        getChat()
     }, [])
 
     return (
@@ -20,7 +38,7 @@ const MusicChatSideBar = () =>{
                     </div>
                     <div id="subchat">
                         {chats && chats.map((chat, idx)=>
-                            <Link key={idx} to={`${chat.id}`}>{chat.name}</Link>
+                            <Link className="chatLinks" key={idx} to={`${chat.id}`}>{chat.title} <span><button onClick={editChatName}><FolderPen/></button> <button onClick={e=>deleteChat(chat.id)}><Trash/></button></span></Link>
                         )
                         }
                     </div>

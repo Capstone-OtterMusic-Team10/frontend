@@ -18,9 +18,10 @@ const MusicChat = () =>{
     }
     const sendMessage = async()=>{
         if (chatId){
-            const _ = await api.post("chats", {content: prompt})
+            const _ = await api.post("talk", {content: prompt, chat: chatId, })
+        }else{
+            const _ = await api.post("talk", {content: prompt})
         }
-        
         setPrompt("")
     }
     const getChat = async() =>{

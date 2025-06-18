@@ -428,10 +428,17 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   padding: 10px;
   text-decoration: none;
   color:#21252b;
+
 }
 .chatLinks:hover{
   background-color: #bccadd;
   border-radius: 10px;
+}
+.chatTitle{
+  overflow: hidden;
+  white-space: nowrap;
+  width: 70%;
+  text-overflow: ellipsis;
 }
 /* =======================Spotify============================= */
 

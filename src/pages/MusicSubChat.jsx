@@ -1,5 +1,4 @@
 import { useParams } from "react-router"
-import otter from '../assets/logo.png'
 
 const MusicSubChat = () =>{
 
@@ -7,13 +6,17 @@ const MusicSubChat = () =>{
     console.log(chatId)
     return (
         <>
-        <div id="myChat">
-            <h1>{chatId}</h1>
-            <div id="chatBox">
-                <textarea className="customInput" placeholder="Type your message..."></textarea> 
-                <button id="otterButton"><img id="otterForButton" src={otter}></img></button>    
-            </div>  
-        </div>
+        {/* <div id='subchat'>
+            {
+            
+            chat&& chat.map((message, id)=>(
+                < div className="chatMessages" key={id}>
+                    <p className="chat-user">{message.user}</p>
+                    <p className="chat-bot">{message.bot}</p>
+                </div >
+            ))
+            }
+        </div> */}
         </>
     )
 }

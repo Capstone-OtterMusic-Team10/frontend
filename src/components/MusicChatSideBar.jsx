@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 import { api } from '../utils';
 import { FolderPen, Trash } from 'lucide-react';
-import { Exception } from 'sass-embedded';
 
 const MusicChatSideBar = () =>{
     const [chats, setChats] = useState([])
@@ -17,15 +16,16 @@ const MusicChatSideBar = () =>{
             console.log(response.data)
         }
     }
-    const editChatName = async(event) =>{
+const editChatName = async(event) =>{
         if (event.key == "Enter"){
-            let response = await api.put(`chat/${editing}`)
+            let response = await api.put(`chat/${editing}`, {"title": newName})
             if (response.status == 200){
                 setEditing(-1)
                 getChat()
             }else{
                 console.error(response.status)
             }
+            setNewName("")
         }
 
     }
@@ -47,27 +47,22 @@ const MusicChatSideBar = () =>{
             <div className="sideBar">
                 <Link to="/"><ArrowLeft/></Link>
                     <div className="inLineDiv">
-                        <p className="Subheading">Add a folder</p>
+                        <p className="Subheading">Start new chat</p>
                         <button className="plusButton"><Plus/></button>
                     </div>
                     <div id="subchat">
                         {chats && chats.map((chat, idx)=>(
                                 chat.id == editing?
-                                   <input type="text" 
+                                   <input 
+                                   type="text" 
                                    onKeyDown = {e=>editChatName(e)}
                                    value = {newName} 
                                    onChange={(e)=>setNewName(e.target.value)} 
                                    placeholder="Enter new chat name" 
                                    autoFocus 
-                                   onBlur={()=>setEditing(-1)}>
-                                    
-                                   </input>
+                                   onBlur={()=>setEditing(-1)}></input>
                                 :
-                                    <Link 
-                                    className="chatLinks" 
-                                    key={idx} to={`${chat.id}`}>
-                                    <span className="chatTitle">{chat.title}</span>
-                                    <span><button onClick={()=>setEditing(chat.id)}><FolderPen/></button> <button onClick={()=>deleteChat(chat.id)}><Trash/></button></span></Link>
+                                    <Link className="chatLinks" key={idx} to={`${chat.id}`}><span className="chatTitle">{chat.title}</span> <span><button onClick={()=>setEditing(chat.id)}><FolderPen/></button> <button onClick={()=>deleteChat(chat.id)}><Trash/></button></span></Link>
                         )
                         )
                         }

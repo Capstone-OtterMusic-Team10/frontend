@@ -37,29 +37,18 @@ const MusicChat = () =>{
             <div className="musicChatComponents">
                 <MusicChatSideBar/>
                 
-                {!chatId?
+                {!chatId&&
                     (
+                        
                         <div id="myChat">
-                            <div id='subchat'>
-                                {
-                                
-                                chat&& chat.map((message, id)=>(
-                                    < div className="chatMessages" key={id}>
-                                        <p className="chat-user">{message.user}</p>
-                                        <p className="chat-bot">{message.bot}</p>
-                                    </div >
-                                ))
-                                }
-                            </div>
-                            <div id="chatBox">
-                                <textarea value={prompt} onKeyDown = {e=>handleKey(e)} onChange={e=>setPrompt(e.target.value)} className="customInput" placeholder="Type your message..."></textarea> 
-                                <button id="otterButton" onClick={sendMessage}><img id="otterForButton" src={otter}></img></button>    
-                            </div>  
+                            <Outlet/>
+                            
+                    <div id="chatBox">
+                        <textarea value={prompt} onKeyDown = {e=>handleKey(e)} onChange={e=>setPrompt(e.target.value)} className="customInput" placeholder="Type your message..."></textarea> 
+                        <button id="otterButton" onClick={sendMessage}><img id="otterForButton" src={otter}></img></button>    
+                    </div>  
                         </div>
                     )
-                
-                :
-                    <Outlet/>
                 }
                     
                 

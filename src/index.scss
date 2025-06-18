@@ -355,11 +355,11 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   border: 2px solid rgb(133, 133, 133);
 }
 .inLineDiv{
-  @include flex-column(false, true);
+  @include flex-column(false, true, true);
   justify-content: space-between;
 }
 .Subheading{
-  font-size: 1.6vmax;
+  font-size: 1.2vmax;
   color: rgb(99, 99, 108);
 }
 #myChat{

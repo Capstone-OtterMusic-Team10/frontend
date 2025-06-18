@@ -1,22 +1,24 @@
-import { Plus } from 'lucide-react';
+
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 import { api } from '../utils';
-import { FolderPen, Trash } from 'lucide-react';
+import { FolderPen, Trash, SquarePen } from 'lucide-react';
 
-const MusicChatSideBar = () =>{
-    const [chats, setChats] = useState([])
+const MusicChatSideBar = ({chats, setChat}) =>{
+    // const [chats, setChats] = useState([])
     const [editing, setEditing] = useState(-1)
     const [newName, setNewName] = useState("")
+    const {chatId} = useParams()
+
+    const navigate = useNavigate()
     const getChat = async() =>{
         const response = await api.get("chat")
         if (!response.data.message) {
-            setChats(response.data)
-            console.log(response.data)
+            setChat(response.data)
         }
     }
-const editChatName = async(event) =>{
+    const editChatName = async(event) =>{
         if (event.key == "Enter"){
             let response = await api.put(`chat/${editing}`, {"title": newName})
             if (response.status == 200){
@@ -27,12 +29,13 @@ const editChatName = async(event) =>{
             }
             setNewName("")
         }
-
     }
+
     const deleteChat = async(id) =>{
         try{
             const _ = await api.delete(`chat/${id}`)
             getChat()
+            navigate("/chat")
         }catch (error){
             console.error("An error occurred:", error.message);
         }
@@ -40,15 +43,17 @@ const editChatName = async(event) =>{
     }
     useEffect(()=>{
         getChat()
-    }, [])
+    }, [chats])
 
     return (
         <>
             <div className="sideBar">
                 <Link to="/"><ArrowLeft/></Link>
                     <div className="inLineDiv">
-                        <p className="Subheading">Start new chat</p>
-                        <button className="plusButton"><Plus/></button>
+                            <p className="Subheading">Start new chat</p>
+                        <button onClick={()=>{
+                            navigate("/chat")
+                        }} ><SquarePen/></button>
                     </div>
                     <div id="subchat">
                         {chats && chats.map((chat, idx)=>(
@@ -62,6 +67,9 @@ const editChatName = async(event) =>{
                                    autoFocus 
                                    onBlur={()=>setEditing(-1)}></input>
                                 :
+                                    chat.id == chatId?
+                                    <Link id="chatLinksPicked" key={idx} to={`${chat.id}`}><span className="chatTitle">{chat.title}</span> <span><button onClick={()=>setEditing(chat.id)}><FolderPen/></button> <button onClick={()=>deleteChat(chat.id)}><Trash/></button></span></Link>
+                                    :
                                     <Link className="chatLinks" key={idx} to={`${chat.id}`}><span className="chatTitle">{chat.title}</span> <span><button onClick={()=>setEditing(chat.id)}><FolderPen/></button> <button onClick={()=>deleteChat(chat.id)}><Trash/></button></span></Link>
                         )
                         )

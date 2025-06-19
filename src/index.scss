@@ -241,6 +241,25 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   background-position: center;
   background-repeat: no-repeat;
 
+  #backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #e4e2e2;
+  font-size: 1.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    background-color: #eee;
+    color: #000;
+  }
+}
+
   form {
     background: rgba(255, 255, 255, 0.885);
     padding: 2rem 2.5rem;
@@ -339,21 +358,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
     transform: scale(1.03);
   }
 }
-
   }
-}
-
-#backButton {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: transparent;
-  border: none;
-  color: #555;
-  font-size: 1rem;
-  text-decoration: underline;
-  cursor: pointer;
-  z-index: 10;
 }
 
 }

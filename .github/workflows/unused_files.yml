@@ -24,7 +24,7 @@ jobs:
             for file in files:
               my_files.append(file)
           
-          pattern = r"[a-zA-Z0-9_-]+\.(png|jpeg|jpg|mp3)"
+          pattern = r"[a-zA-Z0-9_-]+\.(png|jpeg|jpg|mp3|svg)"
           def find_files(source):
             if source[-5:] == ".scss" or source[-5:] == ".html":
               try:

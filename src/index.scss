@@ -241,6 +241,25 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   background-position: center;
   background-repeat: no-repeat;
 
+  #backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #e4e2e2;
+  font-size: 1.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    background-color: #eee;
+    color: #000;
+  }
+}
+
   form {
     background: rgba(255, 255, 255, 0.885);
     padding: 2rem 2.5rem;
@@ -289,6 +308,58 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
       margin-bottom: 1rem;
     }
 
+    .oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+
+  .oauth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    gap: 10px;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    &.google {
+      background-color: white;
+      border: 1px solid #ccc;
+      color: #444;
+
+      &:hover {
+        background-color: #f2f2f2;
+      }
+    }
+
+    &.github {
+      background-color: #24292e;
+      color: white;
+
+      &:hover {
+        background-color: #1b1f23;
+      }
+    }
+    .oauth {
+  transition: all 0.2s ease;
+  transform: scale(1);
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+  }
+}
 
 }
 .signup-prompt {

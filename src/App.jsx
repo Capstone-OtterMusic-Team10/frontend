@@ -7,6 +7,8 @@ import SpotifyPage from './pages/SpotifyPage';
 import HomeMainView from './components/HomeMainView';
 import Login from './pages/Login';
 import LoginView from './components/LoginView';
+import Signup from './pages/SignUp';
+import SignupView from './components/SignUpView';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -28,6 +30,10 @@ function App() {
 
         <Route path="/login" element={<Login />}>
         <Route index element={<LoginView />} />
+        </Route>
+
+        <Route path="/signup" element={<Signup />}>
+        <Route index element={<SignupView />} />
         </Route>
       </Routes>
     </Router>

@@ -1,11 +1,11 @@
-import { useParams } from "react-router"
+import { useNavigate, useParams, useOutletContext } from "react-router"
 import { api } from "../utils"
 import { useEffect, useState } from "react"
-import { useOutletContext } from "react-router"
 
 const MusicSubChat = () =>{
     const [messages, setMessages] = useState([])
     const flag = useOutletContext();
+    const navigate = useNavigate()
 
     let {chatId} = useParams()
     console.log(flag)
@@ -16,6 +16,7 @@ const MusicSubChat = () =>{
             setMessages(response.data)
         }else{
             console.error(response.data)
+            navigate("/chat")
         }
     }
     useEffect(()=>{

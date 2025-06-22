@@ -43,7 +43,7 @@ const MusicChatSideBar = ({chats, setChat}) =>{
     }
     useEffect(()=>{
         getChat()
-    }, [chats])
+    }, [])
 
     return (
         <>
@@ -56,7 +56,7 @@ const MusicChatSideBar = ({chats, setChat}) =>{
                         }} ><SquarePen/></button>
                     </div>
                     <div id="subchat">
-                        {chats && chats.map((chat, idx)=>(
+                        {Array.isArray(chats) && chats.map((chat, idx)=>(
                                 chat.id == editing?
                                    <input 
                                    type="text" 

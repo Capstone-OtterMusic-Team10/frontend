@@ -3,7 +3,7 @@ import Home from './pages/Home'
 import About from './pages/About';
 import MusicChat from './pages/MusicChat';
 import MusicSubChat from './pages/MusicSubChat';
-import SpotifyPage from './pages/SpotifyPage';
+import MusicEdit from './pages/MusicEdit'
 import HomeMainView from './components/HomeMainView';
 import Login from './pages/Login';
 import LoginView from './components/LoginView';
@@ -24,7 +24,7 @@ function App() {
           <Route path=":chatId" element={<MusicSubChat />} />
         </Route>
 
-        <Route path="/create-playlist" element={<SpotifyPage />} />
+        <Route path="/create-playlist" element={<MusicEdit />} />
 
         <Route path="/login" element={<Login />}>
         <Route index element={<LoginView />} />

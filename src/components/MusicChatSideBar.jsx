@@ -44,7 +44,7 @@ const MusicChatSideBar = ({chats, setChat}) =>{
     useEffect(()=>{
         getChat()
     }, [])
-
+    
     return (
         <>
             <div className="sideBar">

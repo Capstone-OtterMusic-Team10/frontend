@@ -2,9 +2,9 @@ import * as Tone from "tone"
 import { useState, useEffect, useRef } from 'react'
 
 import { Play, Pause, Volume, Volume1, Volume2 } from "lucide-react"
-import testtest from '../assets/chatgptlofi.mp3'
-const MusicPlayer =() =>{
-    const audioRef = useRef(null)
+
+const MusicPlayer = ({audio, audioRef}) =>{
+    // const audioRef = useRef()
     const [isPlaying,  setIsPlaying] = useState(false)
     const [volume, setVolume] = useState(1)
     const [duration, setDuration] = useState(1);
@@ -49,17 +49,17 @@ const MusicPlayer =() =>{
 
     return (
         <>
-        <div id="EditPage">
-            <div id="myAudios">
                 <div className="audio-player">
-                    <audio ref={audioRef} src={testtest} />
+                    <audio ref={audioRef} src={audio} />
                     <button id="playButton" onClick={togglePlay}>
                         {isPlaying ? <Pause/> : <Play/>}
                     </button>
                     <div id="current-time">{timePassed || "00:00"}</div>
                     <input type="range" id="progressBar" min="0" max={duration} style={{width: `300px`}} step="0.01" value={progress} 
-                    onChange={() => {
-                    setProgress(audioRef.current.currentTime); }}/>
+                    onInput={(e) => {
+                        const newTime = parseFloat(e.target.value);
+                        audioRef.current.currentTime = newTime;
+                        setProgress(audioRef.current.currentTime); }}/>
                       
                     <div id="total-time">{`${Math.floor(duration/60)}`.padStart(2, '0')}:{`${Math.floor(duration%60)}`.padStart(2, '0')}</div>
                     {
@@ -75,8 +75,6 @@ const MusicPlayer =() =>{
                         setVolume(parseFloat(e.target.value))
                     }}/>
                 </div>
-            </div>
-            </div>
         </>
     )
 }

@@ -1,10 +1,10 @@
 import * as Tone from "tone"
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 
 import { Play, Pause, Volume, Volume1, Volume2 } from "lucide-react"
 
-const MusicPlayer = ({audio, audioRef}) =>{
-    // const audioRef = useRef()
+const MusicPlayer = forwardRef(({audio}, ref) =>{
+    const audioRef = useRef()
     const [isPlaying,  setIsPlaying] = useState(false)
     const [volume, setVolume] = useState(1)
     const [duration, setDuration] = useState(1);
@@ -46,7 +46,15 @@ const MusicPlayer = ({audio, audioRef}) =>{
         audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
    }, [])
-
+    useImperativeHandle(ref, () => ({
+            currentTime: () => audioRef.current?.currentTime || 0,
+            setCurrentTime: (t) => {
+                audioRef.current.currentTime = t;
+            },
+            getElement: () => audioRef.current,
+            play: () => audioRef.current?.play(),
+            pause: () => audioRef.current?.pause(),
+        }));
     return (
         <>
                 <div className="audio-player">
@@ -77,6 +85,6 @@ const MusicPlayer = ({audio, audioRef}) =>{
                 </div>
         </>
     )
-}
+})
 
 export default MusicPlayer

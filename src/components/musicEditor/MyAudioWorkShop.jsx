@@ -27,7 +27,7 @@ const AudioWorkShop = () =>{
             {
                 selectedAudio && selectedAudio!=="default" ?
                 <>
-                    <MusicPlayer audio={selectedAudio} audioRef={audioRef}/>
+                    <MusicPlayer audio={selectedAudio} ref={audioRef}/>
                     <div className="cutButtons">
                         <button onClick={()=> {
                             

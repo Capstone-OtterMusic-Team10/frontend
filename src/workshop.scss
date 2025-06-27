@@ -1,3 +1,74 @@
+@use "sass:color";
+$base-purple: rgba(32, 5, 32, 0.438);
+
+@mixin flex-column ($col: false, $center: false, $justify_center: false){
+  display: flex;
+  flex-direction: row;
+  @if $col{
+    flex-direction: column;
+  }
+  @if $center{
+    align-items: center;
+  }
+  @if $justify_center {
+    justify-content: center;
+  }
+
+}
+@mixin set_background($url){
+  background-color: #21252b;
+  background-image: url($url);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;  
+  min-height: 100vh;
+}
+
+/* =======================MusicEdit============================= */
+
+#EditPage{
+  padding: 50px;
+  @include set_background('assets/spot.png');
+
+}
+#playButton{
+  background-color: rgb(15, 4, 15);
+}
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: $base-purple;
+  padding: 15px;
+  width:fit-content;
+  color: white;
+  border-radius: 20px;
+}
+
+.audio-player button {
+  background: #444;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.audio-player button:hover {
+  background: #666;
+}
+.progress{
+  width: 300px;
+}
+#progress-bar {
+  background-color: rgb(175, 43, 175);
+}
+#volumeSlider{
+  width: 60px;
+  cursor: pointer;
+
+}
+
 #workshopSideBar{
   color: white;
   background-color: rgb(95, 83, 100);
@@ -15,4 +86,20 @@
     width: 100%;
     align-items: center;
     justify-content: space-evenly;
+}
+
+
+// ================== Stretch ==================
+
+.dropMp3, .dropMp3-dragging{
+  color: rgba(145, 141, 146, 0.479);
+  width: 50%;
+  height: 10vh;
+  background-color: #0f0f0f;
+  border-radius: 20px;
+  @include flex-column(true, true, true)
+
+}
+.dropMp3-dragging{
+  background-color: #212022;
 }

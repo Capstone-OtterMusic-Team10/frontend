@@ -1,14 +1,14 @@
 
 // import { useEffect, useState } from "react";
 // import AudioWorkShop from "../components/musicEditor/MyAudioWorkShop";
-// const MusicEdit =() =>{
+const MusicEdit =() =>{
 
 
-//     return (
-//         <>
-//             <AudioWorkShop/>
-//         </>
-//     )
-// }
+    return (
+        <>
+            <AudioWorkShop/>
+        </>
+    )
+}
 
-// export default MusicEdit
+export default MusicEdit

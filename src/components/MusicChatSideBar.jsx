@@ -1,48 +1,81 @@
-import Accordion from 'react-bootstrap/Accordion';
-import { Plus } from 'lucide-react';
+
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
-const MusicChatSideBar = () =>{
-    const [folders, setFolders] = useState([])
+import { api } from '../utils';
+import { FolderPen, Trash, SquarePen } from 'lucide-react';
 
+const MusicChatSideBar = ({chats, setChat}) =>{
+    // const [chats, setChats] = useState([])
+    const [editing, setEditing] = useState(-1)
+    const [newName, setNewName] = useState("")
+    const {chatId} = useParams()
+
+    const navigate = useNavigate()
+    const getChat = async() =>{
+        const response = await api.get("chat")
+        if (!response.data.message) {
+            setChat(response.data)
+        }
+    }
+    const editChatName = async(event) =>{
+        if (event.key == "Enter"){
+            let response = await api.put(`chat/${editing}`, {"title": newName})
+            if (response.status == 200){
+                setEditing(-1)
+                getChat()
+            }else{
+                console.error(response.status)
+            }
+            setNewName("")
+        }
+    }
+
+    const deleteChat = async(id) =>{
+        try{
+            const _ = await api.delete(`chat/${id}`)
+            getChat()
+            navigate("/chat")
+        }catch (error){
+            console.error("An error occurred:", error.message);
+        }
+        
+    }
     useEffect(()=>{
-        setFolders([
-            {folder: "Rock", chats: [{name:"ACDC-ish", id:123}, {name: "Metallica-ish", id: 124}]}, 
-            {folder: "LoFi", chats: [{name: "Japanese Lofi", id: 125}, {name: "Coding Lofi", id: 126}]}, 
-            {folder: "Studying", chats: [{name: "Dark Academia music", id: 127}, {name: "Light Academia Music", id: 128}]}
-        ])
+        getChat()
     }, [])
-
+    
     return (
         <>
             <div className="sideBar">
                 <Link to="/"><ArrowLeft/></Link>
                     <div className="inLineDiv">
-                    <p className="Subheading">Add a folder</p>
-                    <button className="plusButton"><Plus/></button>
+                            <p className="Subheading">Start new chat</p>
+                        <button onClick={()=>{
+                            navigate("/chat")
+                        }} ><SquarePen/></button>
                     </div>
-                    
-                    <Accordion defaultActiveKey="0">
-                        
-                            {
-                                folders.map((folder, idx)=>(
-                                <Accordion.Item eventKey={idx} key={idx}>
-                                    <Accordion.Header >{folder.folder}</Accordion.Header>
-                                    <Accordion.Body>
-                                    {
-                                        folder.chats.map((chat, chatidx)=>(
-                                            <div>
-                                                <Link key={chatidx} to={`${chat.id}`}>{chat.name}</Link>
-                                            </div>
-                                        ))
-                                    }
-                                    </Accordion.Body>
-                                </Accordion.Item>
-                                ))
-                            }
-                    </Accordion>
-                </div>
+                    <div id="subchat">
+                        {Array.isArray(chats) && chats.map((chat, idx)=>(
+                                chat.id == editing?
+                                   <input 
+                                   type="text" 
+                                   onKeyDown = {e=>editChatName(e)}
+                                   value = {newName} 
+                                   onChange={(e)=>setNewName(e.target.value)} 
+                                   placeholder="Enter new chat name" 
+                                   autoFocus 
+                                   onBlur={()=>setEditing(-1)}></input>
+                                :
+                                    chat.id == chatId?
+                                    <Link id="chatLinksPicked" key={idx} to={`${chat.id}`}><span className="chatTitle">{chat.title}</span> <span><button onClick={()=>setEditing(chat.id)}><FolderPen/></button> <button onClick={()=>deleteChat(chat.id)}><Trash/></button></span></Link>
+                                    :
+                                    <Link className="chatLinks" key={idx} to={`${chat.id}`}><span className="chatTitle">{chat.title}</span> <span><button onClick={()=>setEditing(chat.id)}><FolderPen/></button> <button onClick={()=>deleteChat(chat.id)}><Trash/></button></span></Link>
+                        )
+                        )
+                        }
+                    </div>
+            </div>
         </>
     )
 }

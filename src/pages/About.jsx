@@ -1,9 +1,11 @@
 import testtest from '../assets/testtest.mp3'
 import Footer from '../components/Footer'
-
+import { useEffect } from 'react'
 
 const About = () => {
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return(
         <>
             <div id="aboutPage">

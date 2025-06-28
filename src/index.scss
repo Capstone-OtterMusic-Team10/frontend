@@ -53,9 +53,6 @@ $base-purple: rgba(32, 5, 32, 0.438);
   height: 100%;
   width: 100%;
 }
-#SpotifyPage{
-  @include set_background('assets/spot.png');
-}
 .home{
   @include set_background('assets/image.png');
 }
@@ -426,32 +423,12 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 
 /* =======================MUSIC CHAT============================= */
 
-.customInput {
-  width: 100%;
-  max-width: 800px;
-  min-height: 150px;
-  padding: 1rem;
-  font-size: 1rem;
-  border: 1px solid #9fa4b1;
-  border-radius: 0.75rem;
-  resize: none;
-  outline: none;
-  box-shadow: 0 5px 5px rgba(22, 23, 23, 0.05);
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background: white;
-  margin-bottom: 100px;
-}
-
-.customInput:focus {
-  outline: none;
-  border: 1px solid #9ba2ac;
-  box-shadow: 0px 3px 15px #909cab;
-}
 
 .musicChatComponents{
   width: 100vw;
   height: 100vh;
   display: flex;
+
 }
 .sideBar{
   resize: horizontal;
@@ -475,22 +452,24 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   justify-content: space-between;
 }
 .Subheading{
-  font-size: 1.6vmax;
+  margin: 0;
+  font-size: 1.2vmax;
   color: rgb(99, 99, 108);
 }
 #myChat{
   width: 100vw;
   height: 100vh;
   @include flex-column(false, true, true);
-  align-items: last baseline;
+  position: relative;
 }
+
 
 #otterForButton{
   max-width: 60px;
 }
 #otterButton{
   position: absolute;
-  bottom: 120px;
+  bottom: 20px;
   right: 20px;
   background-color: black;
   border-radius: 50%;
@@ -505,69 +484,90 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 #chatBox{
   width: 100%;
   max-width: 800px;
-  min-height: 150px;
-  position: relative;
-}
-
-
-/* =======================Spotify============================= */
-
-#SpotifyPage{
-    background-color: #21252b;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;  
-    height: 100vh;
-}
-
-#SpotifyPage{
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  padding: 40px;
-  justify-content: center;
-}
-.playListBox{
-  color: rgb(177, 179, 185);
-  background-color: #000000b2;
-  width: 15vw;
-  margin: 20px;
-  border-radius: 10px;
   height: fit-content;
-  @include flex-column(true, true, false);
-  transition: all .5s ease;
+  position: relative;
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 40px;
+
+  border: 1px solid #9fa4b1;
+  border-radius: 20px;
+  box-shadow: 0 5px 5px rgba(22, 23, 23, 0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+
 }
-.playListBox:hover{
-  transform: scale(1.1);
-}
-.playlistName{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.customInput {
   width: 100%;
-  text-align: center;
-}
-.playlistImage{
-  aspect-ratio: 1;
-  width: 15vw;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-}
-.playlistButton{
-  font-family: 'Courier New', Courier, monospace;
-  background-color: transparent;
-  border: 2px solid #05810f;
-  border-radius: 10px;
-  padding-inline: 10px;
-  margin-bottom: 20px;
-  font-size: 1.5em;
-  color: #05810f;
-}
-.playlistButton:hover{
-  background-color: #05810f98;
-  color: rgb(177, 179, 185);
+  max-width: 800px;
+  min-height: 150px;
+  padding: 1rem;
+  font-size: 1rem;
+  resize: none;
+  outline: none;
+  border: none;
+  background: white;
+  margin-bottom: 100px;
 }
 
+#chatBox:focus {
+  outline: none;
+  border: 1px solid #9ba2ac;
+  box-shadow: 0px 3px 15px #909cab;
+}
+#musicSpecOPtions{
+  @include flex-column(false, true, false);
+  justify-content: space-evenly;
+  padding-top: 20px
+}
+
+#subchat{
+  @include flex-column(true, true, true);
+  width: 100%;
+}
+.chatMessages{
+  @include flex-column(true, true, true);
+  max-width: 800px;
+  width: 100%;
+}
+
+.chat-bot, .chat-user{
+  padding: 15px;
+  border-radius: 30px;
+}
+.chat-user{
+  background-color: #d4d6db;
+  align-self: flex-end;
+}
+.chat-bot{
+  background-color: #8c8d8f;
+  align-self: flex-start;
+}
+
+.chatLinks, #chatLinksPicked {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  padding: 10px;
+  text-decoration: none;
+  color:#21252b;
+}
+#chatLinksPicked{
+  background-color: #e9ecf0;
+  border-radius: 5px;
+}
+.chatLinks:hover{
+  background-color: #bccadd;
+  border-radius: 10px;
+}
+.chatTitle{
+  overflow: hidden;
+  white-space: nowrap;
+  width: 70%;
+  text-overflow: ellipsis;
+}
 
 // ========== About ==========
 
@@ -633,6 +633,7 @@ audio {
 }
 
 
+
 @keyframes float{
   from{
     
@@ -643,7 +644,6 @@ audio {
     transform: translateY(-50px);
   }
 }
-
 
 // ================== Responsiveness ==================
 @media only screen and (max-width: 1500px) {

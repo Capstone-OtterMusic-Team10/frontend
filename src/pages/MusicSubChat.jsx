@@ -44,7 +44,9 @@ const MusicSubChat = () =>{
             messages&& messages.map((message, id)=>(
                 < div className="chatMessages" key={id}>
                     <p className="chat-user">{message.content}</p>
-                    <MusicPlayer audio={`http://127.0.0.1:5000/get_audio`} ref={audioRef}/>
+                    <div className="chat-bot">
+                    <MusicPlayer  audio={`http://127.0.0.1:5000/get_audio`} ref={audioRef}/>
+                    </div>
                 </div >
             ))
             }

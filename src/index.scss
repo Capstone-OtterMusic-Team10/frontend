@@ -478,6 +478,9 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 #subchat{
   @include flex-column(true, true, true);
   width: 100%;
+  height: 100%;
+  margin-bottom: 65vh;
+  overflow-y: scroll;
 }
 .chatMessages{
   @include flex-column(true, true, true);
@@ -494,7 +497,6 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   align-self: flex-end;
 }
 .chat-bot{
-  background-color: #8c8d8f;
   align-self: flex-start;
 }
 

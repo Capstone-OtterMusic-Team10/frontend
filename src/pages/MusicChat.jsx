@@ -13,6 +13,8 @@ const MusicChat = () =>{
     const [BPM, setBPM] = useState(120)
     const [weight, setWeight] = useState(1)
     const [key, setKey] = useState("0")
+    const [loadingASong, setLoadingASong] = useState(false)
+    const [newMessage, setNewMessage] = useState(null)
     const navigate = useNavigate()
     const {chatId} = useParams()
 
@@ -22,15 +24,16 @@ const MusicChat = () =>{
         }
     }
     const sendMessage = async()=>{
+        let response;
         if (chatId){
-            const _ = await api.post("talk", {
+            response = await api.post("talk", {
                 prompt: prompt,
                 chat: chatId,
                 bpm: BPM,
                 key: 0
                 })
         }else{
-            const response = await api.post("talk", {
+            response = await api.post("talk", {
                 prompt: prompt,
                 chat: chatId,
                 bpm: BPM,
@@ -38,6 +41,8 @@ const MusicChat = () =>{
                 })
             setNewConvo(response.data.new_chat)
         }
+        setNewMessage(response.data.message)
+        setLoadingASong(true)
         setIntroduceNew(!introduceNew)
         setPrompt("")
     }
@@ -61,7 +66,7 @@ const MusicChat = () =>{
                 <MusicChatSideBar chats={chat} setChat={setChat} />
                 <div id="myChat">
                 {chatId&&
-                            <Outlet context={introduceNew}/>
+                            <Outlet context={{introduceNew, loadingASong, setLoadingASong, newMessage}}/>
                 }
                 <div id="chatBox">
                     <div id="musicSpecOPtions">

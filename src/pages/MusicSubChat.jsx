@@ -1,6 +1,6 @@
 import { useNavigate, useParams, useOutletContext } from "react-router"
 import { api } from "../utils"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import MusicPlayer from '../components/musicEditor/MusicPlayer'
 
 
@@ -9,14 +9,14 @@ import MusicPlayer from '../components/musicEditor/MusicPlayer'
 const MusicSubChat = () =>{
     const [messages, setMessages] = useState([])
     // const [audios, setAudios] = useState([])
-    const [isLoading, setIsLoading] = useState(true);
+
     const [audioMap, setAudioMap] = useState({});
 
-    const flag = useOutletContext();
+    const {flag, loadingASong, setLoadingASong, newMessage} = useOutletContext();
     const navigate = useNavigate()
-    const audioRef = useRef()
+
     let {chatId} = useParams()
-    console.log(flag)
+
     const getMessages = async()=>{
         let response = await api.get(`getmessages/${chatId}`)
         console.log(response.data)
@@ -28,6 +28,10 @@ const MusicSubChat = () =>{
             navigate("/chat")
         }
     }
+    useEffect(()=>{
+       
+        
+    }, [newMessage])
     useEffect(()=>{
         getMessages()
     }, [chatId, flag])
@@ -49,17 +53,15 @@ const MusicSubChat = () =>{
                 console.warn(`Audio ${message.id} was empty`);
             }
             } catch (err) {
-            console.error(`Failed to fetch audio ${message.id}:`, err);
-            newMap[message.id] = "nil";
+                console.error(err)
+                newMap[message.id] = "nil";
             }
         }));
         console.log(newMap)
         setAudioMap(newMap);
-        setIsLoading(false);
     };
 
     useEffect(() => {
-        setIsLoading(true);
         getAudioForMessages();
         var objDiv = document.getElementById("subchat")
         objDiv.scrollTop = objDiv.scrollHeight;
@@ -73,7 +75,7 @@ const MusicSubChat = () =>{
                 <div className="chatMessages" key={message.id}>
                     <p className="chat-user">{message.content}</p>
                     <div className="chat-bot">
-                      {audioMap[message.id] && audioMap[message.id] != "nil" ? (
+                      { audioMap[message.id] && audioMap[message.id] != "nil" ? (
                             <audio controls src={audioMap[message.id]} />
                         ) : audioMap[message.id] == "nil"?(
                             <p>No audio was generated, sorry!</p>

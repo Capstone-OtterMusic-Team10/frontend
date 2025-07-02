@@ -484,6 +484,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   @include flex-column(true, true, false);
   width: 100%;
   margin-bottom: 35vh;
+  scrollbar-width: thin;
   overflow-y: auto;
   margin-top: 60px;
   
@@ -492,12 +493,11 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   @include flex-column(true, true, true);
   max-width: 800px;
   width: 100%;
-  
 }
 
 .chat-bot, .chat-user{
   padding: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
   border-radius: 30px;
 }
 .chat-user{

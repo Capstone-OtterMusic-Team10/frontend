@@ -480,21 +480,24 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   padding-top: 20px
 }
 
-.subchat{
+#subchat{
   @include flex-column(true, true, false);
   width: 100%;
-  margin-bottom: 40vh;
+  margin-bottom: 35vh;
   overflow-y: auto;
-  padding-top: 60px;
+  margin-top: 60px;
+  
 }
 .chatMessages{
   @include flex-column(true, true, true);
   max-width: 800px;
   width: 100%;
+  
 }
 
 .chat-bot, .chat-user{
   padding: 15px;
+  margin-bottom: 25px;
   border-radius: 30px;
 }
 .chat-user{

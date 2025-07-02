@@ -61,14 +61,14 @@ const MusicSubChat = () =>{
     useEffect(() => {
         setIsLoading(true);
         getAudioForMessages();
+        var objDiv = document.getElementById("subchat")
+        objDiv.scrollTop = objDiv.scrollHeight;
     }, [messages]);
-
 
     return (
         <>
-        <div className='subchat'>
+        <div id='subchat'>
             {
-            
             messages && messages.map((message) => (
                 <div className="chatMessages" key={message.id}>
                     <p className="chat-user">{message.content}</p>

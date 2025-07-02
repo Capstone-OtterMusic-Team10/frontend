@@ -12,7 +12,7 @@ const MusicChat = () =>{
     const [chat, setChat] = useState([])
     const [BPM, setBPM] = useState(120)
     const [weight, setWeight] = useState(1)
-    const [key, setKey] = useState()
+    const [key, setKey] = useState("0")
     const navigate = useNavigate()
     const {chatId} = useParams()
 
@@ -23,10 +23,20 @@ const MusicChat = () =>{
     }
     const sendMessage = async()=>{
         if (chatId){
-            const _ = await api.post("talk", {content: prompt, chat: chatId, })
+            const _ = await api.post("talk", {
+                prompt: prompt,
+                chat: chatId,
+                bpm: BPM,
+                key: 0
+                })
         }else{
-            const response = await api.post("talk", {content: prompt})
-            setNewConvo(response.data.new_convo)
+            const response = await api.post("talk", {
+                prompt: prompt,
+                chat: chatId,
+                bpm: BPM,
+                key: 0
+                })
+            setNewConvo(response.data.new_chat)
         }
         setIntroduceNew(!introduceNew)
         setPrompt("")
@@ -56,44 +66,31 @@ const MusicChat = () =>{
                 <div id="chatBox">
                     <div id="musicSpecOPtions">
                     <div>
-                        <label for="bpm">BPM</label>
+                        <label htmlFor="bpm">BPM</label>
                         <input id="bpm" type="range" min="40" max="240" value={BPM} onChange={e=>setBPM(e.target.value)}></input>{BPM} BPM
                     </div>
                     <div>
-                            <select id="music-key" name="musicKey" value={key} onChange={e=>setKey(e.target.value)}>
-                            <option selected="selected" value="C">Select a key</option>
-                            <optgroup label="Major Keys">
-                                <option value="C">C Major</option>
-                                <option value="C#">C# Major</option>
-                                <option value="D">D Major</option>
-                                <option value="D#">D# Major</option>
-                                <option value="E">E Major</option>
-                                <option value="F">F Major</option>
-                                <option value="F#">F# Major</option>
-                                <option value="G">G Major</option>
-                                <option value="G#">G# Major</option>
-                                <option value="A">A Major</option>
-                                <option value="A#">A# Major</option>
-                                <option value="B">B Major</option>
-                            </optgroup>
-                            <optgroup label="Minor Keys">
-                                <option value="Cm">C Minor</option>
-                                <option value="C#m">C# Minor</option>
-                                <option value="Dm">D Minor</option>
-                                <option value="D#m">D# Minor</option>
-                                <option value="Em">E Minor</option>
-                                <option value="Fm">F Minor</option>
-                                <option value="F#m">F# Minor</option>
-                                <option value="Gm">G Minor</option>
-                                <option value="G#m">G# Minor</option>
-                                <option value="Am">A Minor</option>
-                                <option value="A#m">A# Minor</option>
-                                <option value="Bm">B Minor</option>
-                            </optgroup>
+                            <select id="music-key" name="musicKey" value={key} onChange={e=>{
+                                setKey(e.target.value)
+
+                                }}>
+                                <option value="0">Default / The model decides</option>
+                                <option value="1">C major / A minor</option>
+                                <option value="2">D♭ major / B♭ minor</option>
+                                <option value="3">D major / B minor</option>
+                                <option value="4">E♭ major / C minor</option>
+                                <option value="5">E major / C♯/D♭ minor</option>
+                                <option value="6">F major / D minor</option>
+                                <option value="7">G♭ major / E♭ minor</option>
+                                <option value="8">G major / E minor</option>
+                                <option value="9">A♭ major / F minor</option>
+                                <option value="10">A major / F♯/G♭ minor</option>
+                                <option value="11">B♭ major / G minor</option>
+                                <option value="12">B major / G♯/A♭ minor</option>
                             </select>
                     </div>
                      <div>
-                        <label for="bpm">Weight</label>
+                        <label htmlFor="bpm">Weight</label>
                         <input id="bpm" min="0" max="2" step="0.1" value={weight} type="range" onChange={e=>setWeight(e.target.value)}></input> {weight}
                     </div>
                     </div>

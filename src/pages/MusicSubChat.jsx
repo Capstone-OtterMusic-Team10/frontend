@@ -28,15 +28,18 @@ const MusicSubChat = () =>{
         }
     }
     useEffect(()=>{
-        setTimeout(function(){
+        const timeout = setTimeout(()=>{
             getAudioForMessages()
             setLoadingASong(false)
         }, 40000)
+        return () => {
+            clearTimeout(timeout); 
+        };
     }, [newMessage])
 
     useEffect(()=>{
         getMessages()
-    }, [chatId, introduceNew])
+    }, [chatId, introduceNew, loadingASong])
 
     const getAudioForMessages = async () => {
         const newMap = {};

@@ -428,10 +428,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
-  // background-image: url('./assets/winter-blue-pink-gradient-background-vector_53876-117276 copy.jpg');
-  // background-size: cover;
-  // background-repeat: no-repeat;
-  // background-position: center;
+  @include set_background('./assets/orange-gradient.jpg');
 }
 .sideBar{
   resize: horizontal;
@@ -541,7 +538,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   resize: none;
   outline: none;
   border: none;
-  background: white;
+  background: none;
   margin-bottom: 100px;
 }
 
@@ -588,6 +585,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   @include flex-column(true, true, false);
   width: 100%;
   margin-bottom: 40vh;
+  padding-bottom: 40px;
   scrollbar-width: thin;
   overflow-y: auto;
   margin-top: 60px;
@@ -623,7 +621,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 
 .chat-bot, .chat-user{
   padding: 15px;
-  margin-bottom: 45px;
+  margin-bottom: 100px;
   border-radius: 30px;
 }
 .chat-user{

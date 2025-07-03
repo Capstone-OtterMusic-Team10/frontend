@@ -428,7 +428,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
-  @include set_background('./assets/orange-gradient.jpg');
+  
 }
 .sideBar{
   resize: horizontal;
@@ -467,6 +467,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   overflow: hidden;
   font-family: 'Times New Roman', sans-serif;
   font-size: 18px;
+  @include set_background('./assets/orange-gradient.jpg');
 }
 
 #otterForButton{

@@ -12,7 +12,8 @@ const MusicSubChat = () =>{
 
     const [audioMap, setAudioMap] = useState({});
 
-    const {flag, loadingASong, setLoadingASong, newMessage} = useOutletContext();
+    // const {flag, loadingASong, setLoadingASong, newMessage} = useOutletContext();
+    const flag = useOutletContext();
     const navigate = useNavigate()
 
     let {chatId} = useParams()
@@ -28,10 +29,10 @@ const MusicSubChat = () =>{
             navigate("/chat")
         }
     }
-    useEffect(()=>{
+    // useEffect(()=>{
        
         
-    }, [newMessage])
+    // }, [newMessage])
     useEffect(()=>{
         getMessages()
     }, [chatId, flag])

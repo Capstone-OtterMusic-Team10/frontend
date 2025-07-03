@@ -428,10 +428,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
-  // background-image: url('./assets/winter-blue-pink-gradient-background-vector_53876-117276 copy.jpg');
-  // background-size: cover;
-  // background-repeat: no-repeat;
-  // background-position: center;
+  
 }
 .sideBar{
   resize: horizontal;
@@ -470,6 +467,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   overflow: hidden;
   font-family: 'Times New Roman', sans-serif;
   font-size: 18px;
+  @include set_background('./assets/orange-gradient.jpg');
 }
 
 #otterForButton{
@@ -506,6 +504,32 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   transition: border-color 0.2s, box-shadow 0.2s;
 
 }
+#otterspinner{
+  max-width: 60px;
+}
+#spinner{
+  @include flex-column(true, true, true);
+  background-color: #000;
+  border-radius: 50px;
+  background-color: black;
+  border-radius: 50%;
+  border: none;
+  width: 70px;
+  height: 70px;
+  animation: logo-spin infinite 20s linear;
+  animation-duration: 0.5s; /* Adjust duration for faster spin */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite; /* Make it spin continuously */
+}
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .customInput {
   width: 100%;
   max-width: 800px;
@@ -515,7 +539,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   resize: none;
   outline: none;
   border: none;
-  background: white;
+  background: none;
   margin-bottom: 100px;
 }
 
@@ -562,6 +586,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   @include flex-column(true, true, false);
   width: 100%;
   margin-bottom: 40vh;
+  padding-bottom: 40px;
   scrollbar-width: thin;
   overflow-y: auto;
   margin-top: 60px;
@@ -597,7 +622,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 
 .chat-bot, .chat-user{
   padding: 15px;
-  margin-bottom: 35px;
+  margin-bottom: 100px;
   border-radius: 30px;
 }
 .chat-user{

@@ -66,7 +66,7 @@ const MusicChat = () =>{
                 <MusicChatSideBar chats={chat} setChat={setChat} />
                 <div id="myChat">
                 {chatId&&
-                            <Outlet context={{introduceNew, loadingASong, setLoadingASong, newMessage}}/>
+                            <Outlet context={{introduceNew, loadingASong, setLoadingASong, newMessage}}/>    
                 }
                 <div id="chatBox">
                     <div id="musicSpecOPtions">

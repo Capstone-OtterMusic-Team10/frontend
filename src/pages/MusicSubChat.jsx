@@ -1,8 +1,7 @@
 import { useNavigate, useParams, useOutletContext } from "react-router"
 import { api } from "../utils"
 import { useEffect, useState } from "react"
-import MusicPlayer from '../components/musicEditor/MusicPlayer'
-
+import otter from '../assets/logo.png'
 
 
 
@@ -12,7 +11,8 @@ const MusicSubChat = () =>{
 
     const [audioMap, setAudioMap] = useState({});
 
-    const {flag, loadingASong, setLoadingASong, newMessage} = useOutletContext();
+    const {introduceNew, loadingASong, setLoadingASong, newMessage} = useOutletContext();
+
     const navigate = useNavigate()
 
     let {chatId} = useParams()
@@ -22,19 +22,21 @@ const MusicSubChat = () =>{
         console.log(response.data)
         if (response.status == 200){
             setMessages(response.data)
-            // console.log(messages)
         }else{
             console.error(response.data)
             navigate("/chat")
         }
     }
     useEffect(()=>{
-       
-        
+        setTimeout(function(){
+            getAudioForMessages()
+            setLoadingASong(false)
+        }, 40000)
     }, [newMessage])
+
     useEffect(()=>{
         getMessages()
-    }, [chatId, flag])
+    }, [chatId, introduceNew])
 
     const getAudioForMessages = async () => {
         const newMap = {};
@@ -77,10 +79,15 @@ const MusicSubChat = () =>{
                     <div className="chat-bot">
                       { audioMap[message.id] && audioMap[message.id] != "nil" ? (
                             <audio controls src={audioMap[message.id]} />
-                        ) : audioMap[message.id] == "nil"?(
+                        ) :  !loadingASong && audioMap[message.id] == "nil"?(
                             <p>No audio was generated, sorry!</p>
+                        ): loadingASong?(
+                                <div id="spinner"><img id="otterspinner" src={otter}></img></div>
                         ):
-                        <p>Loading audio...</p>
+                        <p></p>
+                        }
+                        {
+                            
                         }
                     </div>
                 </div>

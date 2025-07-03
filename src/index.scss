@@ -501,6 +501,32 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   transition: border-color 0.2s, box-shadow 0.2s;
 
 }
+#otterspinner{
+  max-width: 60px;
+}
+#spinner{
+  @include flex-column(true, true, true);
+  background-color: #000;
+  border-radius: 50px;
+  background-color: black;
+  border-radius: 50%;
+  border: none;
+  width: 70px;
+  height: 70px;
+  animation: logo-spin infinite 20s linear;
+  animation-duration: 0.5s; /* Adjust duration for faster spin */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite; /* Make it spin continuously */
+}
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .customInput {
   width: 100%;
   max-width: 800px;
@@ -542,7 +568,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 
 .chat-bot, .chat-user{
   padding: 15px;
-  margin-bottom: 35px;
+  margin-bottom: 45px;
   border-radius: 30px;
 }
 .chat-user{

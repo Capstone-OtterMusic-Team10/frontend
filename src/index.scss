@@ -428,7 +428,10 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
-
+  // background-image: url('./assets/winter-blue-pink-gradient-background-vector_53876-117276 copy.jpg');
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  // background-position: center;
 }
 .sideBar{
   resize: horizontal;
@@ -465,9 +468,9 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-
+  font-family: 'Times New Roman', sans-serif;
+  font-size: 18px;
 }
-
 
 #otterForButton{
   max-width: 60px;
@@ -489,12 +492,14 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 #chatBox{
   width: 100%;
   max-width: 800px;
-  height: fit-content;
+  height: 35%;
   position: relative;
   position: fixed;
   bottom: 0;
   margin-bottom: 40px;
-
+  margin-top: 20px;
+  font-family: 'Times New Roman', sans-serif;
+  font-size: 17px;
   border: 1px solid #9fa4b1;
   border-radius: 20px;
   box-shadow: 0 5px 5px rgba(22, 23, 23, 0.05);
@@ -532,7 +537,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   max-width: 800px;
   min-height: 150px;
   padding: 1rem;
-  font-size: 1rem;
+  font-size: 18px;
   resize: none;
   outline: none;
   border: none;
@@ -540,21 +545,49 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   margin-bottom: 100px;
 }
 
+#music-key {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 9px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #888;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+  }
+}
+
 #chatBox:focus {
   outline: none;
   border: 1px solid #9ba2ac;
   box-shadow: 0px 3px 15px #909cab;
 }
-#musicSpecOPtions{
-  @include flex-column(false, true, false);
-  justify-content: space-evenly;
-  padding-top: 20px
+#musicSpecOPtions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 }
 
 #subchat{
   @include flex-column(true, true, false);
   width: 100%;
-  margin-bottom: 50vh;
+  margin-bottom: 40vh;
   scrollbar-width: thin;
   overflow-y: auto;
   margin-top: 60px;
@@ -564,6 +597,28 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
   @include flex-column(true, true, true);
   max-width: 800px;
   width: 100%;
+}
+
+#helpButton {
+  position: absolute;
+  bottom: 40px;
+  right: 250px;
+  background-color: #e3e3e3;
+  border: none;
+  border-radius: 40%;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+#helpButton:hover {
+  background-color: #d0d0d0;
 }
 
 .chat-bot, .chat-user{
@@ -577,6 +632,15 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 }
 .chat-bot{
   align-self: flex-start;
+}
+
+.chat-bot audio {
+  display: block;
+  margin: 5px 0;
+  padding: 0;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
 }
 
 .chatLinks, #chatLinksPicked {

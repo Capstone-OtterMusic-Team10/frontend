@@ -37,7 +37,6 @@ const SignupView = () => {
      //needs actual path
   };
 
-  
   return (
     <div className="signup-container">
       <button id="backButton" onClick={() => navigate('/')}>

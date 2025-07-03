@@ -71,8 +71,8 @@ const MusicChat = () =>{
                 <div id="chatBox">
                     <div id="musicSpecOPtions">
                     <div>
-                        <label htmlFor="bpm">BPM</label>
-                        <input id="bpm" type="range" min="40" max="240" value={BPM} onChange={e=>setBPM(e.target.value)}></input>{BPM} BPM
+                        <label htmlFor="bpm">BPM </label>
+                        <input id="bpm" type="range" min="40" max="240" value={BPM} onChange={e=>setBPM(e.target.value)}></input>{BPM}
                     </div>
                     <div>
                             <select id="music-key" name="musicKey" value={key} onChange={e=>{
@@ -95,15 +95,16 @@ const MusicChat = () =>{
                             </select>
                     </div>
                      <div>
-                        <label htmlFor="bpm">Weight</label>
-                        <input  id="bpm" min="0" max="2" step="0.1" value={weight} type="range" onChange={e=>setWeight(e.target.value)}></input> {weight}
+                        <label htmlFor="bpm">Weight </label>
+                        <input id="bpm" min="0" max="2" step="0.1" value={weight} type="range" onChange={e=>setWeight(e.target.value)}></input> {weight}
                     </div>
                     </div>
                     <textarea value={prompt} onKeyDown = {e=>handleKey(e)} onChange={e=>setPrompt(e.target.value)} className="customInput" placeholder="Type your message..."></textarea> 
                     <button id="otterButton" onClick={sendMessage}><img id="otterForButton" src={otter}></img></button>          
                 </div>
                 </div>    
-                
+                <button id="helpButton" onClick={() => alert("BPM = Beats Per Minute, or the tempo of the song.\nWeight = How strongly your input affects the output.")}>?</button>
+
             </div>
         </>
     )

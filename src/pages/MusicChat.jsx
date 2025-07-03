@@ -96,7 +96,7 @@ const MusicChat = () =>{
                     </div>
                      <div>
                         <label htmlFor="bpm">Weight</label>
-                        <input id="bpm" min="0" max="2" step="0.1" value={weight} type="range" onChange={e=>setWeight(e.target.value)}></input> {weight}
+                        <input  id="bpm" min="0" max="2" step="0.1" value={weight} type="range" onChange={e=>setWeight(e.target.value)}></input> {weight}
                     </div>
                     </div>
                     <textarea value={prompt} onKeyDown = {e=>handleKey(e)} onChange={e=>setPrompt(e.target.value)} className="customInput" placeholder="Type your message..."></textarea> 

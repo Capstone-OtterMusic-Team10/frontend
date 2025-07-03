@@ -528,7 +528,7 @@ $font-stack: 'Segoe UI', Roboto, sans-serif;
 #subchat{
   @include flex-column(true, true, false);
   width: 100%;
-  margin-bottom: 35vh;
+  margin-bottom: 50vh;
   scrollbar-width: thin;
   overflow-y: auto;
   margin-top: 60px;

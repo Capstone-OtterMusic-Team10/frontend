@@ -1,6 +1,5 @@
 import prototype from '../assets/prototype.png';
-import spotify from '../assets/spotify.png';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Wrench } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import Footer from './Footer';
 const HomeMainView = () =>{
@@ -18,7 +17,7 @@ const HomeMainView = () =>{
                         <h1 id="catchPhrase">Welcome to Otter Music 🎵</h1>
                     
                         <button className='tryOutButton' onClick={()=>navigate("/chat")}><span className="buttonContent"><span id="separateText">Text To Melodies</span><Sparkles size={30}/></span></button>
-                        <button className='tryOutButton' id="spot" onClick={()=>navigate("/create-playlist")}><span className="buttonContent"><span id="separateText">Text To Playlist</span><img style={{width: 30}} src={spotify}></img></span></button>
+                        <button className='tryOutButton' id="spot" onClick={()=>navigate("/create-playlist")}><span className="buttonContent"><span id="separateText">Editing Workbench</span><Wrench size={30}/></span></button>
                     </div>
                 </div>
             </div>

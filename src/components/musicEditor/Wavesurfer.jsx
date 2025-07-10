@@ -8,9 +8,17 @@ const WS = ({audio, id}) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [region, setRegion] = useState([])
   const onReady = (ws) => {
-    setWavesurfer(ws)
-    setIsPlaying(false)
-  }
+  setWavesurfer(ws)
+
+  ws.on('region-created', (region) => {
+    console.log('✅ Region created:', region)
+  })
+
+  // optional: log all current regions
+  ws.on('ready', () => {
+    console.log('WaveSurfer is ready with regions:', ws.regions?.list)
+  })
+}
 
   const onPlayPause = () => {
     wavesurfer && wavesurfer.playPause()

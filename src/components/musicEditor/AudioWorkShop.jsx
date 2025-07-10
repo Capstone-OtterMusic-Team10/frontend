@@ -52,12 +52,12 @@ const AudioWorkShop = () =>{
         <div id="EditPage">
             <button onClick={playConcat}>Play Concatenated</button>
             <button onClick={playMerged}>Play Merged</button>
-            
-            {
+            <WS audio={audio1} id={1}/>
+            {/* {
                audio && audio.map((song, id)=>
-                <WS audio={song} id={id}/>
+                
                 )
-            }
+            } */}
 
 
         </div>

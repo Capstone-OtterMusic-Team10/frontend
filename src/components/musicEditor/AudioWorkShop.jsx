@@ -1,6 +1,7 @@
-import audio1 from '../../assets/testtest.mp3'
+import audio1 from '../../assets/testtest.wav'
 import audio2 from '../../assets/lyria_2_2.wav'
 import { useState } from 'react'
+import WS from './Wavesurfer'
 const AudioWorkShop = () =>{
 
     const [audio, setAudio] = useState([audio1, audio2])
@@ -51,7 +52,16 @@ const AudioWorkShop = () =>{
         <div id="EditPage">
             <button onClick={playConcat}>Play Concatenated</button>
             <button onClick={playMerged}>Play Merged</button>
+            
+            {
+               audio && audio.map((song, id)=>
+                <WS audio={song} id={id}/>
+                )
+            }
+
+
         </div>
+        
         </>
     )
 }

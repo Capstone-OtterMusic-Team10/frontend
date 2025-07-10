@@ -1,7 +1,7 @@
 import audio1 from '../../assets/testtest.wav'
 import audio2 from '../../assets/lyria_2_2.wav'
 import { useState } from 'react'
-import WS from './Wavesurfer'
+import WS from './MyWaveSurfer'
 const AudioWorkShop = () =>{
 
     const [audio, setAudio] = useState([audio1, audio2])

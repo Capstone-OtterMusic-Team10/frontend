@@ -4,32 +4,27 @@ import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.esm.js'
 import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline.esm.js'
 import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 import Minimap from 'wavesurfer.js/dist/plugins/minimap.esm.js'
+
+
 const random = (min, max) => Math.random() * (max - min) + min
-const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.5)`
+const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.3)`
+
+
 const WS = ({audio, id}) => {
   const [wavesurfer, setWavesurfer] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [region, setRegion] = useState([])
-  // const regions = RegionsPlugin.create()
-  
-  // regions.enableDragSelection({
-  //   color: 'rgba(88, 206, 19, 0.1)',
-  // })
+  const [regions, setRegions] = useState(RegionsPlugin.create({contentEditable: true}))
+  const [color, setColor] = useState()
+  const [regionColor, setRegionColor] = useState(randomColor())
+  const [loop, setLoop] = useState(true)
+  const [activeRegion, setActiveRegion] = useState(null)
 
-  // regions.on('region-updated', (region) => {
-  //   console.log('Updated region', region)
-  // })
-  // console.log(regions)
   const onPlayPause = () => {
     wavesurfer && wavesurfer.playPause()
   }
 
    const plugins = useMemo(() => [
-    RegionsPlugin.create({
-    dragSelection: {
-      color: 'rgba(88, 206, 19, 0.1)',
-    },
-  }),
+    
     Minimap.create({
       height: 20,
       waveColor: '#ddd',
@@ -52,42 +47,65 @@ const WS = ({audio, id}) => {
       secondaryColor: 'red',
       primaryFontColor: 'blue',
       secondaryFontColor: 'red'
-    })
+    }),regions
   ], [])
 
 
-   const onReady = (ws) => {
+  const onReady = (ws) => {
+    console.log(regions)
     setWavesurfer(ws)
-
-  ws.on('region-created', (region) => {
-    console.log('✅ Region created:', region)
-  })
-
-  ws.on('ready', () => {
-    console.log('WaveSurfer is ready with regions:', ws.regions?.list)
-  })
-
-  ws.on('decode', () => {
-    ws.addRegion({
-      start: 9,
-      end: 10,
-      content: 'Cramped region',
-      color: randomColor(),
-      minLength: 1,
-      maxLength: 10,
+    regions.enableDragSelection({
+      color: regionColor,
+      })
+    ws.once('interaction', () => {
+      ws.play()
     })
+    regions.on('region-in', (region) => {
+    console.log('region-in', region)
+        setActiveRegion(region)
+    })
+    regions.on('region-out', (region) => {
+    console.log('region-out', region)
+    if (activeRegion === region) {
+      if (loop) {
+        region.play()
+      } else {
+        setActiveRegion(null)
+      }
+    }
+  })
+  regions.on('region-clicked', (region, e) => {
+    e.stopPropagation() // prevent triggering a click on the waveform
+    setActiveRegion(region)
+    region.play(true)
+    region.setOptions({ color: randomColor() })
+  })
+  // Reset the active region when the user clicks anywhere in the waveform
+  ws.on('interaction', () => {
+    setActiveRegion(null)
   })
   }
 
   
+
+  useEffect(()=>{
+    setColor(randomColor())
+  }, [])
+
+
   return (
     <>
-    <div id="audioWorkshopWavesurfer">
+
+    {/* <input type='checkbox' id='repeat' checked={loop} onChange={
+      ()=>{
+        setLoop(!loop)
+      }
+    }></input><label for='repeat'>Loop All Selections</label> */}
       <WavesurferPlayer
         plugins={plugins}
         height={100}
         cursorColor='pink'
-        waveColor="violet"
+        waveColor={color}
         progressColor="#6d466c"
         url={audio}
         onReady={onReady}
@@ -99,7 +117,7 @@ const WS = ({audio, id}) => {
       <button onClick={onPlayPause}>
         {isPlaying ? 'Pause' : 'Play'}
       </button>
-      </div>
+
     </>
   )
 }

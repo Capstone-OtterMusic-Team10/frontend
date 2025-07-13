@@ -6,7 +6,7 @@ import DragAndDrop from './DragAndDrop'
 import DrumComp from './DrumComp'
 const AudioWorkShop = () =>{
 
-    const [audio, setAudio] = useState([audio1])
+    const [audio, setAudio] = useState([audio2])
     const [channels, setChannels] = useState(0)
     const [DrumChannels, setDrumChannels] = useState(0)
 

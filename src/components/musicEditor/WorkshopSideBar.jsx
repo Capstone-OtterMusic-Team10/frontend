@@ -1,12 +1,10 @@
 import { useState, useRef } from "react";
 import audio1 from '../../assets/testtest.wav'
 import audio2 from '../../assets/lyria_2_2.wav'
-import MusicPlayer from "./MusicPlayer";
 
 const WorkshopSideBar = () =>{
     const [myAudios, setMyAudios] = useState([audio1, audio2])
     const [cutStart, setCutStart] = useState(0)
-    const [cutEnd, setCutEnd] = useState(0)
 
     const [selectedAudio, setSelectedAudio] = useState()
     const audioRef = useRef()
@@ -28,7 +26,7 @@ const WorkshopSideBar = () =>{
             {
                 selectedAudio && selectedAudio!=="default" ?
                 <>
-                    <MusicPlayer audio={selectedAudio} ref={audioRef}/>
+                    
                     <div className="cutButtons">
                         <button onClick={()=> {
                             

@@ -6,10 +6,10 @@ import DragAndDrop from './DragAndDrop'
 import DrumComp from './DrumComp'
 const AudioWorkShop = () =>{
 
-    const [audio, setAudio] = useState([audio2])
+    // const [audio, setAudio] = useState([audio2])
     const [channels, setChannels] = useState(0)
     const [DrumChannels, setDrumChannels] = useState(0)
-
+    const audio = [audio2, audio1]
     // const loadAudioBuffer = async (url, audioContext) => {
     //     const response = await fetch(url);
     //     const arrayBuffer = await response.arrayBuffer();
@@ -66,16 +66,15 @@ const AudioWorkShop = () =>{
                 )
             }
             {
-                Array.from({length: channels}).map((_, id)=>(
-                    <DragAndDrop/>
+                Array.from({ length: channels }).map((_, id) => (
+                    <DragAndDrop key={`drag-${id}`} />
                 ))
             }
             {
-                Array.from({length: DrumChannels}).map((_, id)=>(
-                    <DrumComp/>
+                Array.from({ length: DrumChannels }).map((_, id) => (
+                    <DrumComp key={`drum-${id}`} />
                 ))
             }
-
         </div>
         
         </>

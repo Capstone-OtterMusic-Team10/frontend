@@ -149,7 +149,7 @@ const DrumComp = () =>{
                     onDoubleClick={()=>clearPart(part.id)}>
                         {
                             part.sound.map((snd, id) =>(
-                                <p className="drumList">{snd}</p>
+                                <p className="drumList" key={id}>{snd}</p>
                             ))
                         }
                     </div>

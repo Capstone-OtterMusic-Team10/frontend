@@ -1,19 +1,19 @@
-import { useState, useRef } from "react";
-import audio1 from '../../assets/testtest.wav'
-import audio2 from '../../assets/lyria_2_2.wav'
+// import { useState, useRef } from "react";
+// import audio1 from '../../assets/testtest.wav'
+// import audio2 from '../../assets/lyria_2_2.wav'
 
 const WorkshopSideBar = () =>{
-    const [myAudios, setMyAudios] = useState([audio1, audio2])
-    const [cutStart, setCutStart] = useState(0)
+    // const [myAudios, setMyAudios] = useState([audio1, audio2])
+    // const [cutStart, setCutStart] = useState(0)
 
-    const [selectedAudio, setSelectedAudio] = useState()
-    const audioRef = useRef()
+    // const [selectedAudio, setSelectedAudio] = useState()
+    // const audioRef = useRef()
 
-    const defaultSelect = "-- Select an audio file to work with --"
+    // const defaultSelect = "-- Select an audio file to work with --"
 
     return (
         <>
-        <div id="workshopSideBar">
+        {/* <div id="workshopSideBar">
             <div id="sideBarContent">
             <select defaultValue="default" value={selectedAudio} onChange={e=>setSelectedAudio(e.target.value)}>
             <option value="default">{defaultSelect}</option>
@@ -39,7 +39,7 @@ const WorkshopSideBar = () =>{
                 <p>None selected</p>
             }
             </div>
-        </div>
+        </div> */}
         </>
     )
 }

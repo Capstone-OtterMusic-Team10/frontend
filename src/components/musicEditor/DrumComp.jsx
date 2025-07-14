@@ -4,15 +4,37 @@ import kick from "../../assets/music/kick.wav";
 import snare from "../../assets/music/snare.wav";
 import hihat from "../../assets/music/hihat.wav";
 import wacky_kick from "../../assets/music/wacky_kick.wav";
+import Chrome_Clap from "../../assets/music/Chrome_Clap.wav"
+import Chrome_Kick from "../../assets/music/Chrome_Kick.wav"
+import Chrome_Hat from "../../assets/music/Chrome_Hat.wav"
+import Chrome_Snare from "../../assets/music/Chrome_Snare.wav"
+import Chrome_Tom from "../../assets/music/Chrome_Tom.wav"
+import Flex_Tom from "../../assets/music/808_Flex_Tom.wav"
+import Flex_Hat from "../../assets/music/808_Flex_Hat.wav"
+import Flex_Snare from "../../assets/music/808_Flex_Snare.wav"
+import Flex_Clap from "../../assets/music/808_Flex_Clap.wav"
+import Flex_Kick from "../../assets/music/808_Flex_Kick.wav"
+import Arcade_Frenzy_Snare from "../../assets/music/Arcade_Frenzy_Snare.wav"
+import Arcade_Frenzy_Kick from "../../assets/music/Arcade_Frenzy_Kick.wav"
+import Arcade_Frenzy_Tom from "../../assets/music/Arcade_Frenzy_Tom.wav"
+import Arcade_Frenzy_Hat from "../../assets/music/Arcade_Frenzy_Hat.wav"
+import Arcade_Frenzy_Clap from "../../assets/music/Arcade_Frenzy_Clap.wav"
 import {Play, Pause, Trash2} from  "lucide-react"
 const DrumComp = () =>{
     const [isPlaying, setIsPlaying] = useState(false)
     const [pickedDrum, setPickedDrum] = useState(null)
+    const [preset, setPreset] = useState("default")
     const [parts, setParts] = useState()
     const [vol, setVol] = useState(0)
     const [bpm, setBpm] = useState(150)
-
-    const drumNames = ["kick", "snare", "hihat", "wacky_kick"];
+    const presets = [
+        "Arcade_Frenzy","default","808","Chrome"
+    ]
+    const drumNames = {
+        "default":["kick", "snare", "hihat", "wacky_kick"],
+        "808": ['Flex_Tom', 'Flex_Snare', 'Flex_Hat', 'Flex_Clap', 'Flex_Kick'],
+        "Arcade_Frenzy": ['Arcade_Frenzy_Snare', 'Arcade_Frenzy_Kick', 'Arcade_Frenzy_Tom', 'Arcade_Frenzy_Hat', 'Arcade_Frenzy_Clap'],
+        "Chrome": ['Chrome_Clap', 'Chrome_Kick', 'Chrome_Hat', 'Chrome_Snare', 'Chrome_Tom']};
 
     const players = useRef(null)
     const sequence = useRef(null)
@@ -25,6 +47,7 @@ const DrumComp = () =>{
         }
     }   
     const play = (type) =>{
+        console.log(type)
         setPickedDrum(type)
         Tone.loaded().then(() => {
             players.current.player(type).start();
@@ -97,7 +120,7 @@ const DrumComp = () =>{
             setParts(updatedParts)
         }
         
-        useEffect(()=>{
+    useEffect(()=>{
             setParts(
                 Array.from({ length: 16 }, (_, i) => ({
                     id: i + 1,
@@ -105,28 +128,60 @@ const DrumComp = () =>{
                 }))
             )
             volume.current = new Tone.Volume(vol).toDestination();
-            players.current = new Tone.Players(
-                {
-                    kick: kick,
-                    hihat: hihat,
-                    snare: snare,
-                    wacky_kick: wacky_kick
-                }
-            ).connect(volume.current);
-        }, [])
+            console.log(preset)
+            preset === "Arcade_Frenzy"?
+                players.current = new Tone.Players(
+                    {
+                        Arcade_Frenzy_Kick,
+                        Arcade_Frenzy_Hat,
+                        Arcade_Frenzy_Snare,
+                        Arcade_Frenzy_Clap,
+                        Arcade_Frenzy_Tom
+                    }
+                ).connect(volume.current)
+            : preset === "808"?
+             players.current = new Tone.Players(
+                    {
+                        Flex_Kick,
+                        Flex_Hat,
+                        Flex_Snare,
+                        Flex_Clap,
+                        Flex_Tom
+                    }
+                ).connect(volume.current)
+            : preset === "Chrome"?
+             players.current = new Tone.Players(
+                    {
+                        Chrome_Kick,
+                        Chrome_Hat,
+                        Chrome_Snare,
+                        Chrome_Clap,
+                        Chrome_Tom
+                    }
+                ).connect(volume.current)
+                :
+                 players.current = new Tone.Players(
+                    {
+                        kick,
+                        hihat,
+                        snare,
+                        wacky_kick
+                    }
+                ).connect(volume.current)
+        }, [preset])
 
     useEffect(()=>{
         playSequence()
-        console.log(parts)
     }, [parts])
     const pickedStyle = {
         backgroundColor: "blue",
         color: "white"
     }
     return (
+
         <div id="drumSection">
         {
-            drumNames.map((drum, idx)=>(
+            drumNames[preset].map((drum, idx)=>(
                 <button style={drum === pickedDrum ? pickedStyle : {}} key={idx} onClick={()=>play(drum)}>{drum}</button>
             ))
         }
@@ -134,6 +189,11 @@ const DrumComp = () =>{
         onChange={(e)=>changeVolume(parseInt(e.target.value, 10))}></input>
         <label for="drumBPM">BPM:</label> <input id="drumBPM" type="range" min="50" max="200" step="1" value={bpm}
         onChange={(e)=>setBpm(e.target.value)}></input>
+         <select value={preset} onChange={e=>setPreset(e.target.value)}>
+            {presets.map((preset)=>(
+                <option value={preset}>{preset}</option>
+            ))}
+        </select>
         <div id="drums">
             <div className="p-4">
             {isPlaying ?

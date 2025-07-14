@@ -11,17 +11,17 @@ const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.3)`
 
 
-const WS = ({audio, id}) => {
+const WS = ({audio, id, cutOuts, setCutOuts}) => {
   const [wavesurfer, setWavesurfer] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [color, setColor] = useState()
   
   const [loop, setLoop] = useState(true)
   const [activeRegion, setActiveRegion] = useState(null)
-  const [regions, setRegions] = useState(RegionsPlugin.create({contentEditable: true}))
+  const [regions] = useState(() => RegionsPlugin.create({ contentEditable: true }));
   const [editRegion, setEditRegion] = useState(null)
 
-  const [cutOuts, setCutOuts] = useState([])
+  
   const regionColor =randomColor()
   const onPlayPause = () => {
     wavesurfer && wavesurfer.playPause()
@@ -157,7 +157,7 @@ const WS = ({audio, id}) => {
       const end = Math.floor(activeRegion.end * sampleRate)
       // console.log(initialBuffer)
       const cutLength = end - start;
-      // const newLength = initialBuffer.length - cutLength;
+      // const newLength = initialBuffer.length - cutLength; -- this was done before to cut regions OUT and leave the rest
 
       const audioCtx = new (window.AudioContext)();
       const newBuffer = audioCtx.createBuffer(
@@ -226,12 +226,12 @@ const WS = ({audio, id}) => {
       </input>Loop Region
       </div>
     }
-    {
-      cutOuts && cutOuts.map((sample, _)=>(
+    {/* {
+      cutOuts && cutOuts.map((sample)=>(
         <audio controls src={sample}></audio>
 
       ))
-    }
+    } */}
     </>
   )
 }

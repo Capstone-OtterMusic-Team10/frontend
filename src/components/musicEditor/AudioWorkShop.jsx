@@ -1,4 +1,4 @@
-import audio1 from '../../assets/testtest.wav'
+// import audio1 from '../../assets/testtest.wav'
 import audio2 from '../../assets/lyria_2_2.wav'
 import { useState } from 'react'
 import WS from './MyWaveSurfer'
@@ -9,7 +9,8 @@ const AudioWorkShop = () =>{
     // const [audio, setAudio] = useState([audio2])
     const [channels, setChannels] = useState(0)
     const [DrumChannels, setDrumChannels] = useState(0)
-    const audio = [audio2, audio1]
+    const audio = [audio2]
+    const [cutOuts, setCutOuts] = useState([])
     // const loadAudioBuffer = async (url, audioContext) => {
     //     const response = await fetch(url);
     //     const arrayBuffer = await response.arrayBuffer();
@@ -61,9 +62,16 @@ const AudioWorkShop = () =>{
             {
                audio && audio.map((song, id)=>
                 <div id="audioWorkshopWavesurfer">
-                    <WS audio={song} id={id} key={id}/>
+                    <WS audio={song} id={id} key={id} cutOuts={cutOuts} setCutOuts={setCutOuts}/>
                 </div>
                 )
+            }
+            {
+                cutOuts && cutOuts.map((sample, id)=>(
+                    <div id="audioWorkshopWavesurfer">
+                    <WS audio={sample} id={id} key={id} cutOuts={cutOuts} setCutOuts={setCutOuts}/>
+                    </div>
+                ))
             }
             {
                 Array.from({ length: channels }).map((_, id) => (

@@ -61,7 +61,7 @@ const AudioWorkShop = () =>{
             {
                audio && audio.map((song, id)=>
                 <div id="audioWorkshopWavesurfer">
-                    <WS audio={song} id={id}/>
+                    <WS audio={song} id={id} key={id}/>
                 </div>
                 )
             }

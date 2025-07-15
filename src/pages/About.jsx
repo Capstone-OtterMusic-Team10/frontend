@@ -1,4 +1,4 @@
-import testtest from '../assets/testtest.mp3'
+import testtest from '../assets/testtest.wav'
 import Footer from '../components/Footer'
 import { useEffect } from 'react'
 

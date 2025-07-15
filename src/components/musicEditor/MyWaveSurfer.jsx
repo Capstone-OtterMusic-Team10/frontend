@@ -5,6 +5,7 @@ import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline.esm.js'
 import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 import Minimap from 'wavesurfer.js/dist/plugins/minimap.esm.js'
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom.esm.js'
+import * as Tone from "tone"
 
 
 const random = (min, max) => Math.random() * (max - min) + min
@@ -70,7 +71,10 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
       ws.play()
     })
     regions.on('region-in', (region) => {
+     
         setActiveRegion(region)
+
+        
     })
     regions.on('region-out', (region) => {
     if (activeRegion === region) {
@@ -148,7 +152,47 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
     return buffer;
   }
 
-  const cutOutRegionAndSave = ()=>{
+  const die = () =>{
+    const initialBuffer =  wavesurfer.getDecodedData()
+      const sampleRate = initialBuffer.sampleRate
+      
+      const start = Math.floor(activeRegion.start * sampleRate)
+      const end = Math.floor(activeRegion.end * sampleRate)
+      // console.log(initialBuffer)
+      const beforeLength = start;
+      const afterLength = initialBuffer.length - end
+      const newLength = beforeLength + afterLength; 
+
+      const audioCtx = new (window.AudioContext)();
+      const newBuffer = audioCtx.createBuffer(
+        initialBuffer.numberOfChannels,
+        newLength,
+        sampleRate
+      );
+
+      // console.log(newBuffer)
+      const channelBuffers = []
+  
+      for (let channel = 0; channel < initialBuffer.numberOfChannels; channel ++){
+        const originalChannelData = initialBuffer.getChannelData(channel)
+        const slicedChannelData = newBuffer.getChannelData(channel)
+        for (let i = 0; i < beforeLength; i++) {
+            slicedChannelData[i] = originalChannelData[i];
+        }
+        for (let i = 0; i < end; i++) {
+            slicedChannelData[i+beforeLength] = originalChannelData[end+i];
+        }
+         
+        channelBuffers.push(slicedChannelData)
+      } 
+      const wavData = audioBufferToWav(newBuffer.sampleRate, channelBuffers)
+      const blob = new Blob([wavData], { type: 'audio/wav' })
+      const url = URL.createObjectURL(blob)
+      setCutOuts((prevItems)=>[...prevItems, url])
+
+  }
+
+  const punch = ()=>{
 
       const initialBuffer =  wavesurfer.getDecodedData()
       const sampleRate = initialBuffer.sampleRate
@@ -182,10 +226,10 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
       const url = URL.createObjectURL(blob)
       setCutOuts((prevItems)=>[...prevItems, url])
       console.log(cutOuts)
-
       
   }
   
+
 
   useEffect(()=>{
     setColor(randomColor())
@@ -217,9 +261,9 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
     {editRegion&&
       <div>
       <p>Editing: {editRegion}</p>
-      <button>Cut Out</button>
-      <button onClick={cutOutRegionAndSave}>Cut Out & Save</button>
-      <button>Distort</button>
+      <button onClick={die}>Cut Out</button>
+      <button onClick={punch}>Cut Out & Save</button>
+
       <input type="checkbox" checked={loop} onChange={()=>{
           setLoop(!loop)
         }}>

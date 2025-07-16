@@ -4,8 +4,12 @@ import { useState } from 'react'
 import WS from './MyWaveSurfer'
 import DragAndDrop from './DragAndDrop'
 import DrumComp from './DrumComp'
+import { useNavigate } from 'react-router';
+
+
 const AudioWorkShop = () =>{
 
+    const navigate = useNavigate();
     // const [audio, setAudio] = useState([audio2])
     const [channels, setChannels] = useState(0)
     const [DrumChannels, setDrumChannels] = useState(0)
@@ -65,6 +69,10 @@ const AudioWorkShop = () =>{
 
     return (
         <>
+        <button id="backButton" onClick={() => navigate('/')}>
+        Back
+      </button>
+      
         <div id="EditPage">
             <button onClick={()=>setChannels(channels+1)
             }>Add Channel</button>

@@ -1,9 +1,9 @@
 import * as Tone from "tone"
 import { useState, useEffect, useRef } from "react";
-import kick from "../../assets/music/kick.wav";
-import snare from "../../assets/music/snare.wav";
-import hihat from "../../assets/music/hihat.wav";
-import wacky_kick from "../../assets/music/wacky_kick.wav";
+import Kick from "../../assets/music/kick.wav";
+import Snare from "../../assets/music/snare.wav";
+import Hihat from "../../assets/music/hihat.wav";
+import Wacky_kick from "../../assets/music/wacky_kick.wav";
 import Chrome_Clap from "../../assets/music/Chrome_Clap.wav"
 import Chrome_Kick from "../../assets/music/Chrome_Kick.wav"
 import Chrome_Hat from "../../assets/music/Chrome_Hat.wav"
@@ -31,7 +31,7 @@ const DrumComp = () =>{
         "Arcade_Frenzy","default","808","Chrome"
     ]
     const drumNames = {
-        "default":["kick", "snare", "hihat", "wacky_kick"],
+        "default":["Kick", "Snare", "Hihat", "Wacky Kick"],
         "808": ['Flex_Tom', 'Flex_Snare', 'Flex_Hat', 'Flex_Clap', 'Flex_Kick'],
         "Arcade_Frenzy": ['Arcade_Frenzy_Snare', 'Arcade_Frenzy_Kick', 'Arcade_Frenzy_Tom', 'Arcade_Frenzy_Hat', 'Arcade_Frenzy_Clap'],
         "Chrome": ['Chrome_Clap', 'Chrome_Kick', 'Chrome_Hat', 'Chrome_Snare', 'Chrome_Tom']};
@@ -162,10 +162,10 @@ const DrumComp = () =>{
                 :
                  players.current = new Tone.Players(
                     {
-                        kick,
-                        hihat,
-                        snare,
-                        wacky_kick
+                        Kick,
+                        Hihat,
+                        Snare,
+                        Wacky_kick
                     }
                 ).connect(volume.current)
         }, [preset])

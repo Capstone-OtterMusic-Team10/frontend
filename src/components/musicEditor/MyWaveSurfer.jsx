@@ -277,6 +277,7 @@ const WS = ({audio, id, setCutOuts}) => {
       <input type="checkbox" checked={loop} onChange={()=>{
         setLoop(!loop)
       }}></input>Loop Regions
+      <input type='range' step="0.05" min="0" value={rate} onChange={e=>setRate(e.target.value)} max="2"></input>{rate}
     {editRegion&&
       <div>
       <p>Editing: {editRegion}</p>

@@ -1,5 +1,5 @@
 // import audio1 from '../../assets/testtest.wav'
-import audio2 from '../../assets/lyria_2_2.wav'
+import audio2 from '../../assets/audio2.wav'
 import { useState } from 'react'
 import WS from './MyWaveSurfer'
 import DragAndDrop from './DragAndDrop'

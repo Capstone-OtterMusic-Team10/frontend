@@ -13,7 +13,7 @@ const WaveFormEditor = ({audioUrl}) =>{
 
         wavesurfer.current = WaveSurfer.create({
             container: waveformRef.current,  // Where to render the waveform
-            waveColor: '#aaa',               // Light grey for waveform
+            waveColor: '#ff5733',               // Light grey for waveform
             progressColor: '#333',           // Darker grey for playback progress
             backend: 'WebAudio',             // Use Web Audio API (required for buffer access)
             plugins: [

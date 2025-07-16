@@ -167,7 +167,7 @@ button:disabled {
   0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .filledPockets {
-  background-color: #f39bce;
+  background-color: #f3c69b;
   color: white;
   padding: 8px;
 
@@ -176,7 +176,7 @@ button:disabled {
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.2),
     0 4px 6px rgba(0, 0, 0, 0.1),
-    inset 4px 4px 6px rgba(247, 218, 243, 0.842),     /* bottom-right inner shadow */
+    inset 4px 4px 6px rgba(247, 244, 218, 0.842),     /* bottom-right inner shadow */
     inset -4px -4px 6px rgba(201, 32, 111, 0.3); /* top-left inner light */
 
 }
@@ -192,7 +192,7 @@ button:disabled {
     0 1px 2px rgba(0, 0, 0, 0.2),
     0 4px 6px rgba(0, 0, 0, 0.1),
     inset 4px 4px 6px rgba(218, 247, 243, 0.842),     /* bottom-right inner shadow */
-    inset -4px -4px 6px rgba(43, 32, 201, 0.3); /* top-left inner light */
+    inset -4px -4px 6px rgba(68, 11, 161, 0.3); /* top-left inner light */
 }
 
 // ================== Stretch ==================

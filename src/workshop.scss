@@ -146,7 +146,7 @@ button:disabled {
   padding: 20px;
 }
 
-.drumPockets {
+.drumPockets, .filledPockets, .allFilled {
   width: 70px;
   height: 70px;
   border-radius: 12px;
@@ -157,21 +157,43 @@ button:disabled {
   margin: 8px;
   font-weight: 600;
   color: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   font-size: 14px;
   text-align: center;
   padding: 8px;
   box-sizing: border-box;
+  transition: 0.4s ease-in-out all;
+  box-shadow:
+  0 1px 2px rgba(0, 0, 0, 0.2),
+  0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .filledPockets {
-  background-color: #5b57ab;
+  background-color: #f3c69b;
   color: white;
-  box-shadow: inset 0 0 2px 2px #151515;
   padding: 8px;
+
   box-sizing: border-box;
+  transform: translateY(-5px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    inset 4px 4px 6px rgba(247, 244, 218, 0.842),     /* bottom-right inner shadow */
+    inset -4px -4px 6px rgba(201, 32, 111, 0.3); /* top-left inner light */
+
 }
 
+.allFilled{
+  background-color: #9bc1f3;
+  color: white;
+  padding: 8px;
 
+  box-sizing: border-box;
+  transform: translateY(-5px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    inset 4px 4px 6px rgba(218, 247, 243, 0.842),     /* bottom-right inner shadow */
+    inset -4px -4px 6px rgba(68, 11, 161, 0.3); /* top-left inner light */
+}
 
 // ================== Stretch ==================
 
@@ -208,7 +230,9 @@ button:disabled {
 // .dropMp3-dragging{
 //   background-color: #212022;
 // }
-
+.trash{
+  cursor: pointer;
+}
 #backButton {
   position: absolute;
   top: 0px;

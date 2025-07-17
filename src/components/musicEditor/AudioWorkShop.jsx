@@ -1,5 +1,5 @@
 // import audio1 from '../../assets/testtest.wav'
-import audio2 from '../../assets/lyria_2_2.wav'
+import audio2 from '../../assets/audio2.wav'
 import { useState } from 'react'
 import WS from './MyWaveSurfer'
 import DragAndDrop from './DragAndDrop'
@@ -15,6 +15,17 @@ const AudioWorkShop = () =>{
     const [DrumChannels, setDrumChannels] = useState(0)
     const audio = [audio2]
     const [cutOuts, setCutOuts] = useState([])
+
+    // useEffect(()=>{
+    //    const blobs = localStorage.getItem("myBlobs")
+    //    console.log(blobs)
+    //    if (blobs){
+
+    //        const audios = JSON.parse(localStorage.getItem("myBlobs"))
+    //        const parsed = audios.map(x=> URL.createObjectURL(x))
+    //        console.log(parsed)
+    //    }
+    // }, [])
     // const loadAudioBuffer = async (url, audioContext) => {
     //     const response = await fetch(url);
     //     const arrayBuffer = await response.arrayBuffer();
@@ -70,14 +81,14 @@ const AudioWorkShop = () =>{
             {
                audio && audio.map((song, id)=>
                 <div id="audioWorkshopWavesurfer">
-                    <WS audio={song} id={id} key={id} cutOuts={cutOuts} setCutOuts={setCutOuts}/>
+                    <WS audio={song} id={id} key={id} setCutOuts={setCutOuts}/>
                 </div>
                 )
             }
             {
                 cutOuts && cutOuts.map((sample, id)=>(
                     <div id="audioWorkshopWavesurfer">
-                    <WS audio={sample} id={id} key={id} cutOuts={cutOuts} setCutOuts={setCutOuts}/>
+                    <WS audio={sample} id={id} key={id} setCutOuts={setCutOuts}/>
                     </div>
                 ))
             }

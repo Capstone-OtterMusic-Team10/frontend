@@ -5,23 +5,24 @@ import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline.esm.js'
 import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 import Minimap from 'wavesurfer.js/dist/plugins/minimap.esm.js'
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom.esm.js'
+import * as Tone from "tone"
 
 
 const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.3)`
 
 
-const WS = ({audio, id, cutOuts, setCutOuts}) => {
+const WS = ({audio, id, setCutOuts}) => {
   const [wavesurfer, setWavesurfer] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [color, setColor] = useState()
-  
+  const [rate, setRate] = useState(1)
   const [loop, setLoop] = useState(true)
   const [activeRegion, setActiveRegion] = useState(null)
   const [regions] = useState(() => RegionsPlugin.create({ contentEditable: true }));
   const [editRegion, setEditRegion] = useState(null)
 
-  
+
   const regionColor =randomColor()
   const onPlayPause = () => {
     wavesurfer && wavesurfer.playPause()
@@ -61,6 +62,7 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
 
   const onReady = (ws) => {
     setWavesurfer(ws)
+    ws.setPlaybackRate(rate);
     regions.enableDragSelection({
       contentEditable: true,
       color: regionColor,
@@ -70,7 +72,10 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
       ws.play()
     })
     regions.on('region-in', (region) => {
+     
         setActiveRegion(region)
+
+        
     })
     regions.on('region-out', (region) => {
     if (activeRegion === region) {
@@ -84,7 +89,6 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
   regions.on('region-clicked', (region, e) => {
     e.stopPropagation() // prevent triggering a click on the waveform
     setActiveRegion(region)
-    console.log(region)
     region.play(true)
     region.setOptions({ color: randomColor() })
     setEditRegion(region.id)
@@ -148,18 +152,63 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
     return buffer;
   }
 
-  const cutOutRegionAndSave = ()=>{
+  const saveBufferToUrl = (sampleRate, channelBuffers) =>{
+    const wavData = audioBufferToWav(sampleRate, channelBuffers)
+    const blob = new Blob([wavData], { type: 'audio/wav' })
+    const url = URL.createObjectURL(blob)
+    setCutOuts((prevItems)=>[...prevItems, url])
+    
+  }
 
-      const initialBuffer =  wavesurfer.getDecodedData()
+  const die = () =>{
+    const initialBuffer =  wavesurfer.getDecodedData()
       const sampleRate = initialBuffer.sampleRate
       
       const start = Math.floor(activeRegion.start * sampleRate)
       const end = Math.floor(activeRegion.end * sampleRate)
       // console.log(initialBuffer)
-      const cutLength = end - start;
-      // const newLength = initialBuffer.length - cutLength; -- this was done before to cut regions OUT and leave the rest
+      const beforeLength = start;
+      const afterLength = initialBuffer.length - end
+      const newLength = beforeLength + afterLength; 
 
       const audioCtx = new (window.AudioContext)();
+      const newBuffer = audioCtx.createBuffer(
+        initialBuffer.numberOfChannels,
+        newLength,
+        sampleRate
+      );
+
+      // console.log(newBuffer)
+      const channelBuffers = []
+  
+      for (let channel = 0; channel < initialBuffer.numberOfChannels; channel ++){
+        const originalChannelData = initialBuffer.getChannelData(channel)
+        const slicedChannelData = newBuffer.getChannelData(channel)
+        for (let i = 0; i < beforeLength; i++) {
+            slicedChannelData[i] = originalChannelData[i];
+        }
+        for (let i = 0; i < end; i++) {
+            slicedChannelData[i+beforeLength] = originalChannelData[end+i];
+        }
+         
+        channelBuffers.push(slicedChannelData)
+      } 
+      saveBufferToUrl(newBuffer.sampleRate, channelBuffers)
+
+
+  }
+
+  const punch = ()=>{
+
+      const initialBuffer =  wavesurfer.getDecodedData()
+      const sampleRate = initialBuffer.sampleRate
+      
+      const start = Math.floor(activeRegion.start * sampleRate)
+      const end = Math.floor(activeRegion.end * sampleRate) 
+
+      const cutLength = end - start;
+      const audioCtx = new (window.AudioContext)();
+
       const newBuffer = audioCtx.createBuffer(
         initialBuffer.numberOfChannels,
         cutLength,
@@ -177,25 +226,39 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
         }
         channelBuffers.push(slicedChannelData)
       } 
-      const wavData = audioBufferToWav(newBuffer.sampleRate, channelBuffers)
-      const blob = new Blob([wavData], { type: 'audio/wav' })
-      const url = URL.createObjectURL(blob)
-      setCutOuts((prevItems)=>[...prevItems, url])
-      console.log(cutOuts)
+      saveBufferToUrl(newBuffer.sampleRate, channelBuffers)
 
+      // console.log(cutOuts)
       
   }
   
 
+
   useEffect(()=>{
     setColor(randomColor())
   }, [])
+  useEffect(() => {
+  if (!wavesurfer) return;
 
+  const handleFinish = () => {
+    if (loop) {
+      wavesurfer.play();
+    }
+  };
+
+  wavesurfer.on("finish", handleFinish);
+
+  return () => {
+    wavesurfer.un("finish", handleFinish);
+  };
+}, [wavesurfer, loop]);
 
   return (
     <>
       <WavesurferPlayer
         plugins={plugins}
+        
+        loop = {loop}
         height={100}
         cursorColor='pink'
         waveColor={color}
@@ -214,12 +277,13 @@ const WS = ({audio, id, cutOuts, setCutOuts}) => {
       <input type="checkbox" checked={loop} onChange={()=>{
         setLoop(!loop)
       }}></input>Loop Regions
+      <input type='range' step="0.05" min="0" value={rate} onChange={e=>setRate(e.target.value)} max="2"></input>{rate}
     {editRegion&&
       <div>
       <p>Editing: {editRegion}</p>
-      <button>Cut Out</button>
-      <button onClick={cutOutRegionAndSave}>Cut Out & Save</button>
-      <button>Distort</button>
+      <button onClick={die}>Cut Out</button>
+      <button onClick={punch}>Cut Out & Save</button>
+
       <input type="checkbox" checked={loop} onChange={()=>{
           setLoop(!loop)
         }}>

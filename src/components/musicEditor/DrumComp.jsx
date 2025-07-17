@@ -20,6 +20,8 @@ import Arcade_Frenzy_Tom from "../../assets/music/Arcade_Frenzy_Tom.wav"
 import Arcade_Frenzy_Hat from "../../assets/music/Arcade_Frenzy_Hat.wav"
 import Arcade_Frenzy_Clap from "../../assets/music/Arcade_Frenzy_Clap.wav"
 import {Play, Pause, Trash2} from  "lucide-react"
+
+
 const DrumComp = () =>{
     const [isPlaying, setIsPlaying] = useState(false)
     const [pickedDrum, setPickedDrum] = useState(null)

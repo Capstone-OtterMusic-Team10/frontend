@@ -15,7 +15,7 @@ const AudioWorkShop = () =>{
     const [DrumChannels, setDrumChannels] = useState(0)
     const audio = [audio2]
     const [cutOuts, setCutOuts] = useState([])
-    const [deleting, setDeleting] = useState(null)
+
     // useEffect(()=>{
     //    const blobs = localStorage.getItem("myBlobs")
     //    console.log(blobs)

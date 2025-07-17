@@ -5,7 +5,7 @@ import WS from './MyWaveSurfer'
 import DragAndDrop from './DragAndDrop'
 import DrumComp from './DrumComp'
 import { useNavigate } from 'react-router';
-
+import {Trash2} from "lucide-react"
 
 const AudioWorkShop = () =>{
 
@@ -15,7 +15,7 @@ const AudioWorkShop = () =>{
     const [DrumChannels, setDrumChannels] = useState(0)
     const audio = [audio2]
     const [cutOuts, setCutOuts] = useState([])
-
+    const [deleting, setDeleting] = useState(null)
     // useEffect(()=>{
     //    const blobs = localStorage.getItem("myBlobs")
     //    console.log(blobs)
@@ -66,6 +66,10 @@ const AudioWorkShop = () =>{
     //     source1.start(0);
     //     source2.start(0);
     // }
+    const deleteSample = (sample) =>{
+        const newCuts = cutOuts.filter(x=> x!= sample)
+        setCutOuts(newCuts)
+    }
 
     return (
         <>
@@ -88,7 +92,7 @@ const AudioWorkShop = () =>{
             {
                 cutOuts && cutOuts.map((sample, id)=>(
                     <div id="audioWorkshopWavesurfer">
-                    <WS audio={sample} id={id} key={id} setCutOuts={setCutOuts}/>
+                    <WS audio={sample} id={id} key={id} setCutOuts={setCutOuts}/> <Trash2 className="trash" color="grey" onClick={()=>deleteSample(sample)}/>
                     </div>
                 ))
             }

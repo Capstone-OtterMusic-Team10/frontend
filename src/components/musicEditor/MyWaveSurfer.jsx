@@ -62,7 +62,6 @@ const WS = ({audio, id, setCutOuts}) => {
 
   const onReady = (ws) => {
     setWavesurfer(ws)
-    ws.setPlaybackRate(rate);
     regions.enableDragSelection({
       contentEditable: true,
       color: regionColor,
@@ -99,6 +98,12 @@ const WS = ({audio, id, setCutOuts}) => {
     setActiveRegion(null)
   })
   }
+
+  useEffect(() => {
+    if (wavesurfer) {
+      wavesurfer.setPlaybackRate(rate);
+    }
+  }, [rate, wavesurfer]);
   // https://gist.github.com/Daninet/22edc59cf2aee0b9a90c18e553e49297   -- idk what is happening but I like it
   function audioBufferToWav(sampleRate, channelBuffers) {
     const totalSamples = channelBuffers[0].length * channelBuffers.length;
@@ -187,7 +192,7 @@ const WS = ({audio, id, setCutOuts}) => {
         for (let i = 0; i < beforeLength; i++) {
             slicedChannelData[i] = originalChannelData[i];
         }
-        for (let i = 0; i < end; i++) {
+        for (let i = 0; i < newLength; i++) {
             slicedChannelData[i+beforeLength] = originalChannelData[end+i];
         }
          
@@ -281,8 +286,8 @@ const WS = ({audio, id, setCutOuts}) => {
     {editRegion&&
       <div>
       <p>Editing: {editRegion}</p>
-      <button onClick={die}>Cut Out</button>
-      <button onClick={punch}>Cut Out & Save</button>
+      <button onClick={die}>Cut Out (Die)</button>
+      <button onClick={punch}>Cut Out (Punch)</button>
 
       <input type="checkbox" checked={loop} onChange={()=>{
           setLoop(!loop)

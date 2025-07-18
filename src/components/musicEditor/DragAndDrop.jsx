@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import { FileUp } from "lucide-react";
 import audioBufferToWav from '../../utils'
-
-const DragAndDrop  =() =>{
+import WS from "./MyWaveSurfer";
+const DragAndDrop  =({setCutOuts}) =>{
     const [mp3Files, setAudioFile] = useState([])
     const [isDragging, setIsDragging] = useState(false)
     const [concat, setConcat] = useState()
     const handleDrop = (e) =>{
         e.preventDefault()
         setIsDragging(false);
-        const file = e.dataTransfer.getData("audio-file");
+        let file = null
+       if (e.dataTransfer.files){
+            file = e.dataTransfer.getData("audio-file");
+            if (!file){
+                file = e.dataTransfer.files[0]
+            }
+        }
         console.log(file)
         if (file) {
             console.log('success')
@@ -90,7 +96,9 @@ const DragAndDrop  =() =>{
                     </>
                     )
                     :  concat ?
-                    <audio  controls src={concat} />
+
+                    <WS audio={concat} id={Date.now()} isSample={false} setCutOuts={setCutOuts}/>
+
                     :
                     <h4>🎼 Drag samples here</h4>
 

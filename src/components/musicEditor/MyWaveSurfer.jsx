@@ -250,12 +250,6 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
       </input>Loop Region
       </div>
     }
-    {/* {
-      cutOuts && cutOuts.map((sample)=>(
-        <audio controls src={sample}></audio>
-
-      ))
-    } */}
     </div>
     </>
   )

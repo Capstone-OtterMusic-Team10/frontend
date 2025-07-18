@@ -101,6 +101,21 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
   })
   }
 
+  useEffect(()=>{
+    const handleDelete = (e) =>{
+      if (!activeRegion){
+        return
+      }
+      if (e.key === "Delete"){
+        activeRegion.remove()
+        setActiveRegion(null)
+      }
+    }
+    window.addEventListener("keydown", handleDelete)
+    return () => {
+        window.removeEventListener("keydown", handleDelete)
+      }
+  }, [activeRegion])
   useEffect(() => {
     if (wavesurfer) {
       wavesurfer.setPlaybackRate(rate);
@@ -189,6 +204,11 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
   }
   
 
+  const handleFinish = () => {
+    if (loop) {
+      wavesurfer.play();
+    }
+  };
 
   useEffect(()=>{
     setColor(randomColor())
@@ -196,11 +216,6 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
   useEffect(() => {
   if (!wavesurfer) return;
 
-  const handleFinish = () => {
-    if (loop) {
-      wavesurfer.play();
-    }
-  };
 
   wavesurfer.on("finish", handleFinish);
 

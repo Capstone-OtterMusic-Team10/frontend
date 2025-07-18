@@ -1,23 +1,77 @@
 import { useEffect, useState } from "react";
 import { FileUp } from "lucide-react";
+import audioBufferToWav from '../../utils'
+
 const DragAndDrop  =() =>{
     const [mp3Files, setAudioFile] = useState([])
     const [isDragging, setIsDragging] = useState(false)
-
+    const [concat, setConcat] = useState()
     const handleDrop = (e) =>{
         e.preventDefault()
         setIsDragging(false);
-        const file = e.dataTransfer.files[0]
-        if (file && (file.type === "audio/mpeg" || file.name.endsWith(".mp3") || file.name.endsWith(".wav"))) {
-            const url = URL.createObjectURL(file);
-            console.log(url)
-            setAudioFile(prev=>[...prev, {name: file.name, url}])
+        const file = e.dataTransfer.getData("audio-file");
+        console.log(file)
+        if (file) {
+            console.log('success')
+            setAudioFile(prev=>[...prev, file])
         }
-
-        console.log(mp3Files)
     }
     useEffect(()=>{
         console.log(mp3Files)
+    }, [mp3Files])
+
+
+     const loadAudioBuffer = async (url, audioContext) => {
+        const response = await fetch(url);
+        const arrayBuffer = await response.arrayBuffer();
+        return await audioContext.decodeAudioData(arrayBuffer);
+    };
+
+    const combineBuffers = (buffers, sampleRate) =>{
+        const totalLength = buffers.reduce((sum, buf) => sum + buf.length, 0)
+        const numberOfChannels = buffers[0].numberOfChannels
+
+        const output = new AudioBuffer({
+            length: totalLength,
+            numberOfChannels,
+            sampleRate,
+        });
+
+        let offset = 0;
+        for (const buffer of buffers) {
+            for (let channel = 0; channel < numberOfChannels; channel++) {
+            output
+                .getChannelData(channel)
+                .set(buffer.getChannelData(channel), offset);
+            }
+            offset += buffer.length;
+        }
+
+        return output;
+    }
+
+   
+
+    useEffect(()=>{
+        const playConcat = async() =>{
+            const audioContext = new AudioContext();
+            const buffers = await Promise.all(
+                mp3Files.map((url) => loadAudioBuffer(url, audioContext))
+            );
+            console.log(`${buffers} - buffers`)
+            
+            const combinedBuffer = combineBuffers(buffers, audioContext.sampleRate)
+            const channelBuffers = []
+            for (let i = 0; i < combinedBuffer.numberOfChannels; i++) {
+                channelBuffers.push(combinedBuffer.getChannelData(i))
+            }
+            const wavBlob = audioBufferToWav(combinedBuffer.sampleRate, channelBuffers)
+            const blob = new Blob([wavBlob], { type: 'audio/wav' })
+            const blobURL = URL.createObjectURL(blob)
+            console.log(blobURL)
+            setConcat(blobURL)
+        }
+        playConcat()
     }, [mp3Files])
     return (
         <>
@@ -33,22 +87,17 @@ const DragAndDrop  =() =>{
                     (
                     <>
                         <FileUp/>
-                        <p>Drop files here</p> 
                     </>
                     )
+                    :  concat ?
+                    <audio  controls src={concat} />
                     :
-                    <h4>Drag and drop a track</h4>
-                }
+                    <h4>🎼 Drag samples here</h4>
+
+                }       
                 
             </div>
-            <ul> 
-                {mp3Files&& mp3Files.map((file, idx) => (
-                    <li key={idx}>{file.name}
-                    <audio controls src={file.url} />
-                    </li>
-                    
-                ))}
-            </ul>
+            
             {/* <button onClick={playFunc}>Play</button> */}
 
         </>

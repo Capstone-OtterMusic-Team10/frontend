@@ -31,14 +31,14 @@ const MusicChat = () =>{
                 chat: chatId,
                 bpm: BPM,
                 key: 0
-                })
+            })
         }else{
             response = await api.post("talk", {
                 prompt: prompt,
                 chat: chatId,
                 bpm: BPM,
                 key: 0
-                })
+            })
             setNewConvo(response.data.new_chat)
         }
         setNewMessage(response.data.message)
@@ -59,50 +59,50 @@ const MusicChat = () =>{
             navigate(`${newConvo}`);
         }
     }, [newConvo])
-    // Add BPM (slider), Key (dropdown), Weight (slider), volume, 
+    // Add BPM (slider), Key (dropdown), Weight (slider), volume,
     return (
         <>
             <div className="musicChatComponents">
                 <MusicChatSideBar chats={chat} setChat={setChat} />
                 <div id="myChat">
-                {chatId&&
-                            <Outlet context={{introduceNew, loadingASong, setLoadingASong, newMessage}}/>    
-                }
-                <div id="chatBox">
-                    <div id="musicSpecOPtions">
-                    <div>
-                        <label htmlFor="bpm">BPM </label>
-                        <input id="bpm" type="range" min="40" max="240" value={BPM} onChange={e=>setBPM(e.target.value)}></input>{BPM}
-                    </div>
-                    <div>
-                            <select id="music-key" name="musicKey" value={key} onChange={e=>{
-                                setKey(e.target.value)
+                    {chatId&&
+                        <Outlet context={{introduceNew, loadingASong, setLoadingASong, newMessage}}/>
+                    }
+                    <div id="chatBox">
+                        <div id="musicSpecOPtions">
+                            <div>
+                                <label htmlFor="bpm">BPM </label>
+                                <input id="bpm" type="range" min="40" max="240" value={BPM} onChange={e=>setBPM(e.target.value)}></input>{BPM}
+                            </div>
+                            <div>
+                                <select id="music-key" name="musicKey" value={key} onChange={e=>{
+                                    setKey(e.target.value)
 
                                 }}>
-                                <option value="0">Default / The model decides</option>
-                                <option value="1">C major / A minor</option>
-                                <option value="2">D♭ major / B♭ minor</option>
-                                <option value="3">D major / B minor</option>
-                                <option value="4">E♭ major / C minor</option>
-                                <option value="5">E major / C♯/D♭ minor</option>
-                                <option value="6">F major / D minor</option>
-                                <option value="7">G♭ major / E♭ minor</option>
-                                <option value="8">G major / E minor</option>
-                                <option value="9">A♭ major / F minor</option>
-                                <option value="10">A major / F♯/G♭ minor</option>
-                                <option value="11">B♭ major / G minor</option>
-                                <option value="12">B major / G♯/A♭ minor</option>
-                            </select>
+                                    <option value="0">Default / The model decides</option>
+                                    <option value="1">C major / A minor</option>
+                                    <option value="2">D♭ major / B♭ minor</option>
+                                    <option value="3">D major / B minor</option>
+                                    <option value="4">E♭ major / C minor</option>
+                                    <option value="5">E major / C♯/D♭ minor</option>
+                                    <option value="6">F major / D minor</option>
+                                    <option value="7">G♭ major / E♭ minor</option>
+                                    <option value="8">G major / E minor</option>
+                                    <option value="9">A♭ major / F minor</option>
+                                    <option value="10">A major / F♯/G♭ minor</option>
+                                    <option value="11">B♭ major / G minor</option>
+                                    <option value="12">B major / G♯/A♭ minor</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label htmlFor="bpm">Weight </label>
+                                <input id="bpm" min="0" max="2" step="0.1" value={weight} type="range" onChange={e=>setWeight(e.target.value)}></input> {weight}
+                            </div>
+                        </div>
+                        <textarea value={prompt} onKeyDown = {e=>handleKey(e)} onChange={e=>setPrompt(e.target.value)} className="customInput" placeholder="Type your message..."></textarea>
+                        <button id="otterButton" onClick={sendMessage}><img id="otterForButton" src={otter}></img></button>
                     </div>
-                     <div>
-                        <label htmlFor="bpm">Weight </label>
-                        <input id="bpm" min="0" max="2" step="0.1" value={weight} type="range" onChange={e=>setWeight(e.target.value)}></input> {weight}
-                    </div>
-                    </div>
-                    <textarea value={prompt} onKeyDown = {e=>handleKey(e)} onChange={e=>setPrompt(e.target.value)} className="customInput" placeholder="Type your message..."></textarea> 
-                    <button id="otterButton" onClick={sendMessage}><img id="otterForButton" src={otter}></img></button>          
                 </div>
-                </div>    
                 <button id="helpButton" onClick={() => alert("BPM = Beats Per Minute, or the tempo of the song.\nWeight = How strongly your input affects the output.")}>?</button>
 
             </div>

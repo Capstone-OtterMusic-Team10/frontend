@@ -22,6 +22,9 @@ const Navbar = () =>{
                     </button>
                 ) : (
                     <>
+                        <button className="navButtons" onClick={() => navigate('/music-mixer')}>
+                            Music Mixer
+                        </button>
                         <button className="navButtons" id="logIn" onClick={() => navigate('/login')}>
                             Login
                         </button>

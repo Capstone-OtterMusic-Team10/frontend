@@ -79,26 +79,26 @@ const AudioWorkShop = () =>{
       
         <div id="EditPage">
             <button onClick={()=>setChannels(channels+1)
-            }>Add Channel</button>
+            }>Add New Track Channel</button>
             <button onClick={()=>setDrumChannels(DrumChannels+1)
             }>Add Drum Channel</button>
             {
-               audio && audio.map((song, id)=>
-                <div id="audioWorkshopWavesurfer">
-                    <WS audio={song} id={id} key={id} setCutOuts={setCutOuts}/>
-                </div>
+                Array.from({ length: channels }).map((_, id) => (
+                    <DragAndDrop key={`drag-${id}`} setCutOuts={setCutOuts}/>
+                ))
+            }
+            {
+                audio && audio.map((song, id)=>
+                    
+                    <WS audio={song} id={id} key={id} isSample={false} setCutOuts={setCutOuts}/>
+                    
                 )
             }
             {
                 cutOuts && cutOuts.map((sample, id)=>(
-                    <div id="audioWorkshopWavesurfer">
-                    <WS audio={sample} id={id} key={id} setCutOuts={setCutOuts}/> <Trash2 className="trash" color="grey" onClick={()=>deleteSample(sample)}/>
-                    </div>
-                ))
-            }
-            {
-                Array.from({ length: channels }).map((_, id) => (
-                    <DragAndDrop key={`drag-${id}`} />
+                    <>
+                    <WS audio={sample} id={id} key={id} isSample={true} setCutOuts={setCutOuts}/> <Trash2 className="trash" color="grey" onClick={()=>deleteSample(sample)}/>
+                    </>
                 ))
             }
             {

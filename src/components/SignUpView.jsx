@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import githubLogo from '../assets/github-mark-white.png'
-import googleLogo from '../assets/web_light_rd_na.svg'
+import { useNavigate } from 'react-router-dom';
+import { api } from '../utils/api';  // Updated import to new api.js
+import githubLogo from '../assets/github-mark-white.png';
+import googleLogo from '../assets/web_light_rd_na.svg';
 
 const SignupView = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const SignupView = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
@@ -27,77 +28,84 @@ const SignupView = () => {
       return;
     }
 
-    //fake success for now
-    alert(`Signed up as ${form.username}`);
-    navigate('/home');
+    try {
+      const res = await api.post('/signup', {
+        username: form.username,
+        email: form.email,
+        password: form.password,
+      });
+      localStorage.setItem('token', res.data.token);
+      navigate('/home');
+    } catch (err) {
+      setError(err.response?.data?.error || 'Signup failed');
+    }
   };
 
   const handleOAuthSignup = (provider) => {
-    alert(`Redirecting to ${provider} signup...`);
-     //needs actual path
+    window.location.href = `http://localhost:5000/auth/${provider.toLowerCase()}`;
   };
 
   return (
-    <div className="signup-container">
-      <button id="backButton" onClick={() => navigate('/')}>
-        Back
-      </button>
+      <div className="signup-container">
+        <button id="backButton" onClick={() => navigate('/')}>
+          Back
+        </button>
 
-      <form onSubmit={handleSubmit}>
-        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          <h2>Sign Up</h2>
 
-        <div className="oauth-buttons">
-          <button type="button" className="oauth google" onClick={() => handleOAuthSignup('Google')}>
-            <img src={googleLogo} alt="Google" /> Sign up with Google
-          </button>
-          <button type="button" className="oauth github" onClick={() => handleOAuthSignup('GitHub')}>
-            <img src={githubLogo} alt="GitHub" /> Sign up with GitHub
-          </button>
-        </div>
+          <div className="oauth-buttons">
+            <button type="button" className="oauth google" onClick={() => handleOAuthSignup('Google')}>
+              <img src={googleLogo} alt="Google" /> Sign up with Google
+            </button>
+            <button type="button" className="oauth github" onClick={() => handleOAuthSignup('GitHub')}>
+              <img src={githubLogo} alt="GitHub" /> Sign up with GitHub
+            </button>
+          </div>
 
-        <hr style={{ margin: '1.5rem 0' }} />
+          <hr style={{ margin: '1.5rem 0' }} />
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={form.username}
-          onChange={handleChange}
-          required
-        /><br />
+          <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={form.username}
+              onChange={handleChange}
+              required
+          /><br />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        /><br />
+          <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              required
+          /><br />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        /><br />
+          <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              required
+          /><br />
 
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={form.confirmPassword}
-          onChange={handleChange}
-          required
-        /><br />
+          <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              required
+          /><br />
 
-        <button type="submit">Create Account</button>
-      </form>
-    </div>
+          <button type="submit">Create Account</button>
+        </form>
+      </div>
   );
 };
 

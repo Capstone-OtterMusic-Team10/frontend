@@ -1,5 +1,5 @@
 @use "sass:color";
-$base-purple: rgba(32, 5, 32, 0.438);
+$base-purple: rgba(32, 5, 32, 0.132);
 
 @mixin flex-column ($col: false, $center: false, $justify_center: false){
   display: flex;
@@ -16,7 +16,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
 
 }
 @mixin set_background($url){
-  background-color: #21252b;
+  background-color: #21252b89;
   background-image: url($url);
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -28,7 +28,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
 
 #EditPage{
   padding: 50px;
-  @include set_background('assets/spot.png');
+  @include set_background('assets/winter-blue-pink-gradient-background-vector_53876-117276.jpg');
 
 }
 #playButton{
@@ -42,20 +42,59 @@ $base-purple: rgba(32, 5, 32, 0.438);
   padding: 15px;
   width:fit-content;
   color: white;
-  border-radius: 20px;
+
+}
+
+button {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  margin: 6px;
+  gap: 10px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  background: #ffffffcc; 
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+button:hover {
+  background: #f0f0f0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: scale(0.98);
+  background: #e8e8e8;
+}
+
+button:disabled {
+  background: #ddd;
+  color: #999;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .audio-player button {
-  background: #444;
+  background-color: #6c63ff;
   color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 20px;
   border: none;
+  border-radius: 12px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .audio-player button:hover {
-  background: #666;
+   background-color: #574fd6;
 }
 .progress{
   width: 300px;
@@ -71,7 +110,7 @@ $base-purple: rgba(32, 5, 32, 0.438);
 
 #workshopSideBar{
   color: white;
-  background-color: rgb(95, 83, 100);
+  background-color: rgba(8, 7, 8, 0.749);
   position: absolute;
   right: 0px;
   width: fit-content;
@@ -88,18 +127,127 @@ $base-purple: rgba(32, 5, 32, 0.438);
     justify-content: space-evenly;
 }
 
+#audioWorkshopWavesurfer, .channel, .dropMp3, .dropMp3-dragging, #drums{
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding: 30px;
+  background: white;
+}
+#drums{
+  @include flex-column(false, true, false);
+  justify-content: space-evenly;
+}
+#stepGrid {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 10px;
+  padding: 20px;
+}
+
+.drumPockets, .filledPockets, .allFilled {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  background-color: #d5d7db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.4s ease-in-out all;
+  box-shadow:
+  0 1px 2px rgba(0, 0, 0, 0.2),
+  0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.filledPockets {
+  background-color: #f3c69b;
+  color: white;
+  padding: 8px;
+
+  box-sizing: border-box;
+  transform: translateY(-5px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    inset 4px 4px 6px rgba(247, 244, 218, 0.842),     /* bottom-right inner shadow */
+    inset -4px -4px 6px rgba(201, 32, 111, 0.3); /* top-left inner light */
+
+}
+
+.allFilled{
+  background-color: #9bc1f3;
+  color: white;
+  padding: 8px;
+
+  box-sizing: border-box;
+  transform: translateY(-5px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    inset 4px 4px 6px rgba(218, 247, 243, 0.842),     /* bottom-right inner shadow */
+    inset -4px -4px 6px rgba(68, 11, 161, 0.3); /* top-left inner light */
+}
 
 // ================== Stretch ==================
 
-.dropMp3, .dropMp3-dragging{
-  color: rgba(145, 141, 146, 0.479);
-  width: 50%;
-  height: 10vh;
-  background-color: #0f0f0f;
-  border-radius: 20px;
-  @include flex-column(true, true, true)
 
+.drumList{
+  margin-bottom: 2px;
+  font-size: 18px;
+  color: rgb(255, 255, 255);
 }
-.dropMp3-dragging{
-  background-color: #212022;
+#drumSection > button {
+  padding: 10px 18px;
+  margin: 6px;
+  border: none;
+  border-radius: 20px;
+  background: #ececec;
+  color: #373737;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
+#drumSection > button:hover {
+  background: #ffffff;
+}
+
+// {
+//   color: rgba(145, 141, 146, 0.479);
+//   width: 50%;
+//   height: 10vh;
+//   background-color: #0f0f0f;
+//   border-radius: 20px;
+//   @include flex-column(true, true, true)
+
+// }
+// .dropMp3-dragging{
+//   background-color: #212022;
+// }
+.trash{
+  cursor: pointer;
+}
+#backButton {
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #fcfcfc;
+  font-size: 1.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    background-color: #eee;
+    color: #000;
+  }
+}
+

@@ -6,7 +6,7 @@ import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 import Minimap from 'wavesurfer.js/dist/plugins/minimap.esm.js'
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom.esm.js'
 import audioBufferToWav from '../../utils'
-
+import { Play, Pause } from 'lucide-react'
 
 const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.3)`
@@ -21,7 +21,7 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
   const [activeRegion, setActiveRegion] = useState(null)
   const [regions] = useState(() => RegionsPlugin.create({ contentEditable: true, color: randomColor() }));
   const [editRegion, setEditRegion] = useState(null)
-
+  const [volume, setVolume] = useState(1)
 
   const handleDragStart = (e) =>{
     e.dataTransfer.setData("audio-file", audio)
@@ -213,6 +213,13 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
   useEffect(()=>{
     setColor(randomColor())
   }, [])
+
+  useEffect(() => {
+  if (wavesurfer) {
+    wavesurfer.setVolume(volume);
+  }
+}, [volume, wavesurfer]);
+
   useEffect(() => {
   if (!wavesurfer) return;
 
@@ -228,27 +235,39 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
     <>
     <div 
       id="audioWorkshopWavesurfer"
-      draggable
-      onDragStart={handleDragStart}>
-      <WavesurferPlayer
-        plugins={plugins}
-        
-        loop = {loop}
-        height={isSample?60:100}
-        cursorColor='pink'
-        waveColor={color}
-        progressColor="#6d466c"
-        url={audio}
-        onReady={onReady}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
+      >
+        <div id="draggable_area" draggable  onDragStart={handleDragStart}>
+        <WavesurferPlayer
+          plugins={plugins}
+          loop = {loop}
+          height={isSample?60:100}
+          cursorColor='pink'
+          waveColor={color}
+          progressColor="#6d466c"
+          url={audio}
+          onReady={onReady}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
       >
       </WavesurferPlayer>
+        </div>
+     
       <div className="timelines" id={`timeline-${id}`}></div>
       <button onClick={onPlayPause}>
-        {isPlaying ? 'Pause' : 'Play'}
+        {isPlaying ? <Pause color="gray" /> : <Play color="gray"/>}
       </button>
+      <input
+        type="range"
+        step="0.01"
+        min="0"
+        max="1"
+        value={volume}
+        onChange={e => {
+          setVolume(parseFloat(e.target.value))
+        }}
+      />
       
+      <span>Volume: {volume.toFixed(2)*100}</span><br></br>
       <input type="checkbox" checked={loop} onChange={()=>{
         setLoop(!loop)
       }}></input>Loop Regions

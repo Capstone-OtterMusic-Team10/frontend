@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState} from 'react';
 import Navbar from '../components/Navbar';
 import MusicClipSelector from '../components/mixer/MusicClipSelector';
 import TrackMixer from '../components/mixer/TrackMixer';

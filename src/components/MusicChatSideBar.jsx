@@ -15,7 +15,7 @@ const MusicChatSideBar = ({chats, setChat}) =>{
     const getChat = async() =>{
         const response = await api.get("chat")
         if (!response.data.message) {
-            setChat(response.data)
+            setChat(response.data.sort((a,b)=>b.id-a.id))
         }
     }
     const editChatName = async(event) =>{

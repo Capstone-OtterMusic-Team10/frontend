@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../utils/api';  // Updated import to new api.js
+import { api } from "../utils"
 import githubLogo from '../assets/github-mark-white.png';
 import googleLogo from '../assets/web_light_rd_na.svg';
 
@@ -15,7 +15,7 @@ const LoginView = () => {
         try {
             const res = await api.post('/login', { email, password });
             localStorage.setItem('token', res.data.token);
-            navigate('/home');
+            navigate('/');
         } catch (err) {
             setError(err.response?.data?.error || 'Login failed');
         }

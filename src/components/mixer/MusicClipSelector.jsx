@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './MusicClipSelector.css';
-
+import { api } from '../../utils';
 const MusicClipSelector = ({ onClipSelect, selectedClip }) => {
   const [musicFiles, setMusicFiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,14 +13,12 @@ const MusicClipSelector = ({ onClipSelect, selectedClip }) => {
   const fetchMusicFiles = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://127.0.0.1:5000/api/music-files');
-      
-      if (!response.ok) {
+      const response = await api.get('api/music-files');
+      if (!response.status === 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      const data = await response.json();
-      setMusicFiles(data.files || []);
+      setMusicFiles(response.data.files);
     } catch (err) {
       console.error('Error fetching music files:', err);
       setError('Failed to load music files. Please check your backend connection.');

@@ -183,13 +183,10 @@ const DrumComp = () =>{
         backgroundColor: "blue",
         color: "white"
     }
-     const handleDragStart = (e) =>{
-        // e.dataTransfer.setData("audio-file", audio)
-        // console.log(audio)
-    }
+
     return (
 
-        <div id="drumSection" draggable  onDragStart={handleDragStart}>
+        <div id="drumSection">
         {
             drumNames[preset].map((drum, idx)=>(
                 <button ref={divRef} style={drum === pickedDrum ? pickedStyle : {}}  key={idx} onClick={()=>play(drum)}>{drum}</button>

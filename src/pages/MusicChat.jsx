@@ -17,10 +17,11 @@ const MusicChat = () =>{
     const [newMessage, setNewMessage] = useState(null)
     const navigate = useNavigate()
     const {chatId} = useParams()
-
+    const jwtToken = localStorage.getItem("token")
     const handleKey = (e) =>{
         if (e.key == "Enter"){
             sendMessage()
+            getChat()
         }
     }
     const sendMessage = async()=>{
@@ -31,28 +32,45 @@ const MusicChat = () =>{
                 chat: chatId,
                 bpm: BPM,
                 key: 0
-                })
+                },
+                {
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    "Content-Type": "application/json"
+                }})
         }else{
             response = await api.post("talk", {
                 prompt: prompt,
                 chat: chatId,
                 bpm: BPM,
                 key: 0
-                })
+                },
+                {
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json'
+                }})
             setNewConvo(response.data.new_chat)
         }
         setNewMessage(response.data.message)
         setLoadingASong(true)
         setIntroduceNew(!introduceNew)
         setPrompt("")
+        getChat()
     }
     const getChat = async() =>{
-        const response = await api.get("chat")
+        console.log(jwtToken)
+        const response = await api.get("chat", {
+            headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json'
+                }
+        })
         setChat(response.data)
     }
-    useEffect(()=>{
-        getChat()
-    }, [prompt])
+    // useEffect(()=>{
+    //     getChat()
+    // }, [prompt])
 
     useEffect(()=>{
         if (newConvo) {

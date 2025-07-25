@@ -184,7 +184,6 @@ const DrumComp = () =>{
         color: "white"
     }
     return (
-
         <div id="drumSection">
         {
             drumNames[preset].map((drum, idx)=>(
@@ -232,11 +231,3 @@ const DrumComp = () =>{
 
 
 export default DrumComp
-
-
-                        {/* {
-                            part.sound.map((snd, id) =>(
-                                {pickedDrum===snd?}
-                                <p className="drumList" key={id}>{snd}</p>
-                            ))
-                        } */}

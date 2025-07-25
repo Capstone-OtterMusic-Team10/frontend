@@ -12,7 +12,7 @@ const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.3)`
 
 
-const WS = ({audio, id, setCutOuts, isSample}) => {
+const WS = ({audio, id, setCutOuts, isSample, isInChannel}) => {
   const [wavesurfer, setWavesurfer] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [color, setColor] = useState()
@@ -233,9 +233,8 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
 
   return (
     <>
-    <div 
-      id="audioWorkshopWavesurfer"
-      >
+    <div id="audioWorkshopWavesurfer">
+    {!isInChannel?
         <div id="draggable_area" draggable  onDragStart={handleDragStart}>
         <WavesurferPlayer
           plugins={plugins}
@@ -250,7 +249,25 @@ const WS = ({audio, id, setCutOuts, isSample}) => {
           onPause={() => setIsPlaying(false)}
       >
       </WavesurferPlayer>
-        </div>
+      </div>
+      :
+      <>
+        <WavesurferPlayer
+          plugins={plugins}
+          loop = {loop}
+          height={isSample?60:100}
+          cursorColor='pink'
+          waveColor={color}
+          progressColor="#6d466c"
+          url={audio}
+          onReady={onReady}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+      >
+      </WavesurferPlayer>
+      {/* <button>Add Another</button> */}
+      </>
+  }
      
       <div className="timelines" id={`timeline-${id}`}></div>
       <button onClick={onPlayPause}>

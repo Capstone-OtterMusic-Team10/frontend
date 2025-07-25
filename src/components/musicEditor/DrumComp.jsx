@@ -176,14 +176,16 @@ const DrumComp = () =>{
 
     useEffect(()=>{
         playSequence()
-    }, [parts])
+    }, [parts, bpm])
 
 
     const pickedStyle = {
         backgroundColor: "blue",
         color: "white"
     }
+
     return (
+
         <div id="drumSection">
         {
             drumNames[preset].map((drum, idx)=>(
@@ -192,7 +194,7 @@ const DrumComp = () =>{
         }
         <input type="range" min="-100" max="0" step="1" value={vol}
         onChange={(e)=>changeVolume(parseInt(e.target.value, 10))}></input>
-        <label htmlFor="drumBPM">BPM: {bpm}</label> <input id="drumBPM" type="range" min="50" max="200" step="1" value={bpm}
+        <label htmlFor="drumBPM">BPM: {bpm}</label> <input id="drumBPM" type="range" min="50" max="300" step="1" value={bpm}
         onChange={(e)=>setBpm(e.target.value)}></input>
          <select value={preset} onChange={e=>setPreset(e.target.value)}>
             {presets.map((preset)=>(
@@ -209,21 +211,14 @@ const DrumComp = () =>{
             </div>
             {
                 parts && parts.map((part, id)=>(
-
-                    
                         <div className={part.sound.includes(pickedDrum)?"filledPockets":part.sound[0] !=="pause"? "allFilled":"drumPockets"} key={id} id={id} 
                             onClick={()=>setPart(part.id)}
                             onDoubleClick={()=>clearPart(part.id)}>
                         </div>
                     )
-
-
-                    
                 )
             }
-            
             <Trash2 className="trash" color="grey" onClick={()=>clearDrums()}/>
-            
         </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router';
 import { api } from '../../utils';
 import { FileUp } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 const WorkshopSideBar = ({musicFiles, setPickedAudio}) =>{
     const navigate = useNavigate();

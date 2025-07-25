@@ -1,83 +1,47 @@
 // import audio1 from '../../assets/testtest.wav'
 import audio2 from '../../assets/audio2.wav'
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import WS from './MyWaveSurfer'
+import { api } from '../../utils';
 import DragAndDrop from './DragAndDrop'
 import DrumComp from './DrumComp'
-import { useNavigate } from 'react-router';
 import {Trash2} from "lucide-react"
+import WorkshopSideBar from './WorkshopSideBar'
 
 const AudioWorkShop = () =>{
-
-    const navigate = useNavigate();
-    // const [audio, setAudio] = useState([audio2])
+    const [musicFiles, setMusicFiles] = useState([]);
+    const [pickedAudio, setPickedAudio] = useState(audio2)
     const [channels, setChannels] = useState(0)
     const [DrumChannels, setDrumChannels] = useState(0)
-    const audio = [audio2]
     const [cutOuts, setCutOuts] = useState([])
 
-    // useEffect(()=>{
-    //    const blobs = localStorage.getItem("myBlobs")
-    //    console.log(blobs)
-    //    if (blobs){
-
-    //        const audios = JSON.parse(localStorage.getItem("myBlobs"))
-    //        const parsed = audios.map(x=> URL.createObjectURL(x))
-    //        console.log(parsed)
-    //    }
-    // }, [])
-    // const loadAudioBuffer = async (url, audioContext) => {
-    //     const response = await fetch(url);
-    //     const arrayBuffer = await response.arrayBuffer();
-    //     return await audioContext.decodeAudioData(arrayBuffer);
-    // };
-
-    // const playConcat = async() =>{
-    //     const audioContext = new AudioContext();
-    //     const buffers = await Promise.all(
-    //     audio.map((url) => loadAudioBuffer(url, audioContext))
-    //     );
-
-    //     let startTime = audioContext.currentTime;
-    //         for (const buffer of buffers) {
-    //             const source = audioContext.createBufferSource();
-    //             source.buffer = buffer;
-    //             source.connect(audioContext.destination);
-    //             source.start(startTime);
-    //             startTime += buffer.duration;
-    //         }
     
-    // }
-
-    // const playMerged = async () =>{
-    //     const audioContext = new AudioContext();
-
-    //     const audioBuffer1 = await loadAudioBuffer(audio1, audioContext);
-    //     const audioBuffer2 = await loadAudioBuffer(audio2, audioContext);
-
-    //     const source1 = audioContext.createBufferSource();
-    //     source1.buffer = audioBuffer1;
-    //     source1.connect(audioContext.destination);
-
-    //     const source2 = audioContext.createBufferSource();
-    //     source2.buffer = audioBuffer2;
-    //     source2.connect(audioContext.destination);
-
-    //     source1.start(0);
-    //     source2.start(0);
-    // }
+    const fetchMusicFiles = async () => {
+        try {
+            const response = await api.get('api/music-files');
+            if (!response.status === 200) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            console.log()
+            setMusicFiles(response.data.files);
+        } catch (err) {
+            console.error('Error fetching music files:', err);
+        }
+    };
     const deleteSample = (sample) =>{
         const newCuts = cutOuts.filter(x=> x!= sample)
         setCutOuts(newCuts)
     }
-
+    useEffect(() => {
+        fetchMusicFiles();
+    }, []);
+    console.log(pickedAudio)
     return (
         <>
-        <button id="backButton" onClick={() => navigate('/')}>
-        Back
-      </button>
       
         <div id="EditPage">
+        <WorkshopSideBar musicFiles={musicFiles} pickedAudio={pickedAudio} setPickedAudio={setPickedAudio}/>
+        <div id='editingSide'>
             <button onClick={()=>setChannels(channels+1)
             }>Add New Track Channel</button>
             <button onClick={()=>setDrumChannels(DrumChannels+1)
@@ -88,17 +52,13 @@ const AudioWorkShop = () =>{
                 ))
             }
             {
-                audio && audio.map((song, id)=>
-                    
-                    <WS audio={song} id={id} key={id} isSample={false} setCutOuts={setCutOuts}/>
-                    
-                )
+                <WS audio={pickedAudio} isSample={false} setCutOuts={setCutOuts}/> 
             }
             {
                 cutOuts && cutOuts.map((sample, id)=>(
-                    <>
+                <>
                     <WS audio={sample} id={id} key={id} isSample={true} setCutOuts={setCutOuts}/> <Trash2 className="trash" color="grey" onClick={()=>deleteSample(sample)}/>
-                    </>
+                </>
                 ))
             }
             {
@@ -107,7 +67,7 @@ const AudioWorkShop = () =>{
                 ))
             }
         </div>
-        
+        </div>
         </>
     )
 }

@@ -52,7 +52,7 @@ const WorkshopSideBar = ({musicFiles, setPickedAudio}) =>{
             {!jwtToken ?
                 <div className="no-files">
                     <p>No music clips found.</p>
-                    <p id='side-bar-text'><Link to="/signup">Sign up</Link > or <Link to="/login">Log in</Link > 
+                    <p id='side-bar-text'><Link to="/signup">Sign up </Link > or <Link to="/login">Log in </Link > 
                     to create music in the chat and get started.</p>
                     <p>Or, upload your own!</p>
                     <FileUp onClick={()=>uploadRef.current.click()}className="upload" color="white"/>

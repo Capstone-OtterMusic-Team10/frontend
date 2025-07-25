@@ -27,9 +27,29 @@ $base-purple: rgba(32, 5, 32, 0.132);
 /* =======================MusicEdit============================= */
 
 #EditPage{
-  padding: 50px;
+  padding: 30px;
+  @include flex-column(false, false, false);
+  justify-content: space-between;
   @include set_background('assets/winter-blue-pink-gradient-background-vector_53876-117276.jpg');
 
+}
+#sideBar{
+  overflow: auto;
+  width: 20%;
+  height: 100vh;
+  min-width: 350px;
+  padding: 10px;
+  background: rgba(129, 66, 134, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(46, 26, 46, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  scrollbar-color: #534c7962 transparent;
+}
+
+#editingSide{
+  width: 75%;
 }
 #playButton{
   background-color: rgb(15, 4, 15);
@@ -44,7 +64,25 @@ $base-purple: rgba(32, 5, 32, 0.132);
   color: white;
 
 }
+.musicSelect{
+  padding: 13px;
+  background: rgba(145, 233, 233, 0.2);
+  border-radius: 16px;
+  margin-top: 10px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 30px rgba(109, 206, 219, 0.1);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(53, 94, 87, 0.3);
+  transition: 0.3s ease-in-out all;
+}
 
+
+.musicSelect:hover{
+  transform: translateY(-3px);
+  background: rgba(184, 198, 214, 0.719);
+
+}
 button {
   display: inline-flex;
   flex-wrap: wrap;
@@ -69,6 +107,7 @@ button {
   border: 1px solid rgb(211, 211, 211);
   box-sizing: border-box;
   border-radius: 20px;
+  background: white;
 
 }
 button:hover {
@@ -138,7 +177,12 @@ button:disabled {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   padding: 30px;
-  background: white;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 #drums{
   @include flex-column(false, true, false);
@@ -223,23 +267,12 @@ button:disabled {
   background: #ffffff;
 }
 
-// {
-//   color: rgba(145, 141, 146, 0.479);
-//   width: 50%;
-//   height: 10vh;
-//   background-color: #0f0f0f;
-//   border-radius: 20px;
-//   @include flex-column(true, true, true)
 
-// }
-// .dropMp3-dragging{
-//   background-color: #212022;
-// }
-.trash{
+.trash, .upload{
   cursor: pointer;
 }
 #backButton {
-  position: absolute;
+  // position: absolute;
   top: 0px;
   left: 20px;
   padding: 0.5rem;
@@ -256,4 +289,5 @@ button:disabled {
     color: #000;
   }
 }
+
 

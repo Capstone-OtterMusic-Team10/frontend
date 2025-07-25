@@ -11,7 +11,7 @@ const DragAndDrop  =({setCutOuts}) =>{
         e.preventDefault()
         setIsDragging(false);
         let file = null
-       if (e.dataTransfer.files){
+        if (e.dataTransfer.files){
             file = e.dataTransfer.getData("audio-file");
             if (!file){
                 file = e.dataTransfer.files[0]

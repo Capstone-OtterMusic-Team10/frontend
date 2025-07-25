@@ -2,10 +2,24 @@ import testtest from '../assets/testtest.wav'
 import Footer from '../components/Footer'
 import { useEffect } from 'react'
 
+
+const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+        if (entry.isIntersecting){
+            entry.target.classList.add('show')
+        }else{
+            entry.target.classList.remove('show')
+        }
+    })
+})
+
+const hidden = document.querySelectorAll('.hidden')
+hidden.forEach(el=>observer.observe(el))
+
 const About = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    // }, [])
     return(
         <>
             <div id="aboutPage">
@@ -22,8 +36,8 @@ const About = () => {
                 more out of their own curiosities.
                 </p>
                 <div id="about-chat">
-                    <div className="chat user">Can you make LoFi beats for studying and concentration?</div>
-                    <div className="chat ai"><audio controls>
+                    <div className="chat user hidden">Can you make LoFi beats for studying and concentration?</div>
+                    <div className="chat ai hidden"><audio controls>
                         <source src={testtest} type="audio/mp3" />
                         Your browser does not support the audio element.
                     </audio></div>
@@ -31,11 +45,6 @@ const About = () => {
                 
  
             </div>
-            <Footer/>
-
-
-            
-
         </>
     )
 }

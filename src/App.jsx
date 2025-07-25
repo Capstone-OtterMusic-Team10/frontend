@@ -4,7 +4,7 @@ import MusicChat from './pages/MusicChat';
 import MusicSubChat from './pages/MusicSubChat';
 import MusicEdit from './pages/MusicEdit'
 import MusicMixer from './pages/MusicMixer';
-import HomeMainView from './components/HomeMainView';
+import HomeMainView from './pages/HomeMainView';
 import Login from './pages/Login';
 import LoginView from './components/LoginView';
 import Signup from './pages/SignUp';

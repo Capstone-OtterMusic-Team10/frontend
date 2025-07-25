@@ -98,7 +98,7 @@ const DragAndDrop  =({setCutOuts}) =>{
                     )
                     :  concat ?
                     <>
-                        <WS audio={concat} id={date.current} isSample={false} setCutOuts={setCutOuts}/>
+                        <WS audio={concat} id={date.current} isSample={false} setCutOuts={setCutOuts} isInChannel={true}/>
                     </>
 
                     :

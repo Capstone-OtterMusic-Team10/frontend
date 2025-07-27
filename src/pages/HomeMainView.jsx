@@ -2,7 +2,8 @@ import prototype from '../assets/prototype.png';
 import { Sparkles, Wrench } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import Footer from './Footer';
+import Footer from '../components/Footer';
+import About from './About';
 const HomeMainView = () =>{
     let navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -32,6 +33,7 @@ const HomeMainView = () =>{
                         </div>
                     </div>
                 </div>
+                <About/>
             </div>
             <Footer />
         </>

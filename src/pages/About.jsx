@@ -1,11 +1,26 @@
+import { useEffect, useState } from 'react'
 import testtest from '../assets/testtest.wav'
-import Footer from '../components/Footer'
-import { useEffect } from 'react'
-
+import DrumComp from '../components/musicEditor/DrumComp'
 const About = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0)
+    const [show, setShow] = useState(null)
+    const [callRandom, setCallRandom] = useState(false)
+
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            if (entry.isIntersecting){
+                setShow(true)
+                // entry.target.classList.add('show')
+            }else{
+                // entry.target.classList.remove('show')
+                setShow(false)
+            }
+        })
+    })
+    useEffect(()=>{
+        setShow(false)
     }, [])
+    const hidden = document.querySelectorAll('.hidden')
+    hidden.forEach(el=>observer.observe(el))
     return(
         <>
             <div id="aboutPage">
@@ -22,19 +37,22 @@ const About = () => {
                 more out of their own curiosities.
                 </p>
                 <div id="about-chat">
-                    <div className="chat user">Can you make LoFi beats for studying and concentration?</div>
-                    <div className="chat ai"><audio controls>
+                    <div className={`chat user ${show?"show":"hidden"}`}>Can you make LoFi beats for studying and concentration?</div>
+                    <div className={`chat ai ${show?"show":"hidden"}`}><audio controls>
                         <source src={testtest} type="audio/mp3" />
                         Your browser does not support the audio element.
                     </audio></div>
-                </div>
-                
- 
+                </div>     
             </div>
-            <Footer/>
+               
+            <div id="drumAbout">
+                
+                <h2>Choose the sound and populate the squares!<span id="dice" className={show?"show":"hiddenDice"} onClick={()=>setCallRandom(!callRandom)}>🎲</span></h2>
+                
+                <DrumComp isMini={true} callRandom={callRandom}/>
 
-
-            
+                * Double-click a square to remove its sound
+            </div>
 
         </>
     )

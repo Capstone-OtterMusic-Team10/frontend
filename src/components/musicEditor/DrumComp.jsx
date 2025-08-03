@@ -285,9 +285,11 @@ const DrumComp = ({isMini, callRandom}) =>{
             onChange={(e)=>setBpm(e.target.value)}></input>
         </>
         }
-         <select value={preset} onChange={e=>setPreset(e.target.value)}>
-            {presets.map((preset)=>(
-                <option value={preset}>{preset}</option>
+         <select value={preset} onChange={e => setPreset(e.target.value)}>
+            {presets.map((presetVal, index) => (
+                <option key={index} value={presetVal}>
+                    {presetVal}
+                </option>
             ))}
         </select>
         <div id="drums">
@@ -300,7 +302,7 @@ const DrumComp = ({isMini, callRandom}) =>{
             </div>
             {
                 parts && parts.map((part, id)=>(
-                        <div className={part.sound.includes(pickedDrum)?"filledPockets":part.sound[0] !=="pause"? "allFilled":"drumPockets"} key={id} id={id} 
+                        <div className={part.sound.includes(pickedDrum)?"filledPockets":part.sound[0] !=="pause"? "allFilled":"drumPockets"} key={part.id} id={id}
                             onClick={()=>setPart(part.id)}
                             onDoubleClick={()=>clearPart(part.id)}>
                         </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import testtest from '../assets/testtest.wav'
+import testtest from '../assets/audio2.wav'
 import DrumComp from '../components/musicEditor/DrumComp'
 const About = () => {
     const [show, setShow] = useState(null)

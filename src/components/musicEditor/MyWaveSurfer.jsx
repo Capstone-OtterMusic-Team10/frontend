@@ -291,7 +291,7 @@ const WS = ({audio, id, setCutOuts, isSample, isInChannel}) => {
       <input type='range' step="0.05" min="0" value={rate} onChange={e=>setRate(e.target.value)} max="2"></input>{rate}
     {editRegion&&
       <div>
-      <p>Editing: {editRegion}</p>
+      <p>Editing: <span id="editingRegion">{editRegion}</span></p>
       <button onClick={delRegion}>Delete Region</button>
       <button onClick={cutoutRegion}>Cutout Region</button>
 

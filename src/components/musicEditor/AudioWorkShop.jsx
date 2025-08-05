@@ -1,4 +1,3 @@
-// import audio1 from '../../assets/testtest.wav'
 import audio2 from '../../assets/audio2.wav'
 import { useState, useEffect } from 'react';
 import WS from './MyWaveSurfer'

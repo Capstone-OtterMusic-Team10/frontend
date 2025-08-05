@@ -33,6 +33,13 @@ $base-purple: rgba(32, 5, 32, 0.132);
   @include set_background('assets/winter-blue-pink-gradient-background-vector_53876-117276.jpg');
 
 }
+#editingRegion {
+  background-color: #9592cc;
+  color: white;
+  padding: 5px;
+  padding-inline: 10px;
+  border-radius: 20px;
+}
 #sideBar{
   overflow: auto;
   width: 20%;

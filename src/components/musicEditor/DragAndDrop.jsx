@@ -13,11 +13,13 @@ const DragAndDrop  =({setCutOuts}) =>{
         let file = null
         if (e.dataTransfer.files){
             file = e.dataTransfer.getData("audio-file");
-            if (!file){
-                file = e.dataTransfer.files[0]
+            console.log("First check ", typeof file)
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0 || file === ""){
+                console.log(e.dataTransfer.files)
+                file = URL.createObjectURL(e.dataTransfer.files[0]);
             }
         }
-        console.log(file)
+
         if (file) {
             console.log('success')
             setAudioFile(prev=>[...prev, file])
@@ -99,6 +101,7 @@ const DragAndDrop  =({setCutOuts}) =>{
                     :  concat ?
                     <>
                         <WS audio={concat} id={date.current} isSample={false} setCutOuts={setCutOuts} isInChannel={true}/>
+                        <button>Add Overlay Channel</button>
                     </>
 
                     :
@@ -107,9 +110,6 @@ const DragAndDrop  =({setCutOuts}) =>{
                 }       
                 
             </div>
-            
-            {/* <button onClick={playFunc}>Play</button> */}
-
         </>
     )
 }

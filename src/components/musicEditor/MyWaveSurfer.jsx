@@ -7,6 +7,7 @@ import Minimap from 'wavesurfer.js/dist/plugins/minimap.esm.js'
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom.esm.js'
 import audioBufferToWav from '../../utils'
 import { Play, Pause } from 'lucide-react'
+import { Download } from 'lucide-react'
 
 const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.3)`
@@ -210,6 +211,18 @@ const WS = ({audio, id, setCutOuts, isSample, isInChannel}) => {
     }
   };
 
+  const DownloadAudio = (audioURL) =>{
+    const link = document.createElement('a');
+    link.href = audioURL;
+
+    link.download = 'ottermusic_audio.mp3'; // Provide a default filename if none is given
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+  }
   useEffect(()=>{
     setColor(randomColor())
   }, [])
@@ -265,6 +278,7 @@ const WS = ({audio, id, setCutOuts, isSample, isInChannel}) => {
           onPause={() => setIsPlaying(false)}
       >
       </WavesurferPlayer>
+      <button onClick={()=>DownloadAudio(audio)}><Download color='grey'/></button>
       {/* <button>Add Another</button> */}
       </>
   }

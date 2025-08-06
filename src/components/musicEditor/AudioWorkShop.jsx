@@ -47,7 +47,7 @@ const AudioWorkShop = () =>{
             }>Add Drum Channel</button>
             {
                 Array.from({ length: channels }).map((_, id) => (
-                    <DragAndDrop key={`drag-${id}`} setCutOuts={setCutOuts}/>
+                    <DragAndDrop key={`drag-${id}`} cutOuts={cutOuts} setCutOuts={setCutOuts}/>
                 ))
             }
             {

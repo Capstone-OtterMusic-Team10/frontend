@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from "react";
-import { FileUp } from "lucide-react";
+import { FileUp, Trash2 } from "lucide-react";
 import audioBufferToWav from '../../utils'
 import WS from "./MyWaveSurfer";
+import DrumComp from "./DrumComp";
 const DragAndDrop  =({setCutOuts}) =>{
     const [mp3Files, setAudioFile] = useState([])
     const [isDragging, setIsDragging] = useState(false)
     const [concat, setConcat] = useState()
+    const [drumChnls, setDrumChnls] = useState([])
+
     const date = useRef(Date.now());
     const handleDrop = (e) =>{
         e.preventDefault()
@@ -59,8 +62,6 @@ const DragAndDrop  =({setCutOuts}) =>{
         return output;
     }
 
-   
-
     useEffect(()=>{
         const playConcat = async() =>{
             const audioContext = new AudioContext();
@@ -82,6 +83,7 @@ const DragAndDrop  =({setCutOuts}) =>{
         }
         playConcat()
     }, [mp3Files])
+    
     return (
         <>
             <div className={isDragging?"dropMp3-dragging":"dropMp3"}
@@ -101,7 +103,29 @@ const DragAndDrop  =({setCutOuts}) =>{
                     :  concat ?
                     <>
                         <WS audio={concat} id={date.current} isSample={false} setCutOuts={setCutOuts} isInChannel={true}/>
-                        <button>Add Overlay Channel</button>
+                        {
+                            drumChnls.map((_, indx)=>(
+                                <div key={indx}>
+                                    <DrumComp/><Trash2 color="red" onClick={()=>{
+                                        let holder = drumChnls
+                                        holder.pop(indx-1)
+                                        setDrumChnls(holder)
+                                    }}/>
+                                </div>
+                            )
+                        )
+                        }
+                        <button onClick={()=>{
+                            let holder = [...drumChnls];
+                            console.log(drumChnls);
+                            if (holder.length === 0) {
+                                holder.push(0);
+                            } else {
+                                holder.push(holder[holder.length - 1] + 1);
+                            }
+                            setDrumChnls(holder);
+                            console.log(holder);
+                        }}>Add Drum Channel</button>
                     </>
 
                     :

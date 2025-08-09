@@ -11,7 +11,7 @@ const AudioWorkShop = () =>{
     const [musicFiles, setMusicFiles] = useState([]);
     const [pickedAudio, setPickedAudio] = useState(audio2)
     const [channels, setChannels] = useState([])
-    const [DrumChannels, setDrumChannels] = useState(0)
+    const [DrumChannels, setDrumChannels] = useState([])
     const [cutOuts, setCutOuts] = useState([])
 
     
@@ -50,7 +50,15 @@ const AudioWorkShop = () =>{
             }
             setChannels(holder)}
             }>Add New Track Channel</button>
-            <button onClick={()=>setDrumChannels(DrumChannels+1)
+            <button onClick={()=>{
+                let holder = [...DrumChannels]
+                if (holder.length === 0) {
+                    holder.push(0);
+                } else {
+                    holder.push(holder[holder.length - 1] + 1);
+                }
+                setDrumChannels(holder)
+            }
             }>Add Drum Channel</button>
             {
                 channels.map((_, id) => (
@@ -77,9 +85,15 @@ const AudioWorkShop = () =>{
                 ))
             }
             {
-                Array.from({ length: DrumChannels }).map((_, id) => (
+                DrumChannels.map((_, id) => (
+                    <div className='inLineSimpleDiv'>
                     <DrumComp key={`drum-${id}`} />
-
+                    <Trash2 color="grey" onClick={()=>{
+                        let holder = [...DrumChannels]
+                        holder.pop(id-1)
+                        setDrumChannels(holder)
+                    }}/>
+                    </div>
                 ))
             }
         </div>

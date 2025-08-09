@@ -36,13 +36,6 @@ const WorkshopSideBar = ({musicFiles, setPickedAudio}) =>{
 
 
     }
-    // useEffect(()=>{
-    //     const stored = localStorage.getItem("myBlobKey");
-    //     console.log(stored)
-    //     if (stored) {
-    //         setPickedAudio(stored); // it's already a valid `src` for audio
-    //     }
-    // }, [])
     return (
         <div id="sideBar">
             <button id="backButton" onClick={() => navigate('/')}>

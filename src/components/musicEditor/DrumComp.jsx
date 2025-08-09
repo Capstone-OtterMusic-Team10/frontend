@@ -19,7 +19,7 @@ import Arcade_Frenzy_Kick from "../../assets/music/Arcade_Frenzy_Kick.wav"
 import Arcade_Frenzy_Tom from "../../assets/music/Arcade_Frenzy_Tom.wav"
 import Arcade_Frenzy_Hat from "../../assets/music/Arcade_Frenzy_Hat.wav"
 import Arcade_Frenzy_Clap from "../../assets/music/Arcade_Frenzy_Clap.wav"
-import {Play, Pause, Trash2} from  "lucide-react"
+import {Play, Pause, Eraser} from  "lucide-react"
 
 
 const DrumComp = ({isMini, callRandom}) =>{
@@ -309,7 +309,7 @@ const DrumComp = ({isMini, callRandom}) =>{
                         )
                     )
                 }
-                <Trash2 className="trash" color={isMini?"white":"grey"} onClick={()=>clearDrums()}/>
+                <Eraser title="Clear" className="trash" color={isMini?"white":"grey"} onClick={()=>clearDrums()}/>
             </div>
             
         </div>

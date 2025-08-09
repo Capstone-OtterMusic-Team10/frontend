@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { FileUp, Trash2 } from "lucide-react";
+import { Download, FileUp, Trash2 } from "lucide-react";
 import audioBufferToWav from '../../utils'
 import WS from "./MyWaveSurfer";
 import DrumComp from "./DrumComp";
 const DragAndDrop  =({setCutOuts}) =>{
     const [mp3Files, setAudioFile] = useState([])
-    // const [mp3FilesLayer, setAudioFileLayer] = useState([])
+    const [mp3FilesLayer, setAudioFileLayer] = useState([])
     const [isDragging, setIsDragging] = useState(false)
     const [concat, setConcat] = useState()
     const [drumChnls, setDrumChnls] = useState([])
@@ -34,12 +34,36 @@ const DragAndDrop  =({setCutOuts}) =>{
         }
     }
 
-    // concat
-        // const playMerged = async () =>{
-    //     const audioContext = new AudioContext();
+    const handleMergeDrop = (e) =>{
+        e.stopPropagation()
+        e.preventDefault()
+        setIsDragging(false);
+        let file = null
+        if (e.dataTransfer.files){
+            file = e.dataTransfer.getData("audio-file");
+            console.log("First check ", typeof file)
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0 || file === ""){
+                console.log(e.dataTransfer.files)
+                file = URL.createObjectURL(e.dataTransfer.files[0]);
+            }
+        }
 
-    //     const audioBuffer1 = await loadAudioBuffer(audio1, audioContext);
-    //     const audioBuffer2 = await loadAudioBuffer(audio2, audioContext);
+        if (file) {
+            console.log('success')
+            setAudioFileLayer(prev=>[...prev, file])
+        }
+    }
+
+    // concat
+    // const playMerged = async () =>{
+    //     const audioContext = new AudioContext();
+    //     let audioBuffers = [concat]
+    //     // const audioBuffer1 = await loadAudioBuffer(audio1, audioContext);
+    //     // const audioBuffer2 = await loadAudioBuffer(audio2, audioContext);
+    //     for (let audio of mp3FilesLayer){
+    //         const audioBuffer1 = await loadAudioBuffer(audio, audioContext);
+    //         audioBuffers.push(audioBuffer1)
+    //     }
 
     //     const source1 = audioContext.createBufferSource();
     //     source1.buffer = audioBuffer1;
@@ -110,6 +134,7 @@ const DragAndDrop  =({setCutOuts}) =>{
     
     return (
         <div className="inLineSimpleDiv">
+            
             <div className={isDragging?"dropMp3-dragging":"dropMp3"}
             onDrop={handleDrop}
             onDragOver={(e)=>{
@@ -118,7 +143,7 @@ const DragAndDrop  =({setCutOuts}) =>{
             onDragEnter={()=>setIsDragging(true)}
             onDragLeave={()=>setIsDragging(false)}>
                 {
-                    isDragging?
+                    isDragging && !dragAdd?
                     (
                     <>
                         <FileUp/>
@@ -126,11 +151,13 @@ const DragAndDrop  =({setCutOuts}) =>{
                     )
                     :  concat ?
                     <>
+                        <button>P L A Y</button>
+                        <button>S A V E</button>
                         <WS audio={concat} id={date.current} isSample={false} setCutOuts={setCutOuts} isInChannel={true}/>
                         {
                             drumChnls.map((_, indx)=>(
                                 <div key={indx}>
-                                    <DrumComp/><Trash2 color="red" onClick={()=>{
+                                    <DrumComp/><Trash2 color="grey" onClick={()=>{
                                         let holder = [...drumChnls]
                                         holder.pop(indx-1)
                                         setDrumChnls(holder)
@@ -138,6 +165,11 @@ const DragAndDrop  =({setCutOuts}) =>{
                                 </div>
                             )
                         )
+                        }
+                        {
+                            mp3FilesLayer && mp3FilesLayer.map((audio, idx)=>(
+                                <WS key={idx} audio={audio} id={date.current} isSample={false} setCutOuts={setCutOuts} isInChannel={true}/>
+                            ))
                         }
                         <button onClick={()=>{
                             let holder = [...drumChnls];
@@ -150,14 +182,19 @@ const DragAndDrop  =({setCutOuts}) =>{
                         }}>Add Drum Channel</button>
                         <button onClick={()=>setDragAdd(!dragAdd)}>Add Sound Channel</button>
                         {
+
                             dragAdd&&
-                            <>
+                            <div onDrop={handleMergeDrop}
+                            onDragOver={(e)=>{
+                                e.preventDefault()
+                            }}>
                                 <h4>🎼 Drag samples here</h4>
-                            </>
+                            </div>
+
                         }
                     </>
                     :
-                    <h4>🎼 Drag samples here</h4>
+                    <h4>🎼 Drag multitrack samples here</h4>
 
                 }       
                 

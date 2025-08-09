@@ -5,11 +5,16 @@ import WS from "./MyWaveSurfer";
 import DrumComp from "./DrumComp";
 const DragAndDrop  =({setCutOuts}) =>{
     const [mp3Files, setAudioFile] = useState([])
+    // const [mp3FilesLayer, setAudioFileLayer] = useState([])
     const [isDragging, setIsDragging] = useState(false)
     const [concat, setConcat] = useState()
     const [drumChnls, setDrumChnls] = useState([])
-
+    const [dragAdd, setDragAdd] = useState(false)
+    // const [soundChnls, setSoundChnls] = useState([])
+    // needed date to make the id work for wavesurfer - avoided conflicts
     const date = useRef(Date.now());
+
+    // handle drop allows for drag + drop from local as well as from cutout selected region
     const handleDrop = (e) =>{
         e.preventDefault()
         setIsDragging(false);
@@ -28,6 +33,25 @@ const DragAndDrop  =({setCutOuts}) =>{
             setAudioFile(prev=>[...prev, file])
         }
     }
+
+    // concat
+        // const playMerged = async () =>{
+    //     const audioContext = new AudioContext();
+
+    //     const audioBuffer1 = await loadAudioBuffer(audio1, audioContext);
+    //     const audioBuffer2 = await loadAudioBuffer(audio2, audioContext);
+
+    //     const source1 = audioContext.createBufferSource();
+    //     source1.buffer = audioBuffer1;
+    //     source1.connect(audioContext.destination);
+
+    //     const source2 = audioContext.createBufferSource();
+    //     source2.buffer = audioBuffer2;
+    //     source2.connect(audioContext.destination);
+
+    //     source1.start(0);
+    //     source2.start(0);
+    // }
     useEffect(()=>{
         console.log(mp3Files)
     }, [mp3Files])
@@ -85,7 +109,7 @@ const DragAndDrop  =({setCutOuts}) =>{
     }, [mp3Files])
     
     return (
-        <>
+        <div className="inLineSimpleDiv">
             <div className={isDragging?"dropMp3-dragging":"dropMp3"}
             onDrop={handleDrop}
             onDragOver={(e)=>{
@@ -107,7 +131,7 @@ const DragAndDrop  =({setCutOuts}) =>{
                             drumChnls.map((_, indx)=>(
                                 <div key={indx}>
                                     <DrumComp/><Trash2 color="red" onClick={()=>{
-                                        let holder = drumChnls
+                                        let holder = [...drumChnls]
                                         holder.pop(indx-1)
                                         setDrumChnls(holder)
                                     }}/>
@@ -117,24 +141,28 @@ const DragAndDrop  =({setCutOuts}) =>{
                         }
                         <button onClick={()=>{
                             let holder = [...drumChnls];
-                            console.log(drumChnls);
                             if (holder.length === 0) {
                                 holder.push(0);
                             } else {
                                 holder.push(holder[holder.length - 1] + 1);
                             }
                             setDrumChnls(holder);
-                            console.log(holder);
                         }}>Add Drum Channel</button>
+                        <button onClick={()=>setDragAdd(!dragAdd)}>Add Sound Channel</button>
+                        {
+                            dragAdd&&
+                            <>
+                                <h4>🎼 Drag samples here</h4>
+                            </>
+                        }
                     </>
-
                     :
                     <h4>🎼 Drag samples here</h4>
 
                 }       
                 
             </div>
-        </>
+        </div>
     )
 }
 

@@ -25,6 +25,12 @@ $base-purple: rgba(32, 5, 32, 0.132);
 }
 
 /* =======================MusicEdit============================= */
+.inLineSimpleDiv{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
 
 #EditPage{
   padding: 30px;
@@ -190,6 +196,9 @@ button:disabled {
   backdrop-filter: blur(5.5px);
   -webkit-backdrop-filter: blur(5.5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.dropMp3, .dropMp3-dragging{
+  width: 100%;
 }
 #drums{
   @include flex-column(false, true, false);

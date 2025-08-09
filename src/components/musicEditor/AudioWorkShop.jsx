@@ -10,7 +10,7 @@ import WorkshopSideBar from './WorkshopSideBar'
 const AudioWorkShop = () =>{
     const [musicFiles, setMusicFiles] = useState([]);
     const [pickedAudio, setPickedAudio] = useState(audio2)
-    const [channels, setChannels] = useState(0)
+    const [channels, setChannels] = useState([])
     const [DrumChannels, setDrumChannels] = useState(0)
     const [cutOuts, setCutOuts] = useState([])
 
@@ -41,13 +41,29 @@ const AudioWorkShop = () =>{
         <div id="EditPage">
         <WorkshopSideBar musicFiles={musicFiles} pickedAudio={pickedAudio} setPickedAudio={setPickedAudio}/>
         <div id='editingSide'>
-            <button onClick={()=>setChannels(channels+1)
+            <button onClick={()=>{
+            let holder = [...channels]
+            if (holder.length === 0) {
+                holder.push(0);
+            } else {
+                holder.push(holder[holder.length - 1] + 1);
+            }
+            setChannels(holder)}
             }>Add New Track Channel</button>
             <button onClick={()=>setDrumChannels(DrumChannels+1)
             }>Add Drum Channel</button>
             {
-                Array.from({ length: channels }).map((_, id) => (
-                    <DragAndDrop key={`drag-${id}`} cutOuts={cutOuts} setCutOuts={setCutOuts}/>
+                channels.map((_, id) => (
+                    <div className="inLineSimpleDiv">
+
+                    <DragAndDrop key={`drag-${id}`} cutOuts={cutOuts} setCutOuts={setCutOuts}/><Trash2 onClick={
+                        ()=>{
+                            let holder = [...channels]
+                            holder.pop(id-1)
+                            setChannels(holder)
+                        }
+                    } color="grey"/>
+                    </div>
                 ))
             }
             {
@@ -63,6 +79,7 @@ const AudioWorkShop = () =>{
             {
                 Array.from({ length: DrumChannels }).map((_, id) => (
                     <DrumComp key={`drum-${id}`} />
+
                 ))
             }
         </div>

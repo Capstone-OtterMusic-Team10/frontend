@@ -8,9 +8,10 @@ const DragAndDrop  =({setCutOuts}) =>{
     const [mp3FilesLayer, setAudioFileLayer] = useState([])
     const [isDragging, setIsDragging] = useState(false)
     const [concat, setConcat] = useState()
+    const [merged, setMerged] = useState()
     const [drumChnls, setDrumChnls] = useState([])
     const [dragAdd, setDragAdd] = useState(false)
-
+    const [playAll, setPlayAll] = useState(false)
     // const [soundChnls, setSoundChnls] = useState([])
     // needed date to make the id work for wavesurfer - avoided conflicts
     const date = useRef(Date.now());
@@ -109,8 +110,33 @@ const DragAndDrop  =({setCutOuts}) =>{
         const blobURL = URL.createObjectURL(blob);
 
         // Step 7: Set as concat (download/play URL)
-        setConcat(blobURL);
+        setMerged(blobURL);
 
+    }
+
+
+    const DownloadAudio = () =>{
+        const link = document.createElement('a');
+        link.href = merged;
+
+        link.download = 'ottermusic_audio.mp3'; // Provide a default filename if none is given
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+    }
+
+    const PlayAll = () =>{
+        playMerged()
+        let audio = new Audio(merged);
+        console.log(audio)
+        if (playAll){
+            audio.play();
+        }else{
+            audio.pause()
+        }
     }
     useEffect(()=>{
         console.log(mp3Files)
@@ -187,8 +213,10 @@ const DragAndDrop  =({setCutOuts}) =>{
                     )
                     :  concat ?
                     <>
-                        <button onClick={()=>playMerged()}>P L A Y</button>
-                        <button onClick={()=>playMerged()}>S A V E</button>
+                        <button onClick={()=>{
+                            setPlayAll(!playAll)
+                            PlayAll()}}>{playAll?"P L A Y":"P A U S E"}</button>
+                        <button onClick={DownloadAudio}>S A V E</button>
                         <WS audio={concat} id={date.current} isSample={false} setCutOuts={setCutOuts} isInChannel={true}/>
                         {
                             drumChnls.map((_, indx)=>(

@@ -1,4 +1,5 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import MusicClipSelector from '../components/mixer/MusicClipSelector';
 import TrackMixer from '../components/mixer/TrackMixer';
@@ -11,18 +12,27 @@ const MusicMixer = () => {
   const [error, setError] = useState('');
   const [isMixing, setIsMixing] = useState(false);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/signup'); // Redirect to sign-up page if not logged in
+    }
+  }, [navigate]);
+
   const handleClipSelect = async (clip) => {
     setSelectedClip(clip);
     setError('');
     setIsLoading(true);
-    
+
     try {
       const response = await fetch(`http://127.0.0.1:5000/api/mixer/${encodeURIComponent(clip.name)}`);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       setMixerData(data);
     } catch (err) {
@@ -33,10 +43,41 @@ const MusicMixer = () => {
     }
   };
 
+  const refreshMixerData = async () => {
+    if (selectedClip) {
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/mixer/${encodeURIComponent(selectedClip.name)}`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setMixerData(data);
+      } catch (err) {
+        console.error('Error refreshing mixer data:', err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (mixerData && (mixerData.separation_status.status === 'processing' || mixerData.separation_status.status === 'not_started')) {
+      intervalId = setInterval(refreshMixerData, 5000); // Poll every 5 seconds
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [mixerData, selectedClip]);
+
   const handleMixDownload = async (trackVolumes) => {
     setIsMixing(true);
     setError('');
-    
+
     try {
       const response = await fetch('http://127.0.0.1:5000/api/mix-and-download', {
         method: 'POST',
@@ -48,11 +89,11 @@ const MusicMixer = () => {
           trackVolumes: trackVolumes
         })
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       // Handle file download
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -63,7 +104,7 @@ const MusicMixer = () => {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      
+
     } catch (err) {
       console.error('Error mixing and downloading:', err);
       setError('Failed to create mixed version. Please try again.');
@@ -73,109 +114,101 @@ const MusicMixer = () => {
   };
 
   return (
-    <div className="music-mixer-page">
-      <Navbar />
-      <div className="mixer-container">
-        <div className="mixer-header">
-          <h1>Music Mixer</h1>
-          <p>Select your music clips and mix the separated tracks to create your perfect sound</p>
-        </div>
-
-        <div className="mixer-content">
-          <div className="mixer-left-panel">
-            <MusicClipSelector 
-              onClipSelect={handleClipSelect}
-              selectedClip={selectedClip}
-            />
+      <div className="music-mixer-page">
+        <Navbar />
+        <div className="mixer-container">
+          <div className="mixer-header">
+            <h1>Music Mixer</h1>
+            <p>Select your music clips and mix the separated tracks to create your perfect sound</p>
           </div>
-
-          <div className="mixer-right-panel">
-            {selectedClip && (
-              <div className="mixer-workspace">
-                <div className="selected-clip-info">
-                  <h3>Selected Clip: {selectedClip.name}</h3>
-                  {mixerData && (
-                    <div className="separation-status">
+          <div className="mixer-content">
+            <div className="mixer-left-panel">
+              <MusicClipSelector
+                  onClipSelect={handleClipSelect}
+                  selectedClip={selectedClip}
+              />
+            </div>
+            <div className="mixer-right-panel">
+              {selectedClip && (
+                  <div className="mixer-workspace">
+                    <div className="selected-clip-info">
+                      <h3>Selected Clip: {selectedClip.name}</h3>
+                      {mixerData && (
+                          <div className="separation-status">
                       <span className={`status-indicator ${mixerData.separation_status.status}`}>
-                        {mixerData.separation_status.status === 'complete' ? '✅' : 
-                         mixerData.separation_status.status === 'processing' ? '⏳' : '❌'}
+                        {mixerData.separation_status.status === 'complete' ? '✅' :
+                            mixerData.separation_status.status === 'processing' ? '⏳' : '❌'}
                       </span>
-                      <span className="status-text">{mixerData.message}</span>
+                            <span className="status-text">{mixerData.message}</span>
+                          </div>
+                      )}
                     </div>
-                  )}
-                </div>
-
-                {isLoading && (
-                  <div className="loading-mixer">
-                    <div className="spinner"></div>
-                    <p>Loading mixer data...</p>
+                    {isLoading && (
+                        <div className="loading-mixer">
+                          <div className="spinner"></div>
+                          <p>Loading mixer data...</p>
+                        </div>
+                    )}
+                    {error && (
+                        <div className="mixer-error">
+                          <p>{error}</p>
+                        </div>
+                    )}
+                    {mixerData && mixerData.separation_status.status === 'complete' && (
+                        <TrackMixer
+                            filename={selectedClip.name}
+                            channels={mixerData.separation_status.channels}
+                            onMixDownload={handleMixDownload}
+                            isMixing={isMixing}
+                        />
+                    )}
+                    {mixerData && mixerData.separation_status.status === 'processing' ? (
+                        <div className="processing-message">
+                          <p>🎵 Demucs is still separating your audio...</p>
+                          <p>This may take a few minutes. You can refresh to check the status.</p>
+                          <button
+                              className="refresh-button"
+                              onClick={() => handleClipSelect(selectedClip)}
+                          >
+                            ↻ Refresh Status
+                          </button>
+                        </div>
+                    ) : null}
+                    {mixerData && mixerData.separation_status.status === 'not_started' && (
+                        <div className="not-started-message">
+                          <p>🎵 This clip hasn't been separated yet.</p>
+                          <p>Separation will start automatically when the clip is ready.</p>
+                        </div>
+                    )}
                   </div>
-                )}
-
-                {error && (
-                  <div className="mixer-error">
-                    <p>{error}</p>
-                  </div>
-                )}
-
-                {mixerData && mixerData.separation_status.status === 'complete' && (
-                  <TrackMixer 
-                    filename={selectedClip.name}
-                    channels={mixerData.separation_status.channels}
-                    onMixDownload={handleMixDownload}
-                    isMixing={isMixing}
-                  />
-                )}
-
-                {mixerData && mixerData.separation_status.status === 'processing' && (
-                  <div className="processing-message">
-                    <p>🎵 Demucs is still separating your audio...</p>
-                    <p>This may take a few minutes. You can refresh to check the status.</p>
-                    <button 
-                      className="refresh-button"
-                      onClick={() => handleClipSelect(selectedClip)}
-                    >
-                      ↻ Refresh Status
-                    </button>
-                  </div>
-                )}
-
-                {mixerData && mixerData.separation_status.status === 'not_started' && (
-                  <div className="not-started-message">
-                    <p>🎵 This clip hasn't been separated yet.</p>
-                    <p>Separation will start automatically when the clip is ready.</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {!selectedClip && (
-              <div className="no-clip-selected">
-                <div className="placeholder-content">
-                  <h3>🎛️ Select a Music Clip</h3>
-                  <p>Choose a clip from the left panel to start mixing</p>
-                  <div className="mixer-features">
-                    <div className="feature">
-                      <span className="feature-icon">🎚️</span>
-                      <span>Individual track volume control</span>
-                    </div>
-                    <div className="feature">
-                      <span className="feature-icon">🎵</span>
-                      <span>Real-time preview</span>
-                    </div>
-                    <div className="feature">
-                      <span className="feature-icon">⬇️</span>
-                      <span>Download mixed version</span>
+              )}
+              {!selectedClip && (
+                  <div className="no-clip-selected">
+                    <div className="placeholder-content">
+                      <h3>🎛️ Select a Music Clip</h3>
+                      <p>Choose a clip from the left panel to start mixing</p>
+                      <div className="mixer-features">
+                        <div className="feature">
+                          <span className="feature-icon">🎚️</span>
+                          <span>Individual track volume control</span>
+                        </div>
+                        <div className="feature">
+                          <span className="feature-icon">🎵</span>
+                          <span>Real-time preview</span>
+                        </div>
+                        <div className="feature">
+                          <span className="feature-icon">⬇️</span>
+                          <span>Download mixed version</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
-export default MusicMixer; 
+export default MusicMixer;

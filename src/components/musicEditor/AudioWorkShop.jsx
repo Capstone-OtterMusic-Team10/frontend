@@ -1,40 +1,62 @@
-import audio2 from '../../assets/audio2.wav'
+import audio2 from '../../assets/audio2.wav';
 import { useState, useEffect } from 'react';
-import WS from './MyWaveSurfer'
+import WS from './MyWaveSurfer';
 import { api } from '../../utils';
-import DragAndDrop from './DragAndDrop'
-import DrumComp from './DrumComp'
-import {Trash2} from "lucide-react"
-import WorkshopSideBar from './WorkshopSideBar'
+import DragAndDrop from './DragAndDrop';
+import DrumComp from './DrumComp';
+import { Trash2 } from 'lucide-react';
+import WorkshopSideBar from './WorkshopSideBar';
 
-const AudioWorkShop = () =>{
+const AudioWorkShop = () => {
     const [musicFiles, setMusicFiles] = useState([]);
-    const [pickedAudio, setPickedAudio] = useState(audio2)
-    const [channels, setChannels] = useState([])
-    const [DrumChannels, setDrumChannels] = useState([])
-    const [cutOuts, setCutOuts] = useState([])
+    const [pickedAudio, setPickedAudio] = useState(audio2);
+    const [channels, setChannels] = useState([]);
+    const [DrumChannels, setDrumChannels] = useState([]);
+    const [cutOuts, setCutOuts] = useState([]);
+    const [userId, setUserId] = useState(null);
 
-    
-    const fetchMusicFiles = async () => {
+    const fetchUserId = async () => {
         try {
-            const response = await api.get('api/music-files');
-            if (!response.status === 200) {
+            const response = await api.get('/auth/me');
+            if (response.status === 200 && response.data.id) {
+                setUserId(response.data.id);
+            } else {
+                console.error('No user ID found');
+            }
+        } catch (err) {
+            console.error('Error fetching user ID:', err);
+        }
+    };
+
+    const fetchMusicFiles = async () => {
+        if (!userId) return;
+        try {
+            const response = await api.get(`/all-audios/${userId}`);
+            if (response.status === 200) {
+                setMusicFiles(response.data);
+            } else {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            console.log()
-            setMusicFiles(response.data.files);
         } catch (err) {
             console.error('Error fetching music files:', err);
         }
     };
-    const deleteSample = (sample) =>{
-        const newCuts = cutOuts.filter(x=> x!= sample)
-        setCutOuts(newCuts)
-    }
+
+    const deleteSample = (sample) => {
+        const newCuts = cutOuts.filter((x) => x !== sample);
+        setCutOuts(newCuts);
+    };
+
     useEffect(() => {
-        fetchMusicFiles();
+        fetchUserId();
     }, []);
-    console.log(pickedAudio)
+
+    useEffect(() => {
+        if (userId) {
+            fetchMusicFiles();
+        }
+    }, [userId]);
+
     return (
         <>
       
@@ -99,7 +121,7 @@ const AudioWorkShop = () =>{
         </div>
         </div>
         </>
-    )
-}
+    );
+};
 
-export default AudioWorkShop
+export default AudioWorkShop;

@@ -10,6 +10,7 @@ const DragAndDrop  =({setCutOuts}) =>{
     const [concat, setConcat] = useState()
     const [drumChnls, setDrumChnls] = useState([])
     const [dragAdd, setDragAdd] = useState(false)
+
     // const [soundChnls, setSoundChnls] = useState([])
     // needed date to make the id work for wavesurfer - avoided conflicts
     const date = useRef(Date.now());
@@ -41,7 +42,6 @@ const DragAndDrop  =({setCutOuts}) =>{
         let file = null
         if (e.dataTransfer.files){
             file = e.dataTransfer.getData("audio-file");
-            console.log("First check ", typeof file)
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0 || file === ""){
                 console.log(e.dataTransfer.files)
                 file = URL.createObjectURL(e.dataTransfer.files[0]);
@@ -49,33 +49,69 @@ const DragAndDrop  =({setCutOuts}) =>{
         }
 
         if (file) {
-            console.log('success')
             setAudioFileLayer(prev=>[...prev, file])
         }
     }
 
-    // concat
-    // const playMerged = async () =>{
-    //     const audioContext = new AudioContext();
-    //     let audioBuffers = [concat]
-    //     // const audioBuffer1 = await loadAudioBuffer(audio1, audioContext);
-    //     // const audioBuffer2 = await loadAudioBuffer(audio2, audioContext);
-    //     for (let audio of mp3FilesLayer){
-    //         const audioBuffer1 = await loadAudioBuffer(audio, audioContext);
-    //         audioBuffers.push(audioBuffer1)
-    //     }
+    const playMerged = async () =>{
+        const audioContext = new AudioContext();
+        let urls = [];
+        if (concat) urls.push(concat);
+        mp3FilesLayer.forEach(url => urls.push(url));
 
-    //     const source1 = audioContext.createBufferSource();
-    //     source1.buffer = audioBuffer1;
-    //     source1.connect(audioContext.destination);
+        // Step 1: Fetch and decode all audio files
+        const audioBuffers = await Promise.all(
+            urls.map(async (url) => {
+                const response = await fetch(url);
+                const arrayBuffer = await response.arrayBuffer();
+                return await audioContext.decodeAudioData(arrayBuffer);
+            })
+        );
 
-    //     const source2 = audioContext.createBufferSource();
-    //     source2.buffer = audioBuffer2;
-    //     source2.connect(audioContext.destination);
+        // Step 2: Use the longest track length
+        const maxLength = Math.max(...audioBuffers.map(buf => buf.length));
+        const numberOfChannels = Math.max(...audioBuffers.map(buf => buf.numberOfChannels));
+        const sampleRate = audioBuffers[0].sampleRate;
 
-    //     source1.start(0);
-    //     source2.start(0);
-    // }
+        // Step 3: Create merged buffer
+        const mergedBuffer = audioContext.createBuffer(
+            numberOfChannels,
+            maxLength,
+            sampleRate
+        );
+
+        // Step 4: Mix all buffers together
+        for (const buffer of audioBuffers) {
+            for (let channel = 0; channel < numberOfChannels; channel++) {
+                const outputData = mergedBuffer.getChannelData(channel);
+                const inputData = buffer.getChannelData(channel % buffer.numberOfChannels);
+
+                for (let i = 0; i < inputData.length; i++) {
+                    // Add sample values for layering
+                    outputData[i] += inputData[i];
+
+                    // Prevent clipping distortion
+                    if (outputData[i] > 1) outputData[i] = 1;
+                    else if (outputData[i] < -1) outputData[i] = -1;
+                }
+            }
+        }
+
+        // Step 5: Prepare channel buffers for WAV encoding
+        const channelBuffers = [];
+        for (let channel = 0; channel < numberOfChannels; channel++) {
+            channelBuffers.push(mergedBuffer.getChannelData(channel));
+        }
+
+        // Step 6: Encode to WAV
+        const newSong = audioBufferToWav(sampleRate, channelBuffers);
+        const blob = new Blob([newSong], { type: 'audio/wav' });
+        const blobURL = URL.createObjectURL(blob);
+
+        // Step 7: Set as concat (download/play URL)
+        setConcat(blobURL);
+
+    }
     useEffect(()=>{
         console.log(mp3Files)
     }, [mp3Files])
@@ -151,8 +187,8 @@ const DragAndDrop  =({setCutOuts}) =>{
                     )
                     :  concat ?
                     <>
-                        <button>P L A Y</button>
-                        <button>S A V E</button>
+                        <button onClick={()=>playMerged()}>P L A Y</button>
+                        <button onClick={()=>playMerged()}>S A V E</button>
                         <WS audio={concat} id={date.current} isSample={false} setCutOuts={setCutOuts} isInChannel={true}/>
                         {
                             drumChnls.map((_, indx)=>(

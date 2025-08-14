@@ -43,14 +43,6 @@ const MusicClipSelector = ({ onClipSelect, selectedClip }) => {
     onClipSelect(clip);
   };
 
-  const formatFileSize = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
-
   const getClipInfo = (filename) => {
     const match = filename.match(/lyria_(\d+)_(\d+)\.wav/);
     if (match) {
@@ -98,7 +90,7 @@ const MusicClipSelector = ({ onClipSelect, selectedClip }) => {
             </div>
         ) : (
             <div className="clips-list">
-              {musicFiles.map((file, index) => {
+              {musicFiles.map((file, _) => {
                 const clipInfo = getClipInfo(file.name);
                 return (
                     <div

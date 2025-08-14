@@ -72,7 +72,7 @@ const MusicChatSideBar = ({ chats, setChat }) => {
                     }}><SquarePen /></button>
                 </div>
                 <div id="chatLinks">
-                    {Array.isArray(chats) && chats.map((chat, _) => (
+                    {Array.isArray(chats) && chats.map((chat) => (
                         chat.id === editing ?
                             <input
                                 type="text"

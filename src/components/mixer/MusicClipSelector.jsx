@@ -90,7 +90,7 @@ const MusicClipSelector = ({ onClipSelect, selectedClip }) => {
             </div>
         ) : (
             <div className="clips-list">
-              {musicFiles.map((file, _) => {
+              {musicFiles.map((file) => {
                 const clipInfo = getClipInfo(file.name);
                 return (
                     <div

@@ -12,9 +12,7 @@ const MusicChatSideBar = ({ chats, setChat }) => {
     const jwtToken = localStorage.getItem("token");
     const isLoggedIn = !!jwtToken;
     // Hide sidebar if not logged in
-    if (!isLoggedIn) {
-        return null;
-    }
+   
 
     const getChat = async () => {
         if (!jwtToken) return;
@@ -46,6 +44,12 @@ const MusicChatSideBar = ({ chats, setChat }) => {
         }
     };
 
+    useEffect(() => {
+         if (!isLoggedIn) {
+            return null;
+        }
+        getChat();
+    }, []);
     const deleteChat = async (id) => {
         try {
             const _ = await api.delete(`chat/${id}`);
@@ -56,9 +60,6 @@ const MusicChatSideBar = ({ chats, setChat }) => {
         }
     };
 
-    useEffect(() => {
-        getChat();
-    }, []);
 
     return (
         <>
@@ -71,7 +72,7 @@ const MusicChatSideBar = ({ chats, setChat }) => {
                     }}><SquarePen /></button>
                 </div>
                 <div id="chatLinks">
-                    {Array.isArray(chats) && chats.map((chat, idx) => (
+                    {Array.isArray(chats) && chats.map((chat) => (
                         chat.id === editing ?
                             <input
                                 type="text"

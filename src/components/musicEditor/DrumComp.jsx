@@ -19,7 +19,7 @@ import Arcade_Frenzy_Kick from "../../assets/music/Arcade_Frenzy_Kick.wav"
 import Arcade_Frenzy_Tom from "../../assets/music/Arcade_Frenzy_Tom.wav"
 import Arcade_Frenzy_Hat from "../../assets/music/Arcade_Frenzy_Hat.wav"
 import Arcade_Frenzy_Clap from "../../assets/music/Arcade_Frenzy_Clap.wav"
-import {Play, Pause, Trash2} from  "lucide-react"
+import {Play, Pause, Eraser} from  "lucide-react"
 
 
 const DrumComp = ({isMini, callRandom}) =>{
@@ -272,45 +272,46 @@ const DrumComp = ({isMini, callRandom}) =>{
     return (
 
         <div id="drumSection">
-        {
-            drumNames[preset].map((drum, idx)=>(
-                <button ref={divRef} style={drum === pickedDrum ? pickedStyle : {}}  key={idx} onClick={()=>play(drum)}>{drum}</button>
-            ))
-        }
-        { !isMini&&
-        <>
-            <input type="range" min="-100" max="0" step="1" value={vol}
-            onChange={(e)=>changeVolume(parseInt(e.target.value, 10))}></input>
-            <label htmlFor="drumBPM">BPM: {bpm}</label> <input id="drumBPM" type="range" min="50" max="300" step="1" value={bpm}
-            onChange={(e)=>setBpm(e.target.value)}></input>
-        </>
-        }
-         <select value={preset} onChange={e => setPreset(e.target.value)}>
-            {presets.map((presetVal, index) => (
-                <option key={index} value={presetVal}>
-                    {presetVal}
-                </option>
-            ))}
-        </select>
-        <div id="drums">
-            <div className="p-4">
-            {isPlaying ?
-                <button onClick={stopSequence}> <Pause/> </button>
-                :
-                <button onClick={playSequence}  > <Play/> </button>
-            }
-            </div>
             {
-                parts && parts.map((part, id)=>(
-                        <div className={part.sound.includes(pickedDrum)?"filledPockets":part.sound[0] !=="pause"? "allFilled":"drumPockets"} key={part.id} id={id}
-                            onClick={()=>setPart(part.id)}
-                            onDoubleClick={()=>clearPart(part.id)}>
-                        </div>
-                    )
-                )
+                drumNames[preset].map((drum, idx)=>(
+                    <button ref={divRef} style={drum === pickedDrum ? pickedStyle : {}}  key={idx} onClick={()=>play(drum)}>{drum}</button>
+                ))
             }
-            <Trash2 className="trash" color={isMini?"white":"grey"} onClick={()=>clearDrums()}/>
-        </div>
+            { !isMini&&
+            <>
+                <input type="range" min="-100" max="0" step="1" value={vol}
+                onChange={(e)=>changeVolume(parseInt(e.target.value, 10))}></input>
+                <label htmlFor="drumBPM">BPM: {bpm}</label> <input id="drumBPM" type="range" min="50" max="300" step="1" value={bpm}
+                onChange={(e)=>setBpm(e.target.value)}></input>
+            </>
+            }
+            <select value={preset} onChange={e=>setPreset(e.target.value)}>
+                {presets.map((preset)=>(
+                    <option value={preset}>{preset}</option>
+                ))}
+            </select>
+
+            Export time <input type="text"></input>
+            <div id="drums">
+                <div className="p-4">
+                {isPlaying ?
+                    <button onClick={stopSequence}> <Pause/> </button>
+                    :
+                    <button onClick={playSequence}  > <Play/> </button>
+                }
+                </div>
+                {
+                    parts && parts.map((part, id)=>(
+                            <div className={part.sound.includes(pickedDrum)?"filledPockets":part.sound[0] !=="pause"? "allFilled":"drumPockets"} key={id} id={id} 
+                                onClick={()=>setPart(part.id)}
+                                onDoubleClick={()=>clearPart(part.id)}>
+                            </div>
+                        )
+                    )
+                }
+                <Eraser title="Clear" className="trash" color={isMini?"white":"grey"} onClick={()=>clearDrums()}/>
+            </div>
+            
         </div>
     )
 }

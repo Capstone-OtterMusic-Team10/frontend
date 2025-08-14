@@ -28,14 +28,15 @@ const WorkshopSideBar = ({ musicFiles, setPickedAudio, userId }) => {
         }
     };
 
-    const handleUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            setPickedAudio(url);
-        }
-    };
+    const handleUpload =(e)=>{
+        const file = e.target.files[0]
+        const url = URL.createObjectURL(file);
+        setPickedAudio(url)
+        // trying out something new with the indexed db 
+        // const request = indexedDB.open("audioStore", 1)
 
+
+    }
     return (
         <div id="sideBar">
             <button id="backButton" onClick={() => navigate('/')}>

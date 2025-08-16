@@ -7,7 +7,7 @@ const WorkshopSideBar = ({ musicFiles, setPickedAudio, userId }) => {
     const navigate = useNavigate();
     const uploadRef = useRef();
     const jwtToken = localStorage.getItem('token');
-
+    console.log(userId)
     const getAudio = async (name, chatId, promptId) => {
         try {
             const response = await api.get(`/get-audio/${chatId}/${promptId}`, {

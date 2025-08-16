@@ -61,7 +61,7 @@ const AudioWorkShop = () => {
         <>
       
         <div id="EditPage">
-        <WorkshopSideBar musicFiles={musicFiles} pickedAudio={pickedAudio} setPickedAudio={setPickedAudio}/>
+        <WorkshopSideBar musicFiles={musicFiles} pickedAudio={pickedAudio} setPickedAudio={setPickedAudio} userId={userId}/>
         <div id='editingSide'>
             <button onClick={()=>{
             let holder = [...channels]
